@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tiltmeter</title>
+  <meta name="description" content="Know when the APIs under your agents move. Tiltmeter learns the shape of third-party APIs, flags breaking changes and tells your agents over MCP.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://tiltmeter.dev/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tiltmeter.dev/">
+  <meta property="og:title" content="Tiltmeter: know when the APIs under your agents move">
+  <meta property="og:description" content="Learns the shape of the third-party APIs you depend on and warns you, your CI and your agents the moment it changes. Open source.">
+  <meta property="og:image" content="https://tiltmeter.dev/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Tiltmeter: know when the APIs under your agents move. pip install tiltmeter">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tiltmeter: know when the APIs under your agents move">
+  <meta name="twitter:description" content="Open-source early warning for the APIs your AI agents depend on.">
+  <meta name="twitter:image" content="https://tiltmeter.dev/og.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="field" aria-hidden="true">
+    <span class="orb a"></span><span class="orb b"></span><span class="orb c"></span>
+  </div>
+
+  <header class="top">
+    <a class="word" href="/">tiltmeter</a>
+    <a class="glass pill" href="https://github.com/tiltmeter-dev/tiltmeter">GitHub</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Know when the APIs<br>under your agents move.</h1>
+      <p class="sub">Tiltmeter learns the shape of every third-party API you depend on and tells you, your CI and your agents the moment it changes.</p>
+      <button class="glass install" type="button" data-copy="pip install tiltmeter">
+        <code>pip install tiltmeter</code><span class="hint">copy</span>
+      </button>
+    </section>
+
+    <section class="stage">
+      <div class="glass frame" data-tilt>
+        <div class="term" aria-label="Example: tiltmeter check reports a breaking change and explains it">
+          <p class="cmd"><span class="ps">$</span> <span class="typed" data-text="tiltmeter check"></span><span class="caret"></span></p>
+          <div class="out">
+            <p class="row"><span class="bad">✕</span> <b>billing_customers</b> <span class="dim">200 · 13 ms</span> <span class="bad">breaking · 3 changes</span></p>
+            <table>
+              <tr><td class="bad">breaking</td><td>$.data[*].balance</td><td class="dim">integer → string</td></tr>
+              <tr><td class="bad">breaking</td><td>$.data[*].phone</td><td class="dim">removed · possibly renamed to <span class="ink">phone_number</span></td></tr>
+              <tr><td class="info">info</td><td>$.data[*].phone_number</td><td class="dim">new field</td></tr>
+            </table>
+            <p class="why"><span class="tag">Claude</span> The vendor most likely renamed <code>phone</code> to <code>phone_number</code>. Code doing math on <code>balance</code> will break now that it is a string. Read <code>phone_number</code> and parse <code>balance</code> as a number.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="lines">
+      <p><span>No spec.</span> It learns from real responses.</p>
+      <p><span>No noise.</span> Only what breaks a consumer.</p>
+      <p><span>No guessing.</span> Agents ask <code>has_drifted</code> over MCP.</p>
+    </section>
+
+    <section class="block agents">
+      <div class="agents-text">
+        <p class="kicker">For agents</p>
+        <h2>Agents ask before they act.</h2>
+        <p class="sub left">An MCP server lets Claude Code, Cursor or any LangChain agent check an API before trusting its response.</p>
+        <code class="line">claude mcp add tiltmeter -- tiltmeter serve</code>
+      </div>
+      <div class="glass reply">
+        <p class="call">has_drifted<span class="dim">("billing_customers")</span></p>
+<pre><span class="k">drifted</span>       <span class="bad">true</span>
+<span class="k">max_severity</span>  <span class="bad">breaking</span>
+<span class="k">changed</span>       <span class="dim">phone → phone_number</span>
+<span class="k">checked</span>       <span class="dim">2 min ago</span></pre>
+      </div>
+    </section>
+
+
+    <section class="block install-any">
+      <p class="kicker center">Install in your agent</p>
+      <h2 class="center">One line. Or let your agent do it.</h2>
+      <div class="glass box">
+        <div class="tabs" role="tablist"><button role="tab" class="tab on" data-tab="claude">Claude Code</button><button role="tab" class="tab" data-tab="cursor">Cursor</button><button role="tab" class="tab" data-tab="codex">Codex</button><button role="tab" class="tab" data-tab="opencode">OpenCode</button><button role="tab" class="tab" data-tab="prompt">Any agent</button></div>
+        <div class="panel on" data-panel="claude">
+          <pre class="snippet">claude mcp add tiltmeter -- uvx tiltmeter serve --config tiltmeter.yaml</pre>
+          <div class="panel-foot"><span class="dim">Run it in your project folder.</span><span class="btns"><button class="copy" type="button" data-copy-from="claude">Copy</button></span></div>
+        </div>
+        <div class="panel" data-panel="cursor">
+          <pre class="snippet">{
+  &quot;mcpServers&quot;: {
+    &quot;tiltmeter&quot;: {
+      &quot;command&quot;: &quot;uvx&quot;,
+      &quot;args&quot;: [
+        &quot;tiltmeter&quot;,
+        &quot;serve&quot;,
+        &quot;--config&quot;,
+        &quot;tiltmeter.yaml&quot;
+      ]
+    }
+  }
+}</pre>
+          <div class="panel-foot"><span class="dim">Or paste this into .cursor/mcp.json.</span><span class="btns"><a class="dark small" href="cursor://anysphere.cursor-deeplink/mcp/install?name=tiltmeter&amp;config=eyJjb21tYW5kIjoidXZ4IiwiYXJncyI6WyJ0aWx0bWV0ZXIiLCJzZXJ2ZSIsIi0tY29uZmlnIiwidGlsdG1ldGVyLnlhbWwiXX0=">Add to Cursor</a><button class="copy" type="button" data-copy-from="cursor">Copy</button></span></div>
+        </div>
+        <div class="panel" data-panel="codex">
+          <pre class="snippet">codex mcp add tiltmeter -- uvx tiltmeter serve --config tiltmeter.yaml</pre>
+          <div class="panel-foot"><span class="dim">Or add [mcp_servers.tiltmeter] to ~/.codex/config.toml.</span><span class="btns"><button class="copy" type="button" data-copy-from="codex">Copy</button></span></div>
+        </div>
+        <div class="panel" data-panel="opencode">
+          <pre class="snippet">{
+  &quot;$schema&quot;: &quot;https://opencode.ai/config.json&quot;,
+  &quot;mcp&quot;: {
+    &quot;tiltmeter&quot;: {
+      &quot;type&quot;: &quot;local&quot;,
+      &quot;command&quot;: [
+        &quot;uvx&quot;,
+        &quot;tiltmeter&quot;,
+        &quot;serve&quot;,
+        &quot;--config&quot;,
+        &quot;tiltmeter.yaml&quot;
+      ],
+      &quot;enabled&quot;: true
+    }
+  }
+}</pre>
+          <div class="panel-foot"><span class="dim">Add this to opencode.json in your project.</span><span class="btns"><button class="copy" type="button" data-copy-from="opencode">Copy</button></span></div>
+        </div>
+        <div class="panel" data-panel="prompt">
+          <pre class="snippet prose">Set up Tiltmeter (https://github.com/tiltmeter-dev/tiltmeter) in this project so you can check whether the third-party APIs we use have changed before relying on them.
+
+1. Find the external HTTP APIs this codebase calls that return JSON.
+2. Create tiltmeter.yaml in the project root with one endpoint per API. Use ${ENV_VAR} placeholders for keys, never literal secrets. Docs: https://github.com/tiltmeter-dev/tiltmeter/blob/main/docs/configuration.md
+3. Add .tiltmeter/ to .gitignore and run `uvx tiltmeter check` once to record the baselines.
+4. Register the MCP server for yourself, using the command: uvx tiltmeter serve --config tiltmeter.yaml
+5. Add to CLAUDE.md or AGENTS.md: &quot;Before relying on a third-party API, call the tiltmeter has_drifted tool for it.&quot;
+
+Show me the endpoints you chose before writing the file.</pre>
+          <div class="panel-foot"><span class="dim">Paste it into any coding agent. It finds your APIs, writes the config and installs the server.</span><span class="btns"><button class="copy" type="button" data-copy-from="prompt">Copy</button></span></div>
+        </div>
+        
+      </div>
+    </section>
+
+    <section class="block how">
+      <p class="kicker center">How it works</p>
+      <ol class="flow">
+        <li><b>Observe</b><span>Call the API. Turn the JSON into a shape: types, required fields, enum values.</span></li>
+        <li><b>Compare</b><span>Check it against a rolling baseline. Only real contradictions count.</span></li>
+        <li><b>Warn</b><span>Fail CI, ping Slack, explain it with Claude, tell your agents. Once.</span></li>
+      </ol>
+    </section>
+
+    <section class="block ci">
+      <p class="kicker center">For CI</p>
+      <h2 class="center">An exit code that knows what broke.</h2>
+      <div class="codes">
+        <span class="glass chip"><b>0</b> clean</span>
+        <span class="glass chip"><b class="warn">1</b> warning</span>
+        <span class="glass chip"><b class="bad">2</b> breaking</span>
+      </div>
+    </section>
+
+    <section class="block end">
+      <h2 class="center">Nothing leaves your machine.</h2>
+      <p class="sub">Secrets stay in your environment. Response bodies are never stored, only their shape. One SQLite file, no account.</p>
+      <div class="actions">
+        <button class="glass install" type="button" data-copy="pip install tiltmeter"><code>pip install tiltmeter</code><span class="hint">copy</span></button>
+        <a class="dark" href="https://github.com/tiltmeter-dev/tiltmeter">View on GitHub</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <a href="https://github.com/tiltmeter-dev/tiltmeter/blob/main/docs/getting-started.md">Docs</a>
+    <a href="https://pypi.org/project/tiltmeter/">PyPI</a>
+    <span>MIT</span>
+  </footer>
+
+  <script>
+    for (const el of document.querySelectorAll("[data-copy]")) {
+      el.addEventListener("click", async () => {
+        const hint = el.querySelector(".hint");
+        try { await navigator.clipboard.writeText(el.dataset.copy); hint.textContent = "copied"; }
+        catch { hint.textContent = "⌘C"; }
+        setTimeout(() => (hint.textContent = "copy"), 1400);
+      });
+    }
+
+    const typed = document.querySelector(".typed");
+    const out = document.querySelector(".out");
+    const reveal = () => out.classList.add("show");
+    if (typed) {
+      const text = typed.dataset.text;
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches) { typed.textContent = text; reveal(); }
+      else {
+        let i = 0;
+        const tick = () => { typed.textContent = text.slice(0, ++i); i < text.length ? setTimeout(tick, 55 + Math.random() * 50) : setTimeout(reveal, 380); };
+        setTimeout(tick, 700);
+      }
+    }
+
+    const card = document.querySelector("[data-tilt]");
+    const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (card && !calm) {
+      addEventListener("pointermove", (e) => {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - (r.left + r.width / 2)) / innerWidth;
+        const y = (e.clientY - (r.top + r.height / 2)) / innerHeight;
+        card.style.setProperty("--rx", `${(-y * 4).toFixed(2)}deg`);
+        card.style.setProperty("--ry", `${(x * 5).toFixed(2)}deg`);
+        card.style.setProperty("--gx", `${50 + x * 60}%`);
+      });
+    }
+
+    for (const tab of document.querySelectorAll(".tab")) {
+      tab.addEventListener("click", () => {
+        for (const t of document.querySelectorAll(".tab")) t.classList.toggle("on", t === tab);
+        for (const p of document.querySelectorAll(".panel")) p.classList.toggle("on", p.dataset.panel === tab.dataset.tab);
+      });
+    }
+    for (const btn of document.querySelectorAll("[data-copy-from]")) {
+      btn.addEventListener("click", async () => {
+        const text = document.querySelector(`[data-panel="${btn.dataset.copyFrom}"] .snippet`).textContent;
+        try { await navigator.clipboard.writeText(text); btn.textContent = "Copied"; } catch { btn.textContent = "Select & copy"; }
+        setTimeout(() => (btn.textContent = "Copy"), 1400);
+      });
+    }
+  </script>
+</body>
+</html>
