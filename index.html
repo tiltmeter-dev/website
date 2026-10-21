@@ -168,11 +168,12 @@ Show me the endpoints you chose before writing the file.</pre>
     <section class="block how">
       <p class="kicker center">How it works</p>
       <ol class="flow">
-        <li><b>Observe</b><span>Call the API. Turn the JSON into a shape: types, required fields, enum values.</span></li>
+        <li><b>Observe</b><span>Call the API, or start from a HAR your browser exported. Turn the JSON into a shape: types, required fields, enum values.</span></li>
         <li><b>Compare</b><span>Check it against a rolling baseline. Only real contradictions count.</span></li>
         <li><b>Warn</b><span>Fail CI, ping Slack, explain it with Claude, tell your agents. Once.</span></li>
         <li><b>Fix</b><span>An agent adapts the code that reads the API. You review the pull request.</span></li>
       </ol>
+      <p class="action-line"><code class="line">tiltmeter init --from-har session.har</code></p>
     </section>
 
     <section class="block ci">
