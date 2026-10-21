@@ -4,20 +4,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Tiltmeter</title>
-  <meta name="description" content="Know when the APIs under your agents move. Tiltmeter learns the shape of third-party APIs, flags breaking changes and tells your agents over MCP.">
+  <meta name="description" content="Know when the APIs under your agents move. Tiltmeter learns the shape of third-party APIs, flags breaking changes, tells your agents over MCP and opens the pull request that adapts your code.">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="canonical" href="https://tiltmeter.dev/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://tiltmeter.dev/">
   <meta property="og:title" content="Tiltmeter: know when the APIs under your agents move">
-  <meta property="og:description" content="Learns the shape of the third-party APIs you depend on and warns you, your CI and your agents the moment it changes. Open source.">
+  <meta property="og:description" content="Learns the shape of the third-party APIs you depend on, warns you, your CI and your agents the moment it changes, and opens the pull request that adapts your code. Open source.">
   <meta property="og:image" content="https://tiltmeter.dev/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Tiltmeter: know when the APIs under your agents move. pip install tiltmeter">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Tiltmeter: know when the APIs under your agents move">
-  <meta name="twitter:description" content="Open-source early warning for the APIs your AI agents depend on.">
+  <meta name="twitter:description" content="Open-source early warning for the APIs your AI agents depend on, with the fix as a pull request.">
   <meta name="twitter:image" content="https://tiltmeter.dev/og.png">
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -34,7 +34,7 @@
   <main>
     <section class="hero">
       <h1>Know when the APIs<br>under your agents move.</h1>
-      <p class="sub">Tiltmeter learns the shape of every third-party API you depend on and tells you, your CI and your agents the moment it changes.</p>
+      <p class="sub">Tiltmeter learns the shape of every third-party API you depend on, tells you, your CI and your agents the moment it changes, and opens the pull request that adapts your code.</p>
       <button class="glass install" type="button" data-copy="pip install tiltmeter">
         <code>pip install tiltmeter</code><span class="hint">copy</span>
       </button>
@@ -79,6 +79,27 @@
       </div>
     </section>
 
+    <section class="block agents fixes">
+      <div class="agents-text">
+        <p class="kicker">Fixes, too</p>
+        <h2>From drift to pull request.</h2>
+        <p class="sub left"><code>tiltmeter fix</code> hands the change to an agent that finds the code reading that API, shows you the diff and opens the pull request. What it cannot know, it leaves for a human.</p>
+        <code class="line">pip install "tiltmeter[fix]"</code>
+      </div>
+      <div class="glass reply diff">
+        <p class="call">tiltmeter fix <span class="dim">2</span></p>
+<pre><span class="file">billing/client.py</span>
+<span class="del">- return customer["phone"]</span>
+<span class="add">+ return customer["phone_number"]</span>
+<span class="file">billing/models.py</span>
+<span class="del">- phone: str</span>
+<span class="add">+ phone_number: str</span>
+
+<span class="warn">left for a human</span>
+<span class="dim">balance: "1200" or "12.00"?</span>
+<span class="add">✓</span> opened <span class="dim">acme/billing#41</span></pre>
+      </div>
+    </section>
 
     <section class="block install-any">
       <p class="kicker center">Install in your agent</p>
@@ -150,6 +171,7 @@ Show me the endpoints you chose before writing the file.</pre>
         <li><b>Observe</b><span>Call the API. Turn the JSON into a shape: types, required fields, enum values.</span></li>
         <li><b>Compare</b><span>Check it against a rolling baseline. Only real contradictions count.</span></li>
         <li><b>Warn</b><span>Fail CI, ping Slack, explain it with Claude, tell your agents. Once.</span></li>
+        <li><b>Fix</b><span>An agent adapts the code that reads the API. You review the pull request.</span></li>
       </ol>
     </section>
 
@@ -161,11 +183,12 @@ Show me the endpoints you chose before writing the file.</pre>
         <span class="glass chip"><b class="warn">1</b> warning</span>
         <span class="glass chip"><b class="bad">2</b> breaking</span>
       </div>
+      <p class="action-line"><code class="line">uses: tiltmeter-dev/tiltmeter-action@v1</code></p>
     </section>
 
     <section class="block end">
       <h2 class="center">Nothing leaves your machine.</h2>
-      <p class="sub">Secrets stay in your environment. Response bodies are never stored, only their shape. One SQLite file, no account.</p>
+      <p class="sub">Secrets stay in your environment. Response bodies are never stored, only their shape. One SQLite file, no account. Claude only sees what you opt into.</p>
       <div class="actions">
         <button class="glass install" type="button" data-copy="pip install tiltmeter"><code>pip install tiltmeter</code><span class="hint">copy</span></button>
         <a class="dark" href="https://github.com/tiltmeter-dev/tiltmeter">View on GitHub</a>

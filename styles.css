@@ -160,7 +160,14 @@ h2 { font-size: clamp(2rem, 4.4vw, 3.4rem); line-height: 1.05; letter-spacing: -
 .reply .k { color: var(--soft); }
 .warn { color: #c98a0e; }
 
-.flow { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; position: relative; margin-top: 12px; }
+.fixes .reply { order: -1; }
+.diff .file { color: var(--soft); }
+.diff .del { color: #d8432f; }
+.diff .add { color: #1f8a4c; }
+.sub code { font-size: 0.9em; background: rgba(0, 0, 0, 0.05); padding: 1px 6px; border-radius: 6px; color: var(--ink); }
+.action-line { text-align: center; margin-top: 36px; }
+
+.flow { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; position: relative; margin-top: 12px; }
 .flow::before { content: ""; position: absolute; top: 15px; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,0,0,0.12) 15%, rgba(0,0,0,0.12) 85%, transparent); }
 .flow li { position: relative; padding-top: 44px; }
 .flow li::before { content: ""; position: absolute; top: 9px; left: 0; width: 13px; height: 13px; border-radius: 50%; background: #fff; border: 1px solid rgba(0,0,0,0.25); }
@@ -203,6 +210,7 @@ h2 { font-size: clamp(2rem, 4.4vw, 3.4rem); line-height: 1.05; letter-spacing: -
 
 @media (max-width: 860px) {
   .agents, .flow { grid-template-columns: 1fr; }
+  .fixes .reply { order: 0; }
   .flow::before { display: none; }
   .block, .lines { padding-bottom: 120px; }
 }
