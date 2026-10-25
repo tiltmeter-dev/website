@@ -157,6 +157,53 @@ mcp      has_drifted → true</pre>
       </div>
     </section>
 
+    <section id="dto" class="wrap section">
+      <div class="split-head">
+        <div>
+          <p class="eyebrow">Why not just a DTO</p>
+          <h2>Your models find out<br>in production.</h2>
+        </div>
+        <p class="side">Keep your DTOs. They check the fields you modeled, at the moment your code reads them. Tiltmeter checks the whole response, before your code runs into it, and tells you when to change them.</p>
+      </div>
+      <div class="dto">
+        <div class="dto-code">
+          <p class="dto-label">The vendor renames <code>phone</code> and sends <code>balance</code> as a string</p>
+<pre><span class="k">class</span> Customer(BaseModel):
+    name: str
+    phone: str
+    balance: int
+
+Customer.model_validate(response)</pre>
+<pre class="dto-out"><span class="bad">ValidationError</span>: 1 validation error for Customer
+phone
+  Field required [type=missing]</pre>
+          <p class="dto-quiet"><code>balance</code> came back as <code>"1200"</code> and Pydantic turned it into <code>1200</code> without a word. Was it cents or dollars?</p>
+        </div>
+        <ul class="dto-points">
+          <li><b>When it notices.</b> A DTO fails in the request that breaks, in production. Tiltmeter notices on a schedule or in CI, before any user does.</li>
+          <li><b>What it sees.</b> A DTO only knows the fields you modeled. Tiltmeter sees the new <code>phone_number</code> next to the missing <code>phone</code> and calls it a probable rename.</li>
+          <li><b>What slips through.</b> Coercion hides type changes. Tiltmeter reports integer → string as breaking, because the format may have changed with it.</li>
+          <li><b>Who is covered.</b> Agents don't have DTOs; they read raw JSON. <code>has_drifted</code> gives them the check your typed code already has.</li>
+        </ul>
+      </div>
+
+      <div class="fit">
+        <div class="fit-yes">
+          <p class="fit-title">Built for APIs that change without notice</p>
+          <ul>
+            <li>Smaller vendors and partner APIs with no changelog you can trust</li>
+            <li>Internal APIs owned by another team</li>
+            <li>Undocumented endpoints behind a web app, starting from a HAR</li>
+            <li>Anything your agents call that has no spec</li>
+          </ul>
+        </div>
+        <div class="fit-no">
+          <p class="fit-title">Not where it earns its keep</p>
+          <p>APIs like Stripe that version every change, let you pin a version and publish a changelog. Pin the version and read the changelog: Tiltmeter adds little there.</p>
+        </div>
+      </div>
+    </section>
+
     <section id="agents" class="band">
       <div class="wrap section">
         <div class="two">
@@ -345,7 +392,7 @@ Show me the endpoints you chose before writing the file.</pre>
 <pre><span class="mu"># .github/workflows/api-drift.yml</span>
 <span class="k">- uses:</span> tiltmeter-dev/tiltmeter-action@v1
   <span class="k">env:</span>
-    <span class="k">STRIPE_API_KEY:</span> ${{ secrets.STRIPE_API_KEY }}</pre>
+    <span class="k">PARTNER_API_KEY:</span> ${{ secrets.PARTNER_API_KEY }}</pre>
 <pre class="sep"><span class="mu"># tiltmeter.yaml</span>
 <span class="k">notify:</span>
   - <span class="k">type:</span> slack

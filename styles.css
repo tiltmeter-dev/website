@@ -361,6 +361,31 @@ blockquote { margin-top: 28px; max-width: 520px; padding: 4px 0 4px 18px; border
 .replay:hover { border-color: var(--ink); }
 .checks.wide { margin-top: 28px; max-width: none; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
 
+
+/* Why not a DTO, and where it fits */
+.dto { margin-top: 48px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: start; }
+.dto-code { border-radius: 16px; background: var(--night); color: var(--night-text); padding: 22px 24px; overflow: hidden; }
+.dto-code pre { font: 0.82rem/1.75 var(--mono); white-space: pre; overflow-x: auto; }
+.dto-code .k { color: #c9c4b8; }
+.dto-code .bad { color: #ff8a6b; }
+.dto-label { margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--night-line); font-size: 0.85rem; color: var(--night-mute); }
+.dto-label code, .dto-quiet code { color: #fff; }
+.dto-out { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--night-line); color: #e7e5df; }
+.dto-quiet { margin-top: 14px; padding: 10px 12px; border-radius: 10px; background: rgba(242, 192, 92, 0.12); color: #f2d9a8; font-size: 0.88rem; }
+.dto-points { list-style: none; display: grid; gap: 18px; }
+.dto-points li { padding-top: 18px; border-top: 1px solid var(--line-2); color: var(--soft); }
+.dto-points li:first-child { padding-top: 0; border-top: 0; }
+.dto-points b { display: block; color: var(--ink); font-weight: 600; margin-bottom: 2px; }
+.dto-points code, .fit code { padding: 1px 6px; border-radius: 5px; background: rgba(20, 20, 22, 0.06); }
+.fit { margin-top: 56px; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: 12px; }
+.fit > div { padding: 24px; border-radius: 16px; border: 1px solid var(--line); }
+.fit-yes { background: var(--card); }
+.fit-no { background: transparent; border-style: dashed !important; color: var(--soft); }
+.fit-title { font-weight: 600; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 12px; }
+.fit-yes ul { list-style: none; display: grid; gap: 8px; }
+.fit-yes li { position: relative; padding-left: 22px; color: var(--ink-2); }
+.fit-yes li::before { content: "✓"; position: absolute; left: 0; color: var(--red); font-weight: 600; }
+
 @media (max-width: 960px) {
   .links { display: none; }
   .nav-in { justify-content: space-between; }
@@ -374,6 +399,7 @@ blockquote { margin-top: 28px; max-width: 520px; padding: 4px 0 4px 18px; border
   .event { left: auto; right: 16px; }
   .stage { grid-template-columns: minmax(0, 1fr); }
   .checks.wide { grid-template-columns: 1fr; }
+  .dto, .fit { grid-template-columns: minmax(0, 1fr); }
 }
 
 @media (max-width: 620px) {

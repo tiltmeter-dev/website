@@ -47,16 +47,22 @@ $ echo $?
 
 With an Anthropic API key, Claude explains what changed, the likely cause and what to do about it.
 
+## Where it fits
+
+Tiltmeter is built for APIs that change without notice: smaller vendors and partner APIs with no changelog you can trust, internal APIs owned by another team, undocumented endpoints behind a web app, and anything an agent calls that has no spec. APIs like Stripe that version every change, let you pin a version and publish a changelog don't need it: pin the version and read the changelog.
+
+It does not replace typed models (DTOs). A DTO checks the fields you modeled when your code reads them, in production, and coercion can hide type changes: Pydantic turns "1200" into 1200 without an error. Tiltmeter checks the whole response on a schedule or in CI, reports a removed field next to a similar new one as a probable rename, and reports integer → string as breaking. Agents read raw JSON and have no DTOs, so has_drifted gives them that check.
+
 ## Configuration
 
 ```yaml
 endpoints:
-  - id: stripe_customers
-    url: https://api.stripe.com/v1/customers
+  - id: partner_orders
+    url: https://api.partner.example/v1/orders
     params:
       limit: 10
     headers:
-      Authorization: Bearer ${STRIPE_API_KEY}   # expanded from the environment at request time
+      Authorization: Bearer ${PARTNER_API_KEY}   # expanded from the environment at request time
     ignore_paths:
       - $.data[*].metadata                      # free-form, changes all the time
 
@@ -174,7 +180,7 @@ On GitHub, the Tiltmeter Action keeps the baseline in the Actions cache, writes 
 ```yaml
 - uses: tiltmeter-dev/tiltmeter-action@v1
   env:
-    STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
+    PARTNER_API_KEY: ${{ secrets.PARTNER_API_KEY }}
 ```
 
 Anywhere else, keep `.tiltmeter/` between runs. Jobs for GitHub Actions, GitLab CI and cron: https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/ci.md
