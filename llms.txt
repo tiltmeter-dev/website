@@ -1,0 +1,26 @@
+# Tiltmeter
+
+> Tiltmeter is an open-source (MIT) early-warning system for the third-party APIs that AI agents depend on. It learns the shape of JSON responses from real traffic, flags breaking changes such as removed fields, type changes and new nulls, warns you, your CI and your agents over MCP, and `tiltmeter fix` hands the drift to an agent that adapts your code and opens a pull request.
+
+Install with `pip install tiltmeter` (Python 3.12 or later). It runs locally with one SQLite file and no account. No API spec is needed: the contract is learned from responses.
+
+## Docs
+
+- [Getting started](https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/getting-started.md): install, record a baseline and catch a breaking change against a fake API in about five minutes
+- [Configuration](https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/configuration.md): every option in `tiltmeter.yaml`
+- [Agents and MCP](https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/agents.md): the MCP server for Claude Code, Cursor, Claude Desktop, LangChain and other clients
+- [Fixing code](https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/fix.md): how `tiltmeter fix` adapts code in a worktree and opens a pull request
+- [CI](https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/ci.md): exit codes and jobs for GitHub Actions, GitLab CI and cron
+- [How it works](https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/how-it-works.md): shapes, baselines and what counts as drift
+- [FAQ](https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/faq.md)
+
+## For agents
+
+- [Full reference](https://tiltmeter.dev/llms-full.txt): setup steps, commands, MCP tools, drift types and exit codes in one file
+
+## Optional
+
+- [Source code](https://github.com/tiltmeter-dev/tiltmeter)
+- [GitHub Action](https://github.com/tiltmeter-dev/tiltmeter-action)
+- [PyPI package](https://pypi.org/project/tiltmeter/)
+- [Security policy](https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/SECURITY.md)

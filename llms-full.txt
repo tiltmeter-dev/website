@@ -1,0 +1,202 @@
+# Tiltmeter
+
+> An early-warning system for the third-party APIs your AI agents depend on, with the fix as a pull request. Open source under the MIT license. https://tiltmeter.dev
+
+Tiltmeter learns the shape of JSON responses from real traffic, notices when a vendor renames a field, starts sending `null` or turns a number into a string, and tells you, your CI and your agents before anything breaks. Then `tiltmeter fix` hands the change to an agent that adapts the code reading that API and opens the pull request, leaving what it cannot know for a human.
+
+Typed code crashes loudly when an API changes. Agents don't: they read the new response, fill the gaps with guesses, or retry until the budget is gone.
+
+## Set it up for a project
+
+If you are an agent setting Tiltmeter up for your user:
+
+1. Find the external HTTP APIs the codebase calls that return JSON.
+2. Create `tiltmeter.yaml` in the project root with one endpoint per API. Use `${ENV_VAR}` placeholders for keys, never literal secrets.
+3. Add `.tiltmeter/` to `.gitignore` and run `uvx tiltmeter check` once to record the baselines.
+4. Register the MCP server for yourself with the command `uvx tiltmeter serve --config tiltmeter.yaml`.
+5. Add to CLAUDE.md or AGENTS.md: "Before relying on a third-party API, call the tiltmeter has_drifted tool for it."
+
+Show the user the endpoints you chose before writing the file.
+
+## Install and first check
+
+```bash
+pip install tiltmeter        # or: uv tool install tiltmeter
+tiltmeter init               # writes tiltmeter.yaml with a public example API
+tiltmeter check              # the first check records the baseline
+```
+
+From a web app that already calls the API, export a HAR from the browser's DevTools (Network tab, "Export HAR") and let Tiltmeter write the config from the JSON calls the page made. Tokens and cookies become `${VAR}` placeholders:
+
+```bash
+tiltmeter init --from-har session.har --host api.example.com
+```
+
+Run `tiltmeter check` again from cron or CI, or leave `tiltmeter watch` running. When a vendor renames `phone` and turns `balance` into a string:
+
+```console
+$ tiltmeter check
+✗ billing_customers  200 · 13 ms  BREAKING · 3 changes
+    breaking  type_changed   $.data[*].balance       integer → string
+    breaking  field_removed  $.data[*].phone         string → (absent)  possibly renamed to $.data[*].phone_number
+    info      field_added    $.data[*].phone_number  (absent) → string  possibly replaces $.data[*].phone
+1 endpoint checked · 1 breaking
+$ echo $?
+2
+```
+
+With an Anthropic API key, Claude explains what changed, the likely cause and what to do about it.
+
+## Configuration
+
+```yaml
+endpoints:
+  - id: stripe_customers
+    url: https://api.stripe.com/v1/customers
+    params:
+      limit: 10
+    headers:
+      Authorization: Bearer ${STRIPE_API_KEY}   # expanded from the environment at request time
+    ignore_paths:
+      - $.data[*].metadata                      # free-form, changes all the time
+
+notify:
+  - type: slack
+    webhook_url: ${SLACK_WEBHOOK_URL}
+```
+
+Every option: https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/configuration.md
+
+## What counts as drift
+
+| Change | Example | Default severity |
+|---|---|---|
+| `field_removed` | `phone` was in every response and is gone | breaking |
+| `field_now_optional` | `email` was always there and is now missing from some objects | breaking |
+| `type_changed` | `balance` went from integer to string | breaking |
+| `nullable_introduced` | `phone` can now be `null` | breaking |
+| `content_type_changed` | the JSON body became an HTML error page | breaking |
+| `status_changed` | 200 to 503 is breaking, 404 to 200 is info, 200 to 202 is a warning | depends |
+| `enum_value_added` | `status` returned `suspended` besides `active` and `past_due` | warning |
+| `latency_regression` | median latency over 3x the baseline and at least 250 ms slower | warning |
+| `field_added` | a new `phone_number` field | info, or warning with `strict: true` |
+
+A removed field next to a similar new one is flagged as a probable rename. Override any severity globally or per endpoint with `severity_overrides`.
+
+How it decides: a check turns the JSON body into a shape (the JSON types at every path, how many objects contained each field and, for categorical fields, which values were seen). The baseline is the merge of the shapes from the last 20 successful checks, and only contradictions are reported. The new shape then joins the baseline, so each change is reported once.
+
+## MCP server for agents
+
+The server is `tiltmeter serve`. It speaks MCP over stdio and reads the same `tiltmeter.yaml` and `.tiltmeter/` history as the CLI. Agents can only check the endpoints in the config.
+
+| Tool | What it answers |
+|---|---|
+| `has_drifted(endpoint_id, since?)` | Did the responses change at warning level or worse recently? Returns a summary and the changes. |
+| `get_schema(endpoint_id)` | Which fields, types and enum values to expect, as JSON Schema. |
+| `get_changes(endpoint_id?, since?, min_severity?, limit?)` | The change history, newest first. |
+| `list_endpoints()` | Which APIs are watched and how their last check went. |
+| `check_api(endpoint_id, explain?)` | Calls one API now and records the result. |
+| `check_all(explain?)` | Calls every API now. |
+
+Claude Code:
+
+```bash
+claude mcp add tiltmeter -- uvx tiltmeter serve --config tiltmeter.yaml
+```
+
+Codex:
+
+```bash
+codex mcp add tiltmeter -- uvx tiltmeter serve --config tiltmeter.yaml
+```
+
+Cursor (`.cursor/mcp.json`):
+
+```json
+{
+  "mcpServers": {
+    "tiltmeter": {
+      "command": "uvx",
+      "args": ["tiltmeter", "serve", "--config", "tiltmeter.yaml"]
+    }
+  }
+}
+```
+
+OpenCode (`opencode.json`):
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "tiltmeter": {
+      "type": "local",
+      "command": ["uvx", "tiltmeter", "serve", "--config", "tiltmeter.yaml"],
+      "enabled": true
+    }
+  }
+}
+```
+
+Explanations need `ANTHROPIC_API_KEY` in the server's environment. Claude Desktop and LangChain setups: https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/agents.md
+
+Suggested instruction for the agent: "Before you rely on a third-party API, call `has_drifted` for it. If it drifted, read the summary and adapt before trusting the response."
+
+## Fixing code
+
+```bash
+pip install "tiltmeter[fix]"            # the built-in LangChain Deep Agent, needs ANTHROPIC_API_KEY
+tiltmeter fix 2 --repo ~/code/billing-service
+tiltmeter fix 2 --agent claude-code     # or --agent codex, on your own login, no API key
+```
+
+`tiltmeter fix <check id>` creates a new branch in a temporary git worktree, lets the agent adapt the code that reads the API, shows the diff and the agent's report, and asks "Commit, push and open a pull request? [y/N]". Answer `n` and everything is discarded. Pull requests are opened with the GitHub CLI (`gh`).
+
+- The checkout is never touched, and nothing is committed until you approve or pass `--yes`.
+- The agent stays inside the worktree: no network access, only tracked files; `.env` files, keys and `.git` are blocked.
+- Tiltmeter sees types, not values. When a number turns into a string, the agent updates the types and leaves the format question to a human in the pull request.
+- Flags: `--dry-run` shows the diff and discards it, `--no-pr` commits to a local branch, `--json` prints the outcome as JSON.
+
+Details: https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/fix.md
+
+## CI
+
+| Exit code | Meaning |
+|---|---|
+| 0 | No drift. Info-only changes and new baselines count as no drift. |
+| 1 | Warning-level drift. |
+| 2 | Breaking drift. |
+| 3 | A check could not run (network error, unexpected status, invalid JSON) and nothing broke. |
+| 4 | Usage or configuration error. |
+
+On GitHub, the Tiltmeter Action keeps the baseline in the Actions cache, writes the changes to the job summary and fails the job on drift:
+
+```yaml
+- uses: tiltmeter-dev/tiltmeter-action@v1
+  env:
+    STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
+```
+
+Anywhere else, keep `.tiltmeter/` between runs. Jobs for GitHub Actions, GitLab CI and cron: https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/ci.md
+
+## How it compares
+
+- OpenAPI diff tools such as oasdiff compare two versions of a spec. They are the right tool when the vendor publishes and maintains one, and they cannot see changes the vendor did not document.
+- Contract testing such as Pact needs the provider to run your contracts, which third-party vendors don't do.
+- Uptime and synthetic monitors tell you an API is up. You write and maintain the response assertions yourself.
+- Tiltmeter learns the contract from real responses, so it needs nothing from the vendor and catches undocumented changes. It also hands what it learns to your agents.
+
+## Privacy and security
+
+- `${VAR}` placeholders are expanded right before a request or notification is sent. The values are never written to disk, sent to the LLM or kept in the LangGraph state, and they are scrubbed from error messages.
+- The history stores shapes, status codes, latencies and changes, never response bodies unless you set `store_samples: true`.
+- Agents can only check the endpoints in your config. They cannot make Tiltmeter call an arbitrary URL.
+- `tiltmeter fix` sends the change list and the files the agent opens to the model provider. It never sees response values, `${VAR}` values or untracked files such as `.env`.
+
+Report vulnerabilities privately: https://github.com/tiltmeter-dev/tiltmeter/security/advisories/new
+
+## Links
+
+- Source: https://github.com/tiltmeter-dev/tiltmeter
+- GitHub Action: https://github.com/tiltmeter-dev/tiltmeter-action
+- PyPI: https://pypi.org/project/tiltmeter/

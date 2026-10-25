@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tiltmeter</title>
+  <title>Tiltmeter · Know when the APIs under your agents move</title>
   <meta name="description" content="Know when the APIs under your agents move. Tiltmeter learns the shape of third-party APIs, flags breaking changes, tells your agents over MCP and opens the pull request that adapts your code.">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="canonical" href="https://tiltmeter.dev/">
@@ -19,139 +19,209 @@
   <meta name="twitter:title" content="Tiltmeter: know when the APIs under your agents move">
   <meta name="twitter:description" content="Open-source early warning for the APIs your AI agents depend on, with the fix as a pull request.">
   <meta name="twitter:image" content="https://tiltmeter.dev/og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
   <link rel="stylesheet" href="styles.css">
+  <link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Tiltmeter", "url": "https://tiltmeter.dev/", "description": "Open-source early warning for the third-party APIs AI agents depend on: learns response shapes, flags breaking changes, warns agents over MCP and opens the pull request that adapts your code.", "applicationCategory": "DeveloperApplication", "operatingSystem": "Any", "softwareRequirements": "Python 3.12 or later", "license": "https://opensource.org/licenses/MIT", "downloadUrl": "https://pypi.org/project/tiltmeter/", "sameAs": ["https://github.com/tiltmeter-dev/tiltmeter"], "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
 </head>
 <body>
-  <div class="field" aria-hidden="true">
-    <span class="orb a"></span><span class="orb b"></span><span class="orb c"></span>
-  </div>
-
-  <header class="top">
-    <a class="word" href="/">tiltmeter</a>
-    <a class="glass pill" href="https://github.com/tiltmeter-dev/tiltmeter">GitHub</a>
+  <header class="nav">
+    <div class="nav-in">
+      <a class="brand" href="/" aria-label="Tiltmeter home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="#141416"/><path d="M6 20 Q16 6 26 20" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity=".35"/><path d="M16 18 L22 9" stroke="#e2552d" stroke-width="3" stroke-linecap="round"/><circle cx="16" cy="18" r="2.6" fill="#e2552d"/></svg>
+        tiltmeter
+      </a>
+      <nav class="links" aria-label="Sections">
+        <a href="#how">How it works</a>
+        <a href="#drift">What counts</a>
+        <a href="#agents">Agents</a>
+        <a href="#fix">Fix</a>
+        <a href="#ci">CI</a>
+      </nav>
+      <a class="btn ghost" href="https://github.com/tiltmeter-dev/tiltmeter">GitHub</a>
+    </div>
   </header>
 
   <main>
-    <section class="hero">
-      <h1>Know when the APIs<br>under your agents move.</h1>
-      <p class="sub">Tiltmeter learns the shape of every third-party API you depend on, tells you, your CI and your agents the moment it changes, and opens the pull request that adapts your code.</p>
-      <button class="glass install" type="button" data-copy="pip install tiltmeter">
-        <code>pip install tiltmeter</code><span class="hint">copy</span>
-      </button>
+    <section class="hero wrap">
+      <p class="kicker">Open source · MIT · Python 3.12+</p>
+      <h1>Know when the APIs <br>under your agents move<span class="needle">.</span></h1>
+      <div class="hero-row">
+        <p class="lede">Tiltmeter learns the shape of every third-party API you depend on from real responses, warns you, your CI and your agents the moment it changes, and opens the pull request that adapts your code.</p>
+        <div class="cta">
+          <button class="install" type="button" data-copy="pip install tiltmeter"><span class="ps">$</span><code>pip install tiltmeter</code><span class="hint">copy</span></button>
+          <a class="more" href="https://github.com/tiltmeter-dev/tiltmeter/blob/main/docs/getting-started.md">Try it on a fake API in five minutes →</a>
+          <p class="agent-note">Are you an agent? Read <a href="/llms.txt">/llms.txt</a> and set it up yourself.</p>
+        </div>
+      </div>
     </section>
 
-    <section class="stage">
-      <div class="glass frame" data-tilt>
-        <div class="term" aria-label="Example: tiltmeter check reports a breaking change and explains it">
-          <p class="cmd"><span class="ps">$</span> <span class="typed" data-text="tiltmeter check"></span><span class="caret"></span></p>
-          <div class="out">
-            <p class="row"><span class="bad">✕</span> <b>billing_customers</b> <span class="dim">200 · 13 ms</span> <span class="bad">breaking · 3 changes</span></p>
-            <table>
-              <tr><td class="bad">breaking</td><td>$.data[*].balance</td><td class="dim">integer → string</td></tr>
-              <tr><td class="bad">breaking</td><td>$.data[*].phone</td><td class="dim">removed · possibly renamed to <span class="ink">phone_number</span></td></tr>
-              <tr><td class="info">info</td><td>$.data[*].phone_number</td><td class="dim">new field</td></tr>
-            </table>
-            <p class="why"><span class="tag">Claude</span> The vendor most likely renamed <code>phone</code> to <code>phone_number</code>. Code doing math on <code>balance</code> will break now that it is a string. Read <code>phone_number</code> and parse <code>balance</code> as a number.</p>
+    <section class="wrap" aria-label="Example: a vendor renames a field and Tiltmeter catches it">
+      <figure class="instrument">
+        <div class="trace-head">
+          <span><b>billing_customers</b> <span class="muted">GET /v1/customers</span></span>
+          <span class="legend"><i class="dot ok"></i>shape stable <i class="dot bad"></i>breaking drift</span>
+        </div>
+        <div class="trace" data-trace>
+          <svg viewBox="0 0 1200 220" preserveAspectRatio="none" aria-hidden="true">
+            <line class="baseline" x1="0" y1="120" x2="1200" y2="120"/>
+            <path class="seg before"/>
+            <path class="seg quake"/>
+            <path class="seg after"/>
+          </svg>
+          <div class="event">
+            <p class="event-title">BREAKING · 3 changes</p>
+            <p><code>balance</code> integer → string</p>
+            <p><code>phone</code> removed, possibly renamed to <code>phone_number</code></p>
+          </div>
+          <p class="settle">Reported once. Then it's the new normal.</p>
+        </div>
+        <div class="ticks" aria-hidden="true"><span>check 1</span><span style="left: 30.8%">check 13</span><span class="hot" style="left: 64.1%">check 26 · vendor deploy</span><span>check 40</span></div>
+        <div class="term dark">
+<pre><span class="ps">$</span> tiltmeter check
+<span class="bad">✗</span> <b>billing_customers</b>  <span class="mu">200 · 13 ms</span>  <span class="bad">BREAKING · 3 changes</span>
+    <span class="bad">breaking</span>  type_changed   $.data[*].balance       <span class="mu">integer → string</span>
+    <span class="bad">breaking</span>  field_removed  $.data[*].phone         <span class="mu">string → (absent)  possibly renamed to</span> $.data[*].phone_number
+    <span class="info">info</span>      field_added    $.data[*].phone_number  <span class="mu">(absent) → string  possibly replaces</span> $.data[*].phone
+<span class="mu">1 endpoint checked · 1 breaking</span>
+<span class="ps">$</span> echo $?
+<span class="bad">2</span></pre>
+          <p class="explain"><span class="tag">Claude</span>The vendor most likely renamed <code>phone</code> to <code>phone_number</code>. Code doing math on <code>balance</code> will break now that it is a string. Read <code>phone_number</code> and parse <code>balance</code> as a number.</p>
+        </div>
+      </figure>
+    </section>
+
+    <section class="statement wrap">
+      <p>Typed code crashes loudly when an API changes. <span class="ink">Agents don't.</span> <span class="soft">They read the new response, fill the gaps with guesses, or retry until the budget is gone.</span></p>
+    </section>
+
+    <section id="how" class="wrap section">
+      <p class="eyebrow">How it works</p>
+      <h2>No spec. No noise.<br>No guessing.</h2>
+      <ol class="steps">
+        <li>
+          <span class="n">01</span>
+          <h3>Observe</h3>
+          <p>A check calls the endpoint and turns the JSON body into a shape: types, how often each field appears and the values of fields that look categorical.</p>
+<pre class="mini">balance   integer   20/20
+phone     string    20/20
+status    active | past_due</pre>
+        </li>
+        <li>
+          <span class="n">02</span>
+          <h3>Compare</h3>
+          <p>The baseline merges the last 20 successful checks. Only contradictions count: a missing optional field is fine, a field that was always there and is gone is not.</p>
+<pre class="mini">balance   integer → <span class="bad">string</span>
+phone     20/20 → <span class="bad">0/1</span></pre>
+        </li>
+        <li>
+          <span class="n">03</span>
+          <h3>Warn, once</h3>
+          <p>Fail CI, ping Slack or a webhook, explain it with Claude and tell your agents over MCP. The new shape joins the baseline, so you hear about it once.</p>
+<pre class="mini"><span class="bad">exit 2</span>   breaking
+slack    #api-alerts
+mcp      has_drifted → true</pre>
+        </li>
+        <li>
+          <span class="n">04</span>
+          <h3>Fix</h3>
+          <p>An agent finds the code that reads the API, adapts it and opens a pull request. You review the diff.</p>
+<pre class="mini"><span class="ok">✓</span> opened acme/billing-service#41
+  3 files  <span class="ok">+5</span> <span class="bad">-5</span></pre>
+        </li>
+      </ol>
+      <p class="har">Already calling the API from a web app? Export a HAR from your browser and let Tiltmeter write the config. Tokens and cookies become <code>${VAR}</code> placeholders.<code class="line">tiltmeter init --from-har session.har --host api.example.com</code></p>
+    </section>
+
+    <section id="drift" class="wrap section">
+      <div class="split-head">
+        <div>
+          <p class="eyebrow">What counts as drift</p>
+          <h2>Breaking or harmless,<br>at a glance.</h2>
+        </div>
+        <p class="side">Every change is classified, and a removed field next to a similar new one is flagged as a probable rename. Override any severity globally or per endpoint.</p>
+      </div>
+      <div class="table" role="table" aria-label="Kinds of drift">
+        <div class="tr th" role="row"><span role="columnheader">Change</span><span role="columnheader">Example</span><span role="columnheader">Severity</span></div>
+        <div class="tr" role="row"><code role="cell">field_removed</code><span role="cell"><code>phone</code> was in every response and is gone</span><span role="cell"><b class="sev bad">breaking</b></span></div>
+        <div class="tr" role="row"><code role="cell">field_now_optional</code><span role="cell"><code>email</code> was always there and is now missing from some objects</span><span role="cell"><b class="sev bad">breaking</b></span></div>
+        <div class="tr" role="row"><code role="cell">type_changed</code><span role="cell"><code>balance</code> went from integer to string</span><span role="cell"><b class="sev bad">breaking</b></span></div>
+        <div class="tr" role="row"><code role="cell">nullable_introduced</code><span role="cell"><code>phone</code> can now be <code>null</code></span><span role="cell"><b class="sev bad">breaking</b></span></div>
+        <div class="tr" role="row"><code role="cell">content_type_changed</code><span role="cell">the JSON body became an HTML error page</span><span role="cell"><b class="sev bad">breaking</b></span></div>
+        <div class="tr" role="row"><code role="cell">status_changed</code><span role="cell">200 to 503 is breaking, 404 to 200 is info, 200 to 202 is a warning</span><span role="cell"><b class="sev">depends</b></span></div>
+        <div class="tr" role="row"><code role="cell">enum_value_added</code><span role="cell"><code>status</code> returned <code>suspended</code> besides <code>active</code> and <code>past_due</code></span><span role="cell"><b class="sev warn">warning</b></span></div>
+        <div class="tr" role="row"><code role="cell">latency_regression</code><span role="cell">median latency over 3x the baseline and at least 250 ms slower</span><span role="cell"><b class="sev warn">warning</b></span></div>
+        <div class="tr" role="row"><code role="cell">field_added</code><span role="cell">a new <code>phone_number</code> field</span><span role="cell"><b class="sev info">info</b></span></div>
+      </div>
+    </section>
+
+    <section id="agents" class="band">
+      <div class="wrap section">
+        <div class="two">
+          <div>
+            <p class="eyebrow">For agents</p>
+            <h2>Agents ask<br>before they act.</h2>
+            <p class="body">An MCP server lets Claude Code, Cursor, LangChain or any MCP client call <code>has_drifted</code> before trusting an API, and <code>get_schema</code> to see which fields to expect. Agents can only check the endpoints in your config.</p>
+            <blockquote>Before you rely on a third-party API, call <code>has_drifted</code> for it. If it drifted, read the summary and adapt before trusting the response.</blockquote>
+          </div>
+          <div class="term dark reply">
+            <p class="said"><span class="mu">&gt;</span> Text customer 42 that their invoice is overdue</p>
+            <p class="call"><span class="ok">●</span> <span class="mu">tiltmeter ·</span> has_drifted<span class="mu">("billing_customers")</span></p>
+<pre class="result"><span class="mu">drifted</span>       <span class="bad">true</span>
+<span class="mu">max_severity</span>  <span class="bad">breaking</span>
+<span class="mu">changed</span>       phone → phone_number
+<span class="mu">checked</span>       2 min ago</pre>
+            <p class="answer-line"><span class="ok">●</span> The billing API changed: <span class="k">phone</span> is now <span class="k">phone_number</span>. I'll read the new field before texting, instead of sending to an empty number.</p>
           </div>
         </div>
-      </div>
-    </section>
 
-    <section class="lines">
-      <p><span>No spec.</span> It learns from real responses.</p>
-      <p><span>No noise.</span> Only what breaks a consumer.</p>
-      <p><span>No guessing.</span> Agents ask <code>has_drifted</code> over MCP.</p>
-    </section>
-
-    <section class="block agents">
-      <div class="agents-text">
-        <p class="kicker">For agents</p>
-        <h2>Agents ask before they act.</h2>
-        <p class="sub left">An MCP server lets Claude Code, Cursor or any LangChain agent check an API before trusting its response.</p>
-        <code class="line">claude mcp add tiltmeter -- tiltmeter serve</code>
-      </div>
-      <div class="glass reply">
-        <p class="call">has_drifted<span class="dim">("billing_customers")</span></p>
-<pre><span class="k">drifted</span>       <span class="bad">true</span>
-<span class="k">max_severity</span>  <span class="bad">breaking</span>
-<span class="k">changed</span>       <span class="dim">phone → phone_number</span>
-<span class="k">checked</span>       <span class="dim">2 min ago</span></pre>
-      </div>
-    </section>
-
-    <section class="block agents fixes">
-      <div class="agents-text">
-        <p class="kicker">Fixes, too</p>
-        <h2>From drift to pull request.</h2>
-        <p class="sub left"><code>tiltmeter fix</code> hands the change to an agent that finds the code reading that API, shows you the diff and opens the pull request. What it cannot know, it leaves for a human. It runs on your own Claude Code or Codex, no API key needed, or on a built-in LangChain agent.</p>
-        <code class="line">tiltmeter fix 2 --agent claude-code</code>
-        <code class="line">tiltmeter fix 2 --agent codex</code>
-      </div>
-      <div class="glass reply diff">
-        <p class="call">tiltmeter fix <span class="dim">2</span></p>
-<pre><span class="file">billing/client.py</span>
-<span class="del">- return customer["phone"]</span>
-<span class="add">+ return customer["phone_number"]</span>
-<span class="file">billing/models.py</span>
-<span class="del">- phone: str</span>
-<span class="add">+ phone_number: str</span>
-
-<span class="warn">left for a human</span>
-<span class="dim">balance: "1200" or "12.00"?</span>
-<span class="add">✓</span> opened <span class="dim">acme/billing#41</span></pre>
-      </div>
-    </section>
-
-    <section class="block install-any">
-      <p class="kicker center">Install in your agent</p>
-      <h2 class="center">One line. Or let your agent do it.</h2>
-      <div class="glass box">
-        <div class="tabs" role="tablist"><button role="tab" class="tab on" data-tab="claude">Claude Code</button><button role="tab" class="tab" data-tab="cursor">Cursor</button><button role="tab" class="tab" data-tab="codex">Codex</button><button role="tab" class="tab" data-tab="opencode">OpenCode</button><button role="tab" class="tab" data-tab="prompt">Any agent</button></div>
-        <div class="panel on" data-panel="claude">
-          <pre class="snippet">claude mcp add tiltmeter -- uvx tiltmeter serve --config tiltmeter.yaml</pre>
-          <div class="panel-foot"><span class="dim">Run it in your project folder.</span><span class="btns"><button class="copy" type="button" data-copy-from="claude">Copy</button></span></div>
+        <div class="tools">
+          <div><code>has_drifted</code><span>Did responses change at warning level or worse recently?</span></div>
+          <div><code>get_schema</code><span>Which fields, types and enum values to expect, as JSON Schema.</span></div>
+          <div><code>get_changes</code><span>The change history, newest first.</span></div>
+          <div><code>list_endpoints</code><span>Which APIs are watched and how their last check went.</span></div>
+          <div><code>check_api</code><span>Calls one API now and records the result.</span></div>
+          <div><code>check_all</code><span>Calls every API now.</span></div>
         </div>
-        <div class="panel" data-panel="cursor">
-          <pre class="snippet">{
+
+        <div class="box">
+          <div class="tabs" role="tablist" aria-label="Install in your agent"><button role="tab" class="tab on" data-tab="claude">Claude Code</button><button role="tab" class="tab" data-tab="cursor">Cursor</button><button role="tab" class="tab" data-tab="codex">Codex</button><button role="tab" class="tab" data-tab="opencode">OpenCode</button><button role="tab" class="tab" data-tab="prompt">Any agent</button></div>
+          <div class="panel on" data-panel="claude">
+            <pre class="snippet">claude mcp add tiltmeter -- uvx tiltmeter serve --config tiltmeter.yaml</pre>
+            <div class="panel-foot"><span>Run it in your project folder.</span><span class="btns"><button class="copy" type="button" data-copy-from="claude">Copy</button></span></div>
+          </div>
+          <div class="panel" data-panel="cursor">
+            <pre class="snippet">{
   &quot;mcpServers&quot;: {
     &quot;tiltmeter&quot;: {
       &quot;command&quot;: &quot;uvx&quot;,
-      &quot;args&quot;: [
-        &quot;tiltmeter&quot;,
-        &quot;serve&quot;,
-        &quot;--config&quot;,
-        &quot;tiltmeter.yaml&quot;
-      ]
+      &quot;args&quot;: [&quot;tiltmeter&quot;, &quot;serve&quot;, &quot;--config&quot;, &quot;tiltmeter.yaml&quot;]
     }
   }
 }</pre>
-          <div class="panel-foot"><span class="dim">Or paste this into .cursor/mcp.json.</span><span class="btns"><a class="dark small" href="cursor://anysphere.cursor-deeplink/mcp/install?name=tiltmeter&amp;config=eyJjb21tYW5kIjoidXZ4IiwiYXJncyI6WyJ0aWx0bWV0ZXIiLCJzZXJ2ZSIsIi0tY29uZmlnIiwidGlsdG1ldGVyLnlhbWwiXX0=">Add to Cursor</a><button class="copy" type="button" data-copy-from="cursor">Copy</button></span></div>
-        </div>
-        <div class="panel" data-panel="codex">
-          <pre class="snippet">codex mcp add tiltmeter -- uvx tiltmeter serve --config tiltmeter.yaml</pre>
-          <div class="panel-foot"><span class="dim">Or add [mcp_servers.tiltmeter] to ~/.codex/config.toml.</span><span class="btns"><button class="copy" type="button" data-copy-from="codex">Copy</button></span></div>
-        </div>
-        <div class="panel" data-panel="opencode">
-          <pre class="snippet">{
+            <div class="panel-foot"><span>Or paste this into .cursor/mcp.json.</span><span class="btns"><a class="btn small" href="cursor://anysphere.cursor-deeplink/mcp/install?name=tiltmeter&amp;config=eyJjb21tYW5kIjoidXZ4IiwiYXJncyI6WyJ0aWx0bWV0ZXIiLCJzZXJ2ZSIsIi0tY29uZmlnIiwidGlsdG1ldGVyLnlhbWwiXX0=">Add to Cursor</a><button class="copy" type="button" data-copy-from="cursor">Copy</button></span></div>
+          </div>
+          <div class="panel" data-panel="codex">
+            <pre class="snippet">codex mcp add tiltmeter -- uvx tiltmeter serve --config tiltmeter.yaml</pre>
+            <div class="panel-foot"><span>Or add [mcp_servers.tiltmeter] to ~/.codex/config.toml.</span><span class="btns"><button class="copy" type="button" data-copy-from="codex">Copy</button></span></div>
+          </div>
+          <div class="panel" data-panel="opencode">
+            <pre class="snippet">{
   &quot;$schema&quot;: &quot;https://opencode.ai/config.json&quot;,
   &quot;mcp&quot;: {
     &quot;tiltmeter&quot;: {
       &quot;type&quot;: &quot;local&quot;,
-      &quot;command&quot;: [
-        &quot;uvx&quot;,
-        &quot;tiltmeter&quot;,
-        &quot;serve&quot;,
-        &quot;--config&quot;,
-        &quot;tiltmeter.yaml&quot;
-      ],
+      &quot;command&quot;: [&quot;uvx&quot;, &quot;tiltmeter&quot;, &quot;serve&quot;, &quot;--config&quot;, &quot;tiltmeter.yaml&quot;],
       &quot;enabled&quot;: true
     }
   }
 }</pre>
-          <div class="panel-foot"><span class="dim">Add this to opencode.json in your project.</span><span class="btns"><button class="copy" type="button" data-copy-from="opencode">Copy</button></span></div>
-        </div>
-        <div class="panel" data-panel="prompt">
-          <pre class="snippet prose">Set up Tiltmeter (https://github.com/tiltmeter-dev/tiltmeter) in this project so you can check whether the third-party APIs we use have changed before relying on them.
+            <div class="panel-foot"><span>Add this to opencode.json in your project.</span><span class="btns"><button class="copy" type="button" data-copy-from="opencode">Copy</button></span></div>
+          </div>
+          <div class="panel" data-panel="prompt">
+            <pre class="snippet prose">Set up Tiltmeter (https://github.com/tiltmeter-dev/tiltmeter) in this project so you can check whether the third-party APIs we use have changed before relying on them.
 
 1. Find the external HTTP APIs this codebase calls that return JSON.
 2. Create tiltmeter.yaml in the project root with one endpoint per API. Use ${ENV_VAR} placeholders for keys, never literal secrets. Docs: https://github.com/tiltmeter-dev/tiltmeter/blob/main/docs/configuration.md
@@ -160,99 +230,171 @@
 5. Add to CLAUDE.md or AGENTS.md: &quot;Before relying on a third-party API, call the tiltmeter has_drifted tool for it.&quot;
 
 Show me the endpoints you chose before writing the file.</pre>
-          <div class="panel-foot"><span class="dim">Paste it into any coding agent. It finds your APIs, writes the config and installs the server.</span><span class="btns"><button class="copy" type="button" data-copy-from="prompt">Copy</button></span></div>
+            <div class="panel-foot"><span>Paste it into any coding agent. It finds your APIs, writes the config and installs the server.</span><span class="btns"><button class="copy" type="button" data-copy-from="prompt">Copy</button></span></div>
+          </div>
         </div>
-        
       </div>
     </section>
 
-    <section class="block how">
-      <p class="kicker center">How it works</p>
-      <ol class="flow">
-        <li><b>Observe</b><span>Call the API, or start from a HAR your browser exported. Turn the JSON into a shape: types, required fields, enum values.</span></li>
-        <li><b>Compare</b><span>Check it against a rolling baseline. Only real contradictions count.</span></li>
-        <li><b>Warn</b><span>Fail CI, ping Slack, explain it with Claude, tell your agents. Once.</span></li>
-        <li><b>Fix</b><span>An agent adapts the code that reads the API. You review the pull request.</span></li>
-      </ol>
-      <p class="action-line"><code class="line">tiltmeter init --from-har session.har</code></p>
-    </section>
-
-    <section class="block ci">
-      <p class="kicker center">For CI</p>
-      <h2 class="center">An exit code that knows what broke.</h2>
-      <div class="codes">
-        <span class="glass chip"><b>0</b> clean</span>
-        <span class="glass chip"><b class="warn">1</b> warning</span>
-        <span class="glass chip"><b class="bad">2</b> breaking</span>
+    <section id="fix" class="wrap section">
+      <div class="split-head">
+        <div>
+          <p class="eyebrow">Fixes, too</p>
+          <h2>From drift to<br>pull request.</h2>
+        </div>
+        <p class="side"><code>tiltmeter fix</code> hands the change to an agent that finds the code reading that API, shows you the diff and, once you agree, opens the pull request. Run the built-in LangChain agent, or your own Claude Code or Codex login with no API key.</p>
       </div>
-      <p class="action-line"><code class="line">uses: tiltmeter-dev/tiltmeter-action@v1</code></p>
+
+      <div class="theater" data-theater>
+        <ol class="rail">
+          <li data-at="1">Drift found</li>
+          <li data-at="2">Clean worktree</li>
+          <li data-at="3">Agent edits</li>
+          <li data-at="8">You approve</li>
+          <li data-at="9">Pull request</li>
+        </ol>
+        <div class="stage">
+          <div class="term dark console">
+            <p><span class="ps">$</span> tiltmeter fix 26 --repo ~/code/billing-service</p>
+            <p data-at="1"><span class="bad">✗</span> <b>billing_customers</b>  <span class="mu">#26 · 200 · 13 ms</span>  <span class="bad">BREAKING · 3 changes</span></p>
+            <p data-at="2">Working on a new branch, <span class="k">tiltmeter/fix-billing-customers-26</span>, from main at <span class="k">162dadd</span>.</p>
+            <p data-at="3" data-until="5" class="mu working">agent is editing the worktree<span class="dots"></span></p>
+            <div data-at="6">
+              <p>3 files changed  <span class="ok">+5</span> <span class="bad">-5</span></p>
+              <p class="mu">diff --git a/billing/client.py b/billing/client.py</p>
+              <p class="bad">-    return f"{customer['name']} &lt;{customer['phone']}&gt;"</p>
+              <p class="ok">+    return f"{customer['name']} &lt;{customer['phone_number']}&gt;"</p>
+              <p class="mu">...</p>
+            </div>
+            <div data-at="7" class="report">
+              <p class="mu">╭─ agent ─────────────────────────────────╮</p>
+              <p>Billing customer code now reads <span class="k">phone_number</span> instead of <span class="k">phone</span>, in the client, the Customer TypedDict and the test fixture.</p>
+              <p class="warn">Left for a human:</p>
+              <p>  - The format of the string <span class="k">balance</span> is unknown ("1200" or "12.00"). Confirm it with the billing provider.</p>
+              <p class="mu">confidence medium</p>
+              <p class="mu">╰─────────────────────────────────────────╯</p>
+            </div>
+            <p data-at="8">Commit, push and open a pull request? [y/N]: <span class="answer">y</span></p>
+            <p data-at="9"><span class="ok">✓</span> opened https://github.com/acme/billing-service/pull/41</p>
+          </div>
+
+          <div class="desk">
+            <div class="view targets" data-at="1" data-until="1">
+              <p class="view-title">What the code has to follow</p>
+              <ul>
+                <li><code>$.data[*].phone</code> removed, possibly renamed to <code>phone_number</code></li>
+                <li><code>$.data[*].balance</code> integer → string</li>
+              </ul>
+              <p class="view-note">New fields, status and latency changes are left out.</p>
+            </div>
+
+            <div class="view worktree" data-at="2" data-until="8">
+              <p class="view-title">Worktree <span class="mu">· tiltmeter/fix-billing-customers-26</span></p>
+              <ul class="files">
+                <li data-edit="3"><span>billing/client.py</span><i></i></li>
+                <li data-edit="4"><span>billing/models.py</span><i></i></li>
+                <li data-edit="5"><span>tests/conftest.py</span><i></i></li>
+                <li class="blocked lock"><span>.env</span><i>blocked</i></li>
+                <li class="blocked lock"><span>.git</span><i>blocked</i></li>
+              </ul>
+              <p class="view-note">No network. Your checkout is never touched.</p>
+            </div>
+
+            <div class="view pr" data-at="9">
+              <div class="pr-head">
+                <span class="pr-state">Open</span>
+                <span><b>Follow billing_customers drift from check #26</b><br><span class="muted">tiltmeter/fix-billing-customers-26 → main · acme/billing-service#41</span></span>
+              </div>
+              <div class="pr-files"><span>3 files changed</span><span class="ok">+5</span><span class="bad">-5</span></div>
+<pre class="pr-diff"><span class="file">billing/client.py</span>
+<span class="del">-    return f"{customer['name']} &lt;{customer['phone']}&gt;"</span>
+<span class="add">+    return f"{customer['name']} &lt;{customer['phone_number']}&gt;"</span>
+<span class="file">billing/models.py</span>
+<span class="del">-    phone: str</span>
+<span class="add">+    phone_number: str</span></pre>
+              <div class="pr-note"><b>Left for a human</b> The format of <code>balance</code> is unknown: <code>"1200"</code> or <code>"12.00"</code>? Confirm it with the billing provider before merging.</div>
+            </div>
+          </div>
+        </div>
+        <button class="replay" type="button" hidden>↻ Replay</button>
+      </div>
+
+      <ul class="checks wide">
+        <li><b>Your checkout is never touched.</b> The agent works in a temporary git worktree on a new branch. Answer <code>n</code> and it is all discarded.</li>
+        <li><b>It stays inside the worktree.</b> No network, only tracked files; <code>.env</code> files, keys and <code>.git</code> are blocked.</li>
+        <li><b>It says what it could not do.</b> Tiltmeter sees types, not values, so format questions go to a human.</li>
+      </ul>
     </section>
 
-    <section class="block end">
-      <h2 class="center">Nothing leaves your machine.</h2>
-      <p class="sub">Secrets stay in your environment. Response bodies are never stored, only their shape. One SQLite file, no account. Claude only sees what you opt into.</p>
-      <div class="actions">
-        <button class="glass install" type="button" data-copy="pip install tiltmeter"><code>pip install tiltmeter</code><span class="hint">copy</span></button>
-        <a class="dark" href="https://github.com/tiltmeter-dev/tiltmeter">View on GitHub</a>
+    <section id="ci" class="band">
+      <div class="wrap section">
+        <div class="two">
+          <div>
+            <p class="eyebrow">For CI</p>
+            <h2>An exit code that<br>knows what broke.</h2>
+            <p class="body">The GitHub Action keeps the baseline in the Actions cache, writes the changes to the job summary and fails the job on drift. GitLab CI and cron work too.</p>
+            <div class="codes">
+              <span><b>0</b>no drift</span>
+              <span><b class="warn">1</b>warning</span>
+              <span><b class="bad">2</b>breaking</span>
+              <span><b class="mu">3</b>check couldn't run</span>
+              <span><b class="mu">4</b>config error</span>
+            </div>
+          </div>
+          <div class="term dark">
+<pre><span class="mu"># .github/workflows/api-drift.yml</span>
+<span class="k">- uses:</span> tiltmeter-dev/tiltmeter-action@v1
+  <span class="k">env:</span>
+    <span class="k">STRIPE_API_KEY:</span> ${{ secrets.STRIPE_API_KEY }}</pre>
+<pre class="sep"><span class="mu"># tiltmeter.yaml</span>
+<span class="k">notify:</span>
+  - <span class="k">type:</span> slack
+    <span class="k">webhook_url:</span> ${SLACK_WEBHOOK_URL}</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap section">
+      <p class="eyebrow">How it compares</p>
+      <h2>Needs nothing<br>from the vendor.</h2>
+      <div class="compare">
+        <div><b>OpenAPI diff tools</b><span>Compare two versions of a spec. Right when the vendor maintains one, blind to what they didn't document.</span></div>
+        <div><b>Contract testing</b><span>Needs the provider to run your contracts, which third-party vendors don't do.</span></div>
+        <div><b>Uptime monitors</b><span>Tell you the API is up. You write and maintain the response assertions yourself.</span></div>
+        <div class="us"><b>Tiltmeter</b><span>Learns the contract from real responses, catches undocumented changes and hands what it learns to your agents.</span></div>
+      </div>
+    </section>
+
+    <section class="wrap section privacy">
+      <h2>Nothing leaves<br>your machine.</h2>
+      <ul>
+        <li><b>One SQLite file, no account.</b> Shapes, status codes, latencies and changes. Response bodies only if you turn samples on.</li>
+        <li><b>Secrets stay in your environment.</b> <code>${VAR}</code> values are expanded at request time and never written to disk or sent to the LLM.</li>
+        <li><b>Models see only what you opt into.</b> Explanations and fixes get the change list and the files the agent opens, never response values.</li>
+      </ul>
+    </section>
+
+    <section class="wrap end">
+      <h2>Put a tiltmeter<br>under your agents<span class="needle">.</span></h2>
+      <div class="cta">
+        <button class="install" type="button" data-copy="pip install tiltmeter"><span class="ps">$</span><code>pip install tiltmeter</code><span class="hint">copy</span></button>
+        <a class="btn" href="https://github.com/tiltmeter-dev/tiltmeter">View on GitHub</a>
       </div>
     </section>
   </main>
 
-  <footer class="foot">
-    <a href="https://github.com/tiltmeter-dev/tiltmeter/blob/main/docs/getting-started.md">Docs</a>
-    <a href="https://pypi.org/project/tiltmeter/">PyPI</a>
-    <span>MIT</span>
+  <footer class="foot wrap">
+    <span>tiltmeter · MIT</span>
+    <span class="foot-links">
+      <a href="https://github.com/tiltmeter-dev/tiltmeter/blob/main/docs/getting-started.md">Docs</a>
+      <a href="https://pypi.org/project/tiltmeter/">PyPI</a>
+      <a href="https://github.com/tiltmeter-dev/tiltmeter-action">GitHub Action</a>
+      <a href="https://github.com/tiltmeter-dev/tiltmeter">GitHub</a>
+      <a href="/llms.txt">llms.txt</a>
+    </span>
   </footer>
 
-  <script>
-    for (const el of document.querySelectorAll("[data-copy]")) {
-      el.addEventListener("click", async () => {
-        const hint = el.querySelector(".hint");
-        try { await navigator.clipboard.writeText(el.dataset.copy); hint.textContent = "copied"; }
-        catch { hint.textContent = "⌘C"; }
-        setTimeout(() => (hint.textContent = "copy"), 1400);
-      });
-    }
-
-    const typed = document.querySelector(".typed");
-    const out = document.querySelector(".out");
-    const reveal = () => out.classList.add("show");
-    if (typed) {
-      const text = typed.dataset.text;
-      if (matchMedia("(prefers-reduced-motion: reduce)").matches) { typed.textContent = text; reveal(); }
-      else {
-        let i = 0;
-        const tick = () => { typed.textContent = text.slice(0, ++i); i < text.length ? setTimeout(tick, 55 + Math.random() * 50) : setTimeout(reveal, 380); };
-        setTimeout(tick, 700);
-      }
-    }
-
-    const card = document.querySelector("[data-tilt]");
-    const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (card && !calm) {
-      addEventListener("pointermove", (e) => {
-        const r = card.getBoundingClientRect();
-        const x = (e.clientX - (r.left + r.width / 2)) / innerWidth;
-        const y = (e.clientY - (r.top + r.height / 2)) / innerHeight;
-        card.style.setProperty("--rx", `${(-y * 4).toFixed(2)}deg`);
-        card.style.setProperty("--ry", `${(x * 5).toFixed(2)}deg`);
-        card.style.setProperty("--gx", `${50 + x * 60}%`);
-      });
-    }
-
-    for (const tab of document.querySelectorAll(".tab")) {
-      tab.addEventListener("click", () => {
-        for (const t of document.querySelectorAll(".tab")) t.classList.toggle("on", t === tab);
-        for (const p of document.querySelectorAll(".panel")) p.classList.toggle("on", p.dataset.panel === tab.dataset.tab);
-      });
-    }
-    for (const btn of document.querySelectorAll("[data-copy-from]")) {
-      btn.addEventListener("click", async () => {
-        const text = document.querySelector(`[data-panel="${btn.dataset.copyFrom}"] .snippet`).textContent;
-        try { await navigator.clipboard.writeText(text); btn.textContent = "Copied"; } catch { btn.textContent = "Select & copy"; }
-        setTimeout(() => (btn.textContent = "Copy"), 1400);
-      });
-    }
-  </script>
+  <script src="script.js" defer></script>
 </body>
 </html>

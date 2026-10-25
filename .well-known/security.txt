@@ -1,0 +1,5 @@
+Contact: https://github.com/tiltmeter-dev/tiltmeter/security/advisories/new
+Expires: 2027-10-25T00:00:00.000Z
+Policy: https://github.com/tiltmeter-dev/tiltmeter/blob/main/SECURITY.md
+Preferred-Languages: en
+Canonical: https://tiltmeter.dev/.well-known/security.txt
