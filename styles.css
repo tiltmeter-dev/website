@@ -213,6 +213,7 @@ code.line {
 
 .split-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr); gap: 40px; align-items: end; }
 .side { color: var(--soft); max-width: 440px; justify-self: end; }
+.side p + p { margin-top: 14px; }
 .table { margin-top: 48px; border-radius: 16px; border: 1px solid var(--line); background: var(--card); overflow: hidden; }
 .tr { display: grid; grid-template-columns: 230px minmax(0, 1fr) 130px; gap: 20px; align-items: center; padding: 15px 22px; font-size: 0.93rem; }
 .tr + .tr { border-top: 1px solid var(--line-2); }
