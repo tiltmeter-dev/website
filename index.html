@@ -413,6 +413,16 @@ Show me the endpoints you chose before writing the file.</pre>
       </div>
     </section>
 
+    <section id="field-report" class="wrap section">
+      <div class="split-head">
+        <div>
+          <p class="eyebrow">Field report · October 2026</p>
+          <h2>Stripe's own sample<br>broke on Stripe's API.</h2>
+        </div>
+        <p class="side">We searched public code for fields that Stripe and Spotify removed. 78 repositories still read Stripe's <code>subscription.current_period_end</code>, gone since API version 2025-03-31, and 228 use Spotify fields and endpoints that changed for new apps in February 2026. One of them was Stripe's official subscription sample, which no longer type-checks against Stripe's own SDK. Tiltmeter fixed it and 14 others we checked by hand, and the pull requests are open. <a href="https://github.com/stripe-samples/subscription-use-cases/pull/1229">The fix for Stripe's sample →</a></p>
+      </div>
+    </section>
+
     <section class="wrap section">
       <p class="eyebrow">How it compares</p>
       <h2>Needs nothing<br>from the vendor.</h2>
