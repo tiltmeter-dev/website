@@ -19,6 +19,7 @@ Install with `pip install tiltmeter` (Python 3.12 or later). It runs locally wit
 ## For agents
 
 - [Full reference](https://tiltmeter.dev/llms-full.txt): setup steps, commands, MCP tools, drift types and exit codes in one file
+- [Migration tracker](https://tiltmeter.dev/migrations/): the pull requests Tiltmeter opened in public repositories to fix code using API changes, grouped by provider, with their status on GitHub; the data is at https://tiltmeter.dev/migrations/status.json. Tiltmeter drafted these change notices from public documentation; no provider signed or endorsed them
 
 ## Optional
 

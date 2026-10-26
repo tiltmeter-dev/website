@@ -387,6 +387,68 @@ blockquote { margin-top: 28px; max-width: 520px; padding: 4px 0 4px 18px; border
 .fit-yes li { position: relative; padding-left: 22px; color: var(--ink-2); }
 .fit-yes li::before { content: "✓"; position: absolute; left: 0; color: var(--red); font-weight: 600; }
 
+
+/* Migration tracker (pages written by scripts/migrations.py) */
+.links a.on { color: var(--ink); }
+.mig-hero { padding-bottom: 40px; }
+.mig-hero h1 { font-size: clamp(2.3rem, 5.6vw, 4.6rem); line-height: 0.98; letter-spacing: -0.05em; overflow-wrap: anywhere; }
+.mig-hero .lede { margin-top: 32px; }
+.crumbs { margin-bottom: 22px; font: 0.82rem var(--mono); color: var(--soft); }
+.crumbs a, .asof a, .mig-hero .lede a { color: var(--ink); border-bottom: 1px solid var(--line); }
+.crumbs a:hover, .asof a:hover { border-color: var(--ink); }
+.asof { margin-top: 18px; font: 0.82rem/1.7 var(--mono); color: var(--soft); overflow-wrap: anywhere; }
+.stats { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
+.stat {
+  display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 8px;
+  padding: 18px 20px; border-radius: 16px; border: 1px solid var(--line); background: var(--card);
+}
+.stat dd { font-size: clamp(1.7rem, 3vw, 2.3rem); line-height: 1; font-weight: 600; letter-spacing: -0.045em; font-variant-numeric: tabular-nums; }
+.stat dt { font-size: 0.85rem; line-height: 1.35; color: var(--soft); }
+.stat.merged dt::before, .stat.open dt::before, .stat.closed dt::before {
+  content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 7px; border-radius: 50%; vertical-align: 1px;
+}
+.stat.merged dt::before { background: var(--green); }
+.stat.open dt::before { background: var(--blue); }
+.stat.closed dt::before { background: var(--red); }
+.mig-note {
+  display: block; margin-top: 24px; max-width: 860px; padding: 18px 22px;
+  border-radius: 14px; border: 1px solid var(--line); border-left: 3px solid var(--red);
+  background: var(--card); color: var(--ink-2); font-size: 0.95rem;
+}
+.mig-note b { display: block; margin-bottom: 4px; color: var(--ink); font-weight: 600; }
+.section.mig-section { padding: 96px 0 0; }
+.scroll { margin-top: 40px; max-width: 100%; overflow-x: auto; border-radius: 16px; border: 1px solid var(--line); background: var(--card); }
+.data { width: 100%; min-width: 760px; border-collapse: collapse; font-size: 0.93rem; }
+.data th {
+  padding: 13px 20px; text-align: left; white-space: nowrap; background: rgba(20, 20, 22, 0.03);
+  font: 500 0.7rem var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--soft);
+}
+.data td { padding: 13px 20px; border-top: 1px solid var(--line-2); color: var(--ink-2); vertical-align: middle; }
+.data a { color: var(--ink); font-weight: 500; }
+.data a:hover { color: var(--red-ink); }
+.data .num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.data .date { white-space: nowrap; font: 0.85rem var(--mono); color: var(--soft); }
+.data .prov a { display: flex; flex-direction: column; gap: 2px; }
+.data .prov b { font-weight: 600; }
+.data .prov span { font-weight: 400; font-size: 0.88rem; color: var(--soft); }
+.data .prov a:hover span { color: var(--red-ink); }
+.data .anon { color: var(--soft); font-style: italic; }
+.badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font: 500 0.75rem var(--mono); white-space: nowrap; }
+.badge.merged { background: rgba(35, 130, 79, 0.12); color: var(--green); }
+.badge.open { background: rgba(44, 102, 201, 0.11); color: var(--blue); }
+.badge.closed { background: rgba(226, 85, 45, 0.13); color: var(--red-ink); }
+.footnote { margin-top: 16px; max-width: 860px; font-size: 0.85rem; color: var(--soft); }
+
+@media (max-width: 960px) {
+  .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 620px) {
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat { padding: 16px; }
+  .section.mig-section { padding-top: 72px; }
+}
+
 @media (max-width: 960px) {
   .links { display: none; }
   .nav-in { justify-content: space-between; }
