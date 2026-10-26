@@ -87,7 +87,7 @@ Every option: https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/doc
 | `latency_regression` | median latency over 3x the baseline and at least 250 ms slower | warning |
 | `field_added` | a new `phone_number` field | info, or warning with `strict: true` |
 
-A removed field next to a similar new one is flagged as a probable rename. Override any severity globally or per endpoint with `severity_overrides`.
+A removed field next to a similar new one is flagged as a probable rename. Override any severity globally or per endpoint with `severity_overrides`. Provider notices and spec diffs also report `endpoint_removed` (an endpoint is gone, with `moved_to` when it moved) and `value_retired` (requests can no longer send a value, such as a retired model id, with `replaced_by`), both breaking.
 
 How it decides: a check turns the JSON body into a shape (the JSON types at every path, how many objects contained each field and, for categorical fields, which values were seen). The baseline is the merge of the shapes from the last 20 successful checks, and only contradictions are reported. The new shape then joins the baseline, so each change is reported once.
 

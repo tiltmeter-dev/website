@@ -68,7 +68,7 @@
         <p class="side">A notice is a small JSON file in an <a href="https://github.com/tiltmeter-dev/tiltmeter/blob/main/docs/notice-spec.md">open format</a>: the same paths and change kinds Tiltmeter uses for drift, so a customer's agent knows exactly what to follow, without reading prose.</p>
       </div>
       <div class="compare">
-        <div><b>1 · Describe</b><span>Draft it from the old and new versions of your OpenAPI spec, or from a check of your staging API. Renames, new types and new nulls are found for you.</span></div>
+        <div><b>1 · Describe</b><span>Draft it from the old and new versions of your OpenAPI spec, or from a check of your staging API. Renames, new types, new nulls and endpoints that moved are found for you; add a retired model or value by hand.</span></div>
         <div><b>2 · Sign</b><span>Ed25519, with the public key at <code>/.well-known/api-change-key</code> on your domain. Only you can speak for your API.</span></div>
         <div><b>3 · Publish</b><span>Add it to <code>/.well-known/api-changes.json</code>, a static file any host serves: your docs site, GitHub Pages, a bucket.</span></div>
         <div class="us"><b>4 · They merge</b><span>Each customer's scheduled job reads your feed, checks the signature, and opens a pull request only where their code uses what changed.</span></div>
