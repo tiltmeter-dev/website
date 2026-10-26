@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tiltmeter for API providers · Ship your API changes as pull requests</title>
+  <meta name="description" content="Describe an API change once, in a signed notice on your own domain, and every customer that follows you gets a pull request that adapts their code before the old responses stop. Open format, open source.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://tiltmeter.dev/providers/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tiltmeter.dev/providers/">
+  <meta property="og:title" content="Tiltmeter for API providers: don't just announce API changes, apply them">
+  <meta property="og:description" content="One signed notice on your domain; a pull request in every customer's repository that uses what changed. Open source, no server in between.">
+  <meta property="og:image" content="https://tiltmeter.dev/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tiltmeter for API providers">
+  <meta name="twitter:description" content="Don't just announce API changes: ship them to your customers as pull requests.">
+  <meta name="twitter:image" content="https://tiltmeter.dev/og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-in">
+      <a class="brand" href="/" aria-label="Tiltmeter home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="#141416"/><path d="M6 20 Q16 6 26 20" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity=".35"/><path d="M16 18 L22 9" stroke="#e2552d" stroke-width="3" stroke-linecap="round"/><circle cx="16" cy="18" r="2.6" fill="#e2552d"/></svg>
+        tiltmeter
+      </a>
+      <nav class="links" aria-label="Sections">
+        <a href="#how">How it works</a>
+        <a href="#ci">From CI</a>
+        <a href="#customers">Your customers</a>
+        <a href="#trust">Trust</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a class="btn ghost" href="https://github.com/tiltmeter-dev/tiltmeter">GitHub</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero wrap">
+      <p class="kicker">For API providers · Open format · MIT</p>
+      <h1>Don't just announce <br>API changes. Apply them<span class="needle">.</span></h1>
+      <div class="hero-row">
+        <p class="lede">Describe a change once, in a signed notice on your own domain. Every customer that follows you gets a pull request that adapts their code, before the old responses stop. No server in between, and none of their code leaves their CI.</p>
+        <div class="cta">
+          <button class="install" type="button" data-copy="pip install tiltmeter"><span class="ps">$</span><code>pip install tiltmeter</code><span class="hint">copy</span></button>
+          <a class="more" href="https://github.com/tiltmeter-dev/tiltmeter/discussions/new?category=provider-mode">Publish your first notice with us →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="statement wrap">
+      <p>Changelogs nobody reads, deprecation emails that land in a shared inbox, and a cutoff date that arrives anyway. Then the tickets start. Your customers' code reads <code>phone</code> the day you ship <code>phone_number</code>, and every one of them fixes it alone.</p>
+    </section>
+
+    <section id="how" class="wrap section">
+      <div class="split-head">
+        <div>
+          <p class="eyebrow">How it works</p>
+          <h2>One notice.<br>A pull request each.</h2>
+        </div>
+        <p class="side">A notice is a small JSON file in an <a href="https://github.com/tiltmeter-dev/tiltmeter/blob/main/docs/notice-spec.md">open format</a>: the same paths and change kinds Tiltmeter uses for drift, so a customer's agent knows exactly what to follow, without reading prose.</p>
+      </div>
+      <div class="compare">
+        <div><b>1 · Describe</b><span>Draft it from the old and new versions of your OpenAPI spec, or from a check of your staging API. Renames, new types and new nulls are found for you.</span></div>
+        <div><b>2 · Sign</b><span>Ed25519, with the public key at <code>/.well-known/api-change-key</code> on your domain. Only you can speak for your API.</span></div>
+        <div><b>3 · Publish</b><span>Add it to <code>/.well-known/api-changes.json</code>, a static file any host serves: your docs site, GitHub Pages, a bucket.</span></div>
+        <div class="us"><b>4 · They merge</b><span>Each customer's scheduled job reads your feed, checks the signature, and opens a pull request only where their code uses what changed.</span></div>
+      </div>
+      <div class="two" style="margin-top: 48px">
+        <div>
+          <h3>Write it in a minute.</h3>
+          <p class="body">Review the draft, rewrite the summary in your words, and add a <code>note</code> where the new format matters, such as "a decimal string, like <code>12.00</code>". The date the old responses stop goes in the pull request title.</p>
+        </div>
+        <div class="term dark">
+<pre><span class="ps">$</span> tiltmeter notice keygen key.pem \
+    --public site/.well-known/api-change-key
+<span class="ps">$</span> tiltmeter notice create --from-openapi v2.yaml v3.yaml \
+    --effective 2026-12-01 -o notice.json
+<span class="ok">✓</span> drafted notice 2026-11-03-customers with 4 changes
+<span class="ps">$</span> tiltmeter notice sign notice.json --key key.pem
+<span class="ps">$</span> tiltmeter notice publish notice.json \
+    --feed site/.well-known/api-changes.json
+<span class="ok">✓</span> published 2026-11-03-customers</pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="ci" class="band">
+      <div class="wrap section">
+        <div class="two">
+          <div>
+            <p class="eyebrow">From CI</p>
+            <h2>Every spec change<br>comes with its notice.</h2>
+            <p class="body">The GitHub Action comments a draft notice on every pull request that changes your spec's responses, and can fail the check until one is added. On merge, it signs the notices with your secret key into the feed and hands the folder to Pages.</p>
+            <p class="body"><a href="https://github.com/tiltmeter-dev/tiltmeter/blob/main/examples/provider-notices.yml">The full workflow →</a></p>
+          </div>
+          <div class="term dark">
+<pre><span class="mu"># .github/workflows/api-notices.yml</span>
+<span class="k">- uses:</span> tiltmeter-dev/tiltmeter-action@v1
+  <span class="k">with:</span>
+    <span class="k">mode:</span> notice-draft      <span class="mu"># on pull requests</span>
+    <span class="k">spec:</span> openapi.yaml
+    <span class="k">require-notice:</span> true</pre>
+<pre class="sep"><span class="k">- uses:</span> tiltmeter-dev/tiltmeter-action@v1
+  <span class="k">with:</span>
+    <span class="k">mode:</span> notice-publish    <span class="mu"># on main</span>
+  <span class="k">env:</span>
+    <span class="k">TILTMETER_SIGNING_KEY:</span> ${{ secrets.TILTMETER_SIGNING_KEY }}</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="customers" class="wrap section">
+      <div class="two">
+        <div>
+          <p class="eyebrow">Your customers</p>
+          <h2>Two lines on<br>their side.</h2>
+          <p class="body">They list you under <code>subscriptions</code> and add a scheduled workflow. A plain text search decides first whether a repository uses your hosts, paths, SDKs and the fields that change, so the ones that don't cost nothing and get nothing. The fix runs on their own agent and API key, in a sandboxed worktree, and lands as a pull request they review.</p>
+          <ul class="checks">
+            <li><b>Before the cutoff.</b> The pull request opens as soon as you publish, dated with <code>effective_at</code>.</li>
+            <li><b>Left for a human.</b> What the agent cannot know, such as a new number format, is listed for the reviewer, with your note quoted.</li>
+            <li><b>No lock-in.</b> The format is open, and anyone can implement a reader.</li>
+          </ul>
+        </div>
+        <div class="term dark">
+<pre><span class="mu"># tiltmeter.yaml</span>
+<span class="k">subscriptions:</span>
+  - <span class="k">provider:</span> api.acme.example</pre>
+<pre class="sep"><span class="mu"># .github/workflows/api-notices.yml, every 6 hours</span>
+<span class="k">- uses:</span> tiltmeter-dev/tiltmeter-action@v1
+  <span class="k">with:</span>
+    <span class="k">mode:</span> notices</pre>
+<pre class="sep"><span class="ok">✓</span> opened https://github.com/their-org/billing/pull/42
+<span class="mu">- api.acme.example  2026-11-03-customers  not affected</span></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="trust" class="wrap section privacy">
+      <h2>Only you can<br>speak for your API.</h2>
+      <ul>
+        <li><b>Signed by your domain.</b> A notice verifies only against the key at <code>https://&lt;you&gt;/.well-known/api-change-key</code>, and every endpoint in it must be on your domain.</li>
+        <li><b>Inert text.</b> Your summary and notes reach agents marked as data, never as instructions, and pull requests as plain text: no links, mentions or HTML.</li>
+        <li><b>Nothing merges itself.</b> Your customers review every pull request like any other change. Their code stays in their CI.</li>
+      </ul>
+    </section>
+
+    <section id="faq" class="wrap section">
+      <p class="eyebrow">Questions</p>
+      <h2>Before you<br>publish.</h2>
+      <div class="compare">
+        <div><b>No OpenAPI spec?</b><span>Point Tiltmeter at your staging API; the check that sees the change becomes the draft with <code>notice create --from-check</code>.</span></div>
+        <div><b>Do customers need Tiltmeter?</b><span>To get pull requests today, yes: a free CLI or Action. The format is open for anyone to read.</span></div>
+        <div><b>Versioned API?</b><span>Announce the changes of a new version as they ship; customers who follow your spec instead can wait until they adopt it.</span></div>
+        <div class="us"><b>What does it cost?</b><span>Nothing: MIT. A hosted app with delivery and merge stats for providers is next.</span></div>
+      </div>
+    </section>
+
+    <section class="wrap end">
+      <h2>Publish your first<br>notice with us<span class="needle">.</span></h2>
+      <div class="cta">
+        <a class="btn" href="https://github.com/tiltmeter-dev/tiltmeter/discussions/new?category=provider-mode">Start a discussion</a>
+        <a class="more" href="https://github.com/tiltmeter-dev/tiltmeter/blob/main/docs/notices.md">Read the guide →</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot wrap">
+    <span>tiltmeter · MIT</span>
+    <span class="foot-links">
+      <a href="/">Home</a>
+      <a href="https://github.com/tiltmeter-dev/tiltmeter/blob/main/docs/notice-spec.md">Notice spec</a>
+      <a href="/schemas/api-change-notice/v1.json">JSON Schema</a>
+      <a href="https://github.com/tiltmeter-dev/tiltmeter-action">GitHub Action</a>
+      <a href="https://github.com/tiltmeter-dev/tiltmeter">GitHub</a>
+      <a href="/llms.txt">llms.txt</a>
+    </span>
+  </footer>
+
+  <script src="/script.js" defer></script>
+</body>
+</html>

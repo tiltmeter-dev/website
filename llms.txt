@@ -13,6 +13,8 @@ Install with `pip install tiltmeter` (Python 3.12 or later). It runs locally wit
 - [CI](https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/ci.md): exit codes and jobs for GitHub Actions, GitLab CI and cron
 - [How it works](https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/how-it-works.md): shapes, baselines and what counts as drift
 - [FAQ](https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/faq.md)
+- [Provider notices](https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/notices.md): providers publish signed change notices; customers get a pull request per change that affects their code, or follow a provider's OpenAPI spec directly
+- [API change notices, v1](https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/notice-spec.md): the open notice and feed format, signatures and the rules for readers, with JSON Schemas at https://tiltmeter.dev/schemas/api-change-notice/v1.json and https://tiltmeter.dev/schemas/api-change-feed/v1.json
 
 ## For agents
 

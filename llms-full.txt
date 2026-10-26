@@ -165,6 +165,31 @@ tiltmeter fix 2 --agent claude-code     # or --agent codex, on your own login, n
 
 Details: https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/fix.md
 
+## Provider notices
+
+An API provider describes a change once, in a signed JSON notice served from its own domain, and every customer that follows the provider gets a pull request that adapts its code. When a provider publishes no notices, a customer can follow its OpenAPI spec instead.
+
+Provider side:
+
+```bash
+tiltmeter notice keygen key.pem --public site/.well-known/api-change-key
+tiltmeter notice create --from-openapi v2.yaml v3.yaml --effective 2026-12-01 -o notice.json   # or --from-check <id>
+tiltmeter notice sign notice.json --key key.pem
+tiltmeter notice publish notice.json --feed site/.well-known/api-changes.json
+```
+
+Customer side, in `tiltmeter.yaml`:
+
+```yaml
+subscriptions:
+  - provider: api.partner.example        # reads https://api.partner.example/.well-known/api-changes.json
+  - openapi: https://raw.githubusercontent.com/acme/api/main/openapi.json   # follows a spec instead
+```
+
+Then `tiltmeter notices check --repo .` lists what is new (read-only) and `tiltmeter notices apply --repo . --yes` opens one pull request per change that affects the repository. A plain text search for the API's hosts, paths, SDKs and changed field names decides first, without an LLM; each notice is handled once. Only notices signed with the key at `https://<provider>/.well-known/api-change-key` act on their own; `tiltmeter fix --notice <file> --allow-unsigned` handles one by hand. The Action runs it on a schedule with `mode: notices`, and providers draft and publish notices from CI with `mode: notice-draft` and `mode: notice-publish`.
+
+Format: https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/notice-spec.md · Guide: https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/notices.md · Schemas: https://tiltmeter.dev/schemas/api-change-notice/v1.json
+
 ## CI
 
 | Exit code | Meaning |
