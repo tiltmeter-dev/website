@@ -53,5 +53,13 @@
     <loc>https://tiltmeter.dev/migrations/slack/</loc>
     <lastmod>2026-10-27</lastmod>
   </url>
+  <url>
+    <loc>https://tiltmeter.dev/migrations/huggingface/</loc>
+    <lastmod>2026-10-27</lastmod>
+  </url>
+  <url>
+    <loc>https://tiltmeter.dev/migrations/hubspot/</loc>
+    <lastmod>2026-10-27</lastmod>
+  </url>
   <!-- /migrations -->
 </urlset>

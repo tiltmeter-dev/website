@@ -83,7 +83,14 @@
   "source": "https://developer.atlassian.com/changelog/#CHANGE-2046",
   "prs": [
    "https://github.com/DevOpsMadDog/Fixops/pull/273",
+   "https://github.com/HolmesGPT/holmesgpt/pull/2671",
+   "https://github.com/andrewyng/openworker/pull/796",
+   "https://github.com/badges/shields/pull/12262",
+   "https://github.com/beenuar/AiSOC/pull/1524",
    "https://github.com/getdango/dango/pull/705",
+   "https://github.com/git-bug/git-bug/pull/1718",
+   "https://github.com/huginn/huginn/pull/3816",
+   "https://github.com/koderover/zadig/pull/5049",
    "https://github.com/serenity-bdd/serenity-core/pull/3756"
   ]
  },
@@ -117,6 +124,31 @@
    "https://github.com/intuit/auto/pull/2552",
    "https://github.com/openreplay/openreplay/pull/5067",
    "https://github.com/six2dez/reconftw/pull/1063"
+  ]
+ },
+ "huggingface": {
+  "title": "Hugging Face serverless Inference API retired",
+  "provider": "Hugging Face",
+  "source": "https://huggingface.co/docs/inference-providers/providers/hf-inference",
+  "prs": [
+   "https://github.com/RightNow-AI/openfang/pull/1299",
+   "https://github.com/SciSharp/BotSharp/pull/1464",
+   "https://github.com/Tencent/AI-Infra-Guard/pull/728",
+   "https://github.com/future-agi/future-agi/pull/3625",
+   "https://github.com/higress-group/higress/pull/5265",
+   "https://github.com/kwaroran/Risuai/pull/1703",
+   "https://github.com/microsoft/semantic-kernel/pull/14667",
+   "https://github.com/obsidianmd/obsidian-clipper/pull/1006",
+   "https://github.com/open-metadata/OpenMetadata/pull/36296",
+   "https://github.com/tmc/langchaingo/pull/1564"
+  ]
+ },
+ "hubspot": {
+  "title": "HubSpot Pipelines API v1 sunset (December 4, 2026)",
+  "provider": "HubSpot",
+  "source": "https://developers.hubspot.com/changelog/pipelines-api-v1-sunset",
+  "prs": [
+   "https://github.com/airbytehq/airbyte/pull/89936"
   ]
  }
 }
