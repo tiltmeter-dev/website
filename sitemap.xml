@@ -45,5 +45,13 @@
     <loc>https://tiltmeter.dev/migrations/spotify/</loc>
     <lastmod>2026-10-27</lastmod>
   </url>
+  <url>
+    <loc>https://tiltmeter.dev/migrations/openweathermap/</loc>
+    <lastmod>2026-10-27</lastmod>
+  </url>
+  <url>
+    <loc>https://tiltmeter.dev/migrations/slack/</loc>
+    <lastmod>2026-10-27</lastmod>
+  </url>
   <!-- /migrations -->
 </urlset>

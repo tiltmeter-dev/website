@@ -1,100 +1,122 @@
 {
-  "groq": {
-    "provider": "Groq",
-    "title": "Groq model retirements",
-    "source": "https://console.groq.com/docs/deprecations",
-    "prs": [
-      "https://github.com/Blueturboguy07/cue/pull/108",
-      "https://github.com/BuilderIO/agent-native/pull/8249",
-      "https://github.com/LeanBitLab/LeanType/pull/737",
-      "https://github.com/LibreChat-AI/LibreChat/pull/17472",
-      "https://github.com/MervinPraison/PraisonAI/pull/6069",
-      "https://github.com/Nutlope/aicommits/pull/379",
-      "https://github.com/cdhigh/KindleEar/pull/747",
-      "https://github.com/di-sukharev/opencommit/pull/593",
-      "https://github.com/dongsheng123132/u-claw/pull/82",
-      "https://github.com/elie222/inbox-zero/pull/4356",
-      "https://github.com/eosphoros-ai/DB-GPT/pull/3318",
-      "https://github.com/harvard-edge/cs249r_book/pull/2163",
-      "https://github.com/nullclaw/nullclaw/pull/1082",
-      "https://github.com/pbek/QOwnNotes/pull/3813",
-      "https://github.com/tegnike/aituber-kit/pull/625"
-    ]
-  },
-  "anthropic": {
-    "provider": "Anthropic",
-    "title": "Anthropic model retirements",
-    "source": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
-    "prs": [
-      "https://github.com/Flux159/mcp-chat/pull/46",
-      "https://github.com/Mangaba-ai/mangaba_ai/pull/26",
-      "https://github.com/SpectrAI-Initiative/InnoClaw/pull/117",
-      "https://github.com/TrixSec/waymap/pull/7",
-      "https://github.com/ZhuLinsen/daily_stock_analysis/pull/2435",
-      "https://github.com/browser-use/browser-use/pull/6217",
-      "https://github.com/bytedance/deer-flow/pull/7585",
-      "https://github.com/corespeed-io/zypher-agent/pull/174",
-      "https://github.com/domleca/llm-wiki/pull/15",
-      "https://github.com/fabriziosalmi/UglyFeed/pull/79",
-      "https://github.com/inngest/utah/pull/28",
-      "https://github.com/radareorg/r2ai/pull/249",
-      "https://github.com/ruvnet/ruflo/pull/4512",
-      "https://github.com/shareAI-lab/learn-claude-code/pull/602",
-      "https://github.com/supermemoryai/llm-bridge/pull/14",
-      "https://github.com/workos/case/pull/26"
-    ]
-  },
-  "openai": {
-    "provider": "OpenAI",
-    "title": "OpenAI model shutdowns",
-    "source": "https://developers.openai.com/api/docs/deprecations",
-    "prs": [
-      "https://github.com/ChatGPTNextWeb/NextChat/pull/6925",
-      "https://github.com/Mintplex-Labs/anything-llm/pull/6851",
-      "https://github.com/Shubhamsaboo/awesome-llm-apps/pull/1266",
-      "https://github.com/datawhalechina/hello-agents/pull/1004"
-    ]
-  },
-  "stripe": {
-    "provider": "Stripe",
-    "title": "Stripe API 2025-03-31 (basil): subscription periods",
-    "source": "https://docs.stripe.com/changelog/basil/2025-03-31/deprecate-subscription-current-period-start-and-end",
-    "prs": [
-      "https://github.com/AI-WonderLand1/AI-PLAYGROUND/pull/119",
-      "https://github.com/DahboorSa/nestjs-saas-starter/pull/1",
-      "https://github.com/Joseyosei/Share-The-Link/pull/112",
-      "https://github.com/SabaTech-dev/QA-FRAMEWORK/pull/295",
-      "https://github.com/TesslateAI/Designer/pull/21",
-      "https://github.com/betterchoicedev/NewClientsWeb/pull/14",
-      "https://github.com/createdbymax/Loopletter-Open-source-email-marketing-platform/pull/2",
-      "https://github.com/imseby2002/ai-gate-app/pull/597",
-      "https://github.com/ivan-hill/glibra-main/pull/4",
-      "https://github.com/justnode/better-saas/pull/25",
-      "https://github.com/kajalgurjar29/Keno-Backend/pull/1",
-      "https://github.com/maitamdev/Anti-Scam/pull/2",
-      "https://github.com/siberlink/energyriskiq-ops/pull/1",
-      "https://github.com/stripe-samples/subscription-use-cases/pull/1229",
-      "https://github.com/talivia-group/talivia/pull/6"
-    ]
-  },
-  "jira": {
-    "provider": "Atlassian",
-    "title": "Jira Cloud: search endpoints removed (CHANGE-2046)",
-    "source": "https://developer.atlassian.com/changelog/#CHANGE-2046",
-    "prs": [
-      "https://github.com/DevOpsMadDog/Fixops/pull/273",
-      "https://github.com/getdango/dango/pull/705",
-      "https://github.com/serenity-bdd/serenity-core/pull/3756"
-    ]
-  },
-  "spotify": {
-    "provider": "Spotify",
-    "title": "Spotify Web API: February 2026 changes",
-    "source": "https://developer.spotify.com/documentation/web-api/tutorials/february-2026-migration-guide",
-    "prs": [
-      "https://github.com/mralexsaavedra/spotiarr/pull/287",
-      "https://github.com/trungvose/angular-spotify/pull/126",
-      "https://github.com/watsonbox/exportify/pull/241"
-    ]
-  }
+ "groq": {
+  "provider": "Groq",
+  "title": "Groq model retirements",
+  "source": "https://console.groq.com/docs/deprecations",
+  "prs": [
+   "https://github.com/Blueturboguy07/cue/pull/108",
+   "https://github.com/BuilderIO/agent-native/pull/8249",
+   "https://github.com/LeanBitLab/LeanType/pull/737",
+   "https://github.com/LibreChat-AI/LibreChat/pull/17472",
+   "https://github.com/MervinPraison/PraisonAI/pull/6069",
+   "https://github.com/Nutlope/aicommits/pull/379",
+   "https://github.com/cdhigh/KindleEar/pull/747",
+   "https://github.com/di-sukharev/opencommit/pull/593",
+   "https://github.com/dongsheng123132/u-claw/pull/82",
+   "https://github.com/elie222/inbox-zero/pull/4356",
+   "https://github.com/eosphoros-ai/DB-GPT/pull/3318",
+   "https://github.com/harvard-edge/cs249r_book/pull/2163",
+   "https://github.com/nullclaw/nullclaw/pull/1082",
+   "https://github.com/pbek/QOwnNotes/pull/3813",
+   "https://github.com/tegnike/aituber-kit/pull/625"
+  ]
+ },
+ "anthropic": {
+  "provider": "Anthropic",
+  "title": "Anthropic model retirements",
+  "source": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+  "prs": [
+   "https://github.com/Flux159/mcp-chat/pull/46",
+   "https://github.com/Mangaba-ai/mangaba_ai/pull/26",
+   "https://github.com/SpectrAI-Initiative/InnoClaw/pull/117",
+   "https://github.com/TrixSec/waymap/pull/7",
+   "https://github.com/ZhuLinsen/daily_stock_analysis/pull/2435",
+   "https://github.com/browser-use/browser-use/pull/6217",
+   "https://github.com/bytedance/deer-flow/pull/7585",
+   "https://github.com/corespeed-io/zypher-agent/pull/174",
+   "https://github.com/domleca/llm-wiki/pull/15",
+   "https://github.com/fabriziosalmi/UglyFeed/pull/79",
+   "https://github.com/inngest/utah/pull/28",
+   "https://github.com/radareorg/r2ai/pull/249",
+   "https://github.com/ruvnet/ruflo/pull/4512",
+   "https://github.com/shareAI-lab/learn-claude-code/pull/602",
+   "https://github.com/supermemoryai/llm-bridge/pull/14",
+   "https://github.com/workos/case/pull/26"
+  ]
+ },
+ "openai": {
+  "provider": "OpenAI",
+  "title": "OpenAI model shutdowns",
+  "source": "https://developers.openai.com/api/docs/deprecations",
+  "prs": [
+   "https://github.com/ChatGPTNextWeb/NextChat/pull/6925",
+   "https://github.com/Mintplex-Labs/anything-llm/pull/6851",
+   "https://github.com/Shubhamsaboo/awesome-llm-apps/pull/1266",
+   "https://github.com/datawhalechina/hello-agents/pull/1004"
+  ]
+ },
+ "stripe": {
+  "provider": "Stripe",
+  "title": "Stripe API 2025-03-31 (basil): subscription periods",
+  "source": "https://docs.stripe.com/changelog/basil/2025-03-31/deprecate-subscription-current-period-start-and-end",
+  "prs": [
+   "https://github.com/AI-WonderLand1/AI-PLAYGROUND/pull/119",
+   "https://github.com/DahboorSa/nestjs-saas-starter/pull/1",
+   "https://github.com/Joseyosei/Share-The-Link/pull/112",
+   "https://github.com/SabaTech-dev/QA-FRAMEWORK/pull/295",
+   "https://github.com/TesslateAI/Designer/pull/21",
+   "https://github.com/betterchoicedev/NewClientsWeb/pull/14",
+   "https://github.com/createdbymax/Loopletter-Open-source-email-marketing-platform/pull/2",
+   "https://github.com/imseby2002/ai-gate-app/pull/597",
+   "https://github.com/ivan-hill/glibra-main/pull/4",
+   "https://github.com/justnode/better-saas/pull/25",
+   "https://github.com/kajalgurjar29/Keno-Backend/pull/1",
+   "https://github.com/maitamdev/Anti-Scam/pull/2",
+   "https://github.com/siberlink/energyriskiq-ops/pull/1",
+   "https://github.com/stripe-samples/subscription-use-cases/pull/1229",
+   "https://github.com/talivia-group/talivia/pull/6"
+  ]
+ },
+ "jira": {
+  "provider": "Atlassian",
+  "title": "Jira Cloud: search endpoints removed (CHANGE-2046)",
+  "source": "https://developer.atlassian.com/changelog/#CHANGE-2046",
+  "prs": [
+   "https://github.com/DevOpsMadDog/Fixops/pull/273",
+   "https://github.com/getdango/dango/pull/705",
+   "https://github.com/serenity-bdd/serenity-core/pull/3756"
+  ]
+ },
+ "spotify": {
+  "provider": "Spotify",
+  "title": "Spotify Web API: February 2026 changes",
+  "source": "https://developer.spotify.com/documentation/web-api/tutorials/february-2026-migration-guide",
+  "prs": [
+   "https://github.com/mralexsaavedra/spotiarr/pull/287",
+   "https://github.com/trungvose/angular-spotify/pull/126",
+   "https://github.com/watsonbox/exportify/pull/241"
+  ]
+ },
+ "openweathermap": {
+  "title": "OpenWeatherMap One Call API 2.5 closed",
+  "provider": "OpenWeather",
+  "source": "https://openweathermap.org/one-call-transfer",
+  "prs": [
+   "https://github.com/JohnCoates/Aerial/pull/1428",
+   "https://github.com/janvarev/Irene-Voice-Assistant/pull/79",
+   "https://github.com/linuxmint/cinnamon-spices-applets/pull/9178",
+   "https://github.com/ospfranco/sol/pull/341",
+   "https://github.com/raycast/script-commands/pull/1044"
+  ]
+ },
+ "slack": {
+  "title": "Slack files.upload sunset",
+  "provider": "Slack",
+  "source": "https://docs.slack.dev/changelog/2024-04-a-better-way-to-upload-files-is-here-to-stay",
+  "prs": [
+   "https://github.com/intuit/auto/pull/2552",
+   "https://github.com/openreplay/openreplay/pull/5067",
+   "https://github.com/six2dez/reconftw/pull/1063"
+  ]
+ }
 }

@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-10-27T03:15:55Z",
+  "generated_at": "2026-10-27T03:16:13Z",
   "generated_by": "scripts/migrations.py, from the GitHub API",
   "note": "Tiltmeter drafted each change notice from the provider's public documentation. No provider signed or endorsed them. Private repositories are counted but not named.",
   "totals": {
-    "opened": 56,
+    "opened": 64,
     "merged": 6,
-    "open": 49,
+    "open": 57,
     "closed": 1,
-    "merged_percent": 11,
-    "stars": 993408,
-    "repositories": 56,
+    "merged_percent": 9,
+    "stars": 1050285,
+    "repositories": 64,
     "private": 0
   },
   "providers": {
@@ -782,6 +782,136 @@
           "visibility": "public",
           "state": "open",
           "created_at": "2026-10-26T05:08:59Z",
+          "merged_at": null,
+          "closed_at": null
+        }
+      ]
+    },
+    "openweathermap": {
+      "provider": "OpenWeather",
+      "title": "OpenWeatherMap One Call API 2.5 closed",
+      "source": "https://openweathermap.org/one-call-transfer",
+      "stats": {
+        "opened": 5,
+        "merged": 0,
+        "open": 5,
+        "closed": 0,
+        "merged_percent": 0,
+        "stars": 33026,
+        "repositories": 5,
+        "private": 0
+      },
+      "pull_requests": [
+        {
+          "url": "https://github.com/JohnCoates/Aerial/pull/1428",
+          "number": 1428,
+          "repository": "JohnCoates/Aerial",
+          "repository_url": "https://github.com/JohnCoates/Aerial",
+          "stars": 21110,
+          "visibility": "public",
+          "state": "open",
+          "created_at": "2026-10-27T01:59:59Z",
+          "merged_at": null,
+          "closed_at": null
+        },
+        {
+          "url": "https://github.com/raycast/script-commands/pull/1044",
+          "number": 1044,
+          "repository": "raycast/script-commands",
+          "repository_url": "https://github.com/raycast/script-commands",
+          "stars": 6805,
+          "visibility": "public",
+          "state": "open",
+          "created_at": "2026-10-27T02:00:07Z",
+          "merged_at": null,
+          "closed_at": null
+        },
+        {
+          "url": "https://github.com/ospfranco/sol/pull/341",
+          "number": 341,
+          "repository": "ospfranco/sol",
+          "repository_url": "https://github.com/ospfranco/sol",
+          "stars": 3184,
+          "visibility": "public",
+          "state": "open",
+          "created_at": "2026-10-27T02:00:15Z",
+          "merged_at": null,
+          "closed_at": null
+        },
+        {
+          "url": "https://github.com/janvarev/Irene-Voice-Assistant/pull/79",
+          "number": 79,
+          "repository": "janvarev/Irene-Voice-Assistant",
+          "repository_url": "https://github.com/janvarev/Irene-Voice-Assistant",
+          "stars": 1159,
+          "visibility": "public",
+          "state": "open",
+          "created_at": "2026-10-27T02:00:23Z",
+          "merged_at": null,
+          "closed_at": null
+        },
+        {
+          "url": "https://github.com/linuxmint/cinnamon-spices-applets/pull/9178",
+          "number": 9178,
+          "repository": "linuxmint/cinnamon-spices-applets",
+          "repository_url": "https://github.com/linuxmint/cinnamon-spices-applets",
+          "stars": 768,
+          "visibility": "public",
+          "state": "open",
+          "created_at": "2026-10-27T02:00:32Z",
+          "merged_at": null,
+          "closed_at": null
+        }
+      ]
+    },
+    "slack": {
+      "provider": "Slack",
+      "title": "Slack files.upload sunset",
+      "source": "https://docs.slack.dev/changelog/2024-04-a-better-way-to-upload-files-is-here-to-stay",
+      "stats": {
+        "opened": 3,
+        "merged": 0,
+        "open": 3,
+        "closed": 0,
+        "merged_percent": 0,
+        "stars": 23851,
+        "repositories": 3,
+        "private": 0
+      },
+      "pull_requests": [
+        {
+          "url": "https://github.com/openreplay/openreplay/pull/5067",
+          "number": 5067,
+          "repository": "openreplay/openreplay",
+          "repository_url": "https://github.com/openreplay/openreplay",
+          "stars": 13055,
+          "visibility": "public",
+          "state": "open",
+          "created_at": "2026-10-27T02:00:39Z",
+          "merged_at": null,
+          "closed_at": null
+        },
+        {
+          "url": "https://github.com/six2dez/reconftw/pull/1063",
+          "number": 1063,
+          "repository": "six2dez/reconftw",
+          "repository_url": "https://github.com/six2dez/reconftw",
+          "stars": 8297,
+          "visibility": "public",
+          "state": "open",
+          "created_at": "2026-10-27T02:00:46Z",
+          "merged_at": null,
+          "closed_at": null
+        },
+        {
+          "url": "https://github.com/intuit/auto/pull/2552",
+          "number": 2552,
+          "repository": "intuit/auto",
+          "repository_url": "https://github.com/intuit/auto",
+          "stars": 2499,
+          "visibility": "public",
+          "state": "open",
+          "created_at": "2026-10-27T02:00:54Z",
           "merged_at": null,
           "closed_at": null
         }
