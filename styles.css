@@ -485,3 +485,11 @@ blockquote { margin-top: 28px; max-width: 520px; padding: 4px 0 4px 18px; border
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
 }
+
+/* Home findings */
+.stats.four { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 28px; }
+.findings { list-style: none; margin: 28px 0 0; padding: 0; border-top: 1px solid var(--line, #e4e1da); }
+.findings li { padding: 16px 0; border-bottom: 1px solid var(--line, #e4e1da); line-height: 1.55; color: var(--soft); }
+.findings li b { color: var(--ink); font-weight: 600; }
+.findings code { overflow-wrap: anywhere; }
+@media (max-width: 900px) { .stats.four { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
