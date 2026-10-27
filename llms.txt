@@ -8,6 +8,7 @@ Install with `pip install tiltmeter` (Python 3.12 or later). It runs locally wit
 
 - [Getting started](https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/getting-started.md): install, record a baseline and catch a breaking change against a fake API in about five minutes
 - [Configuration](https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/configuration.md): every option in `tiltmeter.yaml`
+- [Scan](https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/scan.md): `uvx tiltmeter scan` checks a repository, with no configuration and no network, against a catalog of API changes that already shipped, and prints each affected line with the command that fixes it. The catalog is at https://tiltmeter.dev/catalog/api-changes.json; Tiltmeter drafted its entries from public documentation and no provider signed them
 - [Agents and MCP](https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/agents.md): the MCP server for Claude Code, Cursor, Claude Desktop, LangChain and other clients
 - [Fixing code](https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/fix.md): how `tiltmeter fix` adapts code in a worktree and opens a pull request
 - [CI](https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/ci.md): exit codes and jobs for GitHub Actions, GitLab CI and cron
