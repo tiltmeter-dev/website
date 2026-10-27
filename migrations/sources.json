@@ -19,7 +19,10 @@
    "https://github.com/nullclaw/nullclaw/pull/1082",
    "https://github.com/pbek/QOwnNotes/pull/3813",
    "https://github.com/tegnike/aituber-kit/pull/625"
-  ]
+  ],
+  "adopted": {
+   "https://github.com/Nutlope/aicommits/pull/379": "https://github.com/Nutlope/aicommits/commit/98e9c4e4ea025053d4ede2ed4ee08aed9b7e0419"
+  }
  },
  "anthropic": {
   "provider": "Anthropic",

@@ -437,6 +437,8 @@ blockquote { margin-top: 28px; max-width: 520px; padding: 4px 0 4px 18px; border
 .badge.merged { background: rgba(35, 130, 79, 0.12); color: var(--green); }
 .badge.open { background: rgba(44, 102, 201, 0.11); color: var(--blue); }
 .badge.closed { background: rgba(226, 85, 45, 0.13); color: var(--red-ink); }
+.badge.adopted { background: transparent; box-shadow: inset 0 0 0 1px rgba(35, 130, 79, 0.45); color: var(--green); text-decoration: none; }
+.badge.adopted:hover { background: rgba(35, 130, 79, 0.08); }
 .footnote { margin-top: 16px; max-width: 860px; font-size: 0.85rem; color: var(--soft); }
 
 @media (max-width: 960px) {
@@ -492,4 +494,11 @@ blockquote { margin-top: 28px; max-width: 520px; padding: 4px 0 4px 18px; border
 .findings li { padding: 16px 0; border-bottom: 1px solid var(--line, #e4e1da); line-height: 1.55; color: var(--soft); }
 .findings li b { color: var(--ink); font-weight: 600; }
 .findings code { overflow-wrap: anywhere; }
+.quotes { margin-top: 44px; }
+.quotes-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
+.quotes figure { margin: 0; padding: 20px 22px; display: flex; flex-direction: column; justify-content: space-between; gap: 18px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; }
+.quotes blockquote { margin: 0; font-size: 1.02rem; line-height: 1.5; color: var(--ink); }
+.quotes figcaption { font-size: 0.84rem; line-height: 1.45; color: var(--soft); }
+.quotes-note { margin-top: 14px; max-width: 760px; font-size: 0.9rem; color: var(--soft); }
+@media (max-width: 900px) { .quotes-grid { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 900px) { .stats.four { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

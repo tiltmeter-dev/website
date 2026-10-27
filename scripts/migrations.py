@@ -7,7 +7,9 @@ Usage, from anywhere (paths default to this repository):
     python3 scripts/migrations.py --offline   # re-render the pages from the last snapshot
 
 The input, migrations/sources.json, maps a provider key (the page's URL slug) to
-{"provider": name, "title": ..., "source": changelog URL, "prs": [pull request URLs]}.
+{"provider": name, "title": ..., "source": changelog URL, "prs": [pull request URLs]}, plus an
+optional "adopted" object from a closed pull request's URL to the commit in which its maintainer
+landed the same fix. Such a pull request still counts as closed and shows as "Adopted".
 The script asks GitHub for each pull request's state, dates and repository through
 `gh api graphql` (no shell), writes migrations/status.json with a UTC timestamp, renders
 migrations/index.html and migrations/<key>/index.html, and refreshes the migration
@@ -45,6 +47,7 @@ GITHUB = "https://github.com/tiltmeter-dev/tiltmeter"
 DISCUSS = "https://github.com/tiltmeter-dev/tiltmeter/discussions/new?category=provider-mode"
 PR_URL = re.compile(r"https://github\.com/([A-Za-z0-9-]+)/([A-Za-z0-9._-]+)/pull/([0-9]+)")
 REPO = re.compile(r"[A-Za-z0-9-]+/[A-Za-z0-9._-]+")
+COMMIT_URL = re.compile(r"https://github\.com/([A-Za-z0-9-]+)/([A-Za-z0-9._-]+)/commit/[0-9a-f]{7,40}")
 KEY = re.compile(r"[a-z0-9][a-z0-9-]*")
 STATES = ("merged", "open", "closed")
 BATCH = 40
@@ -85,7 +88,7 @@ def load_inputs(paths: list[Path]) -> tuple[dict[str, dict[str, Any]], set[str]]
                 continue
             if not KEY.fullmatch(key) or not isinstance(entry, dict):
                 fail(f"{path}: {key!r} must be a lowercase slug mapping to an object")
-            merged = providers.setdefault(key, {"provider": "", "title": "", "source": "", "prs": []})
+            merged = providers.setdefault(key, {"provider": "", "title": "", "source": "", "prs": [], "adopted": {}})
             for field in ("provider", "title", "source"):
                 value = entry.get(field)
                 if value is not None and not isinstance(value, str):
@@ -101,7 +104,18 @@ def load_inputs(paths: list[Path]) -> tuple[dict[str, dict[str, Any]], set[str]]
                     fail(f"{path}: {key}.prs has {url!r}, not a GitHub pull request URL")
                 if url not in merged["prs"]:
                     merged["prs"].append(url)
+            adopted = entry.get("adopted", {})
+            if not isinstance(adopted, dict):
+                fail(f"{path}: {key}.adopted must map pull request URLs to commit URLs")
+            for url, commit in adopted.items():
+                pr, sha = PR_URL.fullmatch(url), COMMIT_URL.fullmatch(commit) if isinstance(commit, str) else None
+                if not pr or not sha or (pr[1], pr[2]) != (sha[1], sha[2]):
+                    fail(f"{path}: {key}.adopted needs a pull request URL and a commit URL in the same repository")
+                merged["adopted"][url] = commit
     for key, provider in providers.items():
+        stray = set(provider["adopted"]) - set(provider["prs"])
+        if stray:
+            fail(f"{key}.adopted names pull requests missing from its prs: {', '.join(sorted(stray))}")
         if not provider["title"]:
             fail(f"{key} has no title")
         if not provider["source"].startswith("https://"):
@@ -209,6 +223,7 @@ def stats(records: list[Record]) -> dict[str, int]:
         "merged": merged,
         "open": sum(r["state"] == "open" for r in unique),
         "closed": sum(r["state"] == "closed" for r in unique),
+        "adopted": sum(r["state"] == "closed" and bool(r.get("adopted_in")) for r in unique),
         "merged_percent": percent(merged, opened),
         "stars": sum(stars.values()),
         "repositories": len(stars),
@@ -368,15 +383,24 @@ def footnote(s: dict[str, int]) -> str:
         tail = plural(s["private"], "pull request is in a private repository.", "pull requests are in private repositories.")
     else:
         tail = "There are none in this snapshot."
+    adopted = ""
+    if s.get("adopted"):
+        adopted = (
+            f'{plural(s["adopted"], "pull request was", "pull requests were")} closed because the maintainer landed '
+            "the same fix in their own commit: it shows as Adopted, links to that commit and counts as closed, not merged. "
+        )
     return (
         '      <p class="footnote">Stars come from GitHub at the time of the snapshot, counted once per repository. '
-        "Private repositories are counted but not named: their pull requests add to the counts above, "
+        f"{adopted}Private repositories are counted but not named: their pull requests add to the counts above, "
         f"while their names, links and stars are left out. {tail}</p>\n"
     )
 
 
 def badge(record: Record) -> str:
     state = record["state"]
+    if state == "closed" and record.get("adopted_in"):
+        note = f"Closed on {day(record['closed_at'])}: the maintainer landed this fix in their own commit"
+        return f'<a class="badge adopted" href="{e(record["adopted_in"])}" title="{e(note)}">Adopted</a>'
     label = {"merged": "Merged", "open": "Open", "closed": "Closed"}[state]
     note = f' title="Closed without merging on {day(record["closed_at"])}"' if state == "closed" else ""
     return f'<span class="badge {state}"{note}>{label}</span>'
@@ -558,6 +582,13 @@ def build(args: argparse.Namespace) -> dict[str, Any]:
             | {"pull_requests": [hide({**found[url], "_id": url}, hidden) for url in p["prs"]]}
             for key, p in providers_in.items()
         }
+    for key, p in providers.items():
+        adopted = providers_in.get(key, {}).get("adopted", {})
+        for record in p["pull_requests"]:
+            record.pop("adopted_in", None)
+            url = record.get("_id") or record.get("url")
+            if not record.get("private") and url in adopted:
+                record["adopted_in"] = adopted[url]
     everything: list[Record] = []
     for p in providers.values():
         p["pull_requests"].sort(key=by_stars)
