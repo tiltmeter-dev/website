@@ -71,7 +71,7 @@
       <dl class="stats four">
         <div class="stat"><dt>files on GitHub still name <code>llama-3.3-70b-versatile</code>, ten weeks after Groq shut it down for free and developer keys</dt><dd>314k</dd></div>
         <div class="stat"><dt>pull requests Tiltmeter opened for changes at 10 APIs</dt><dd>84</dd></div>
-        <div class="stat merged"><dt>merged so far, each as Tiltmeter wrote it</dt><dd>9</dd></div>
+        <div class="stat merged"><dt>merged so far, each as Tiltmeter wrote it</dt><dd>10</dd></div>
         <div class="stat"><dt>GitHub stars across the repositories that got a fix</dt><dd>1.31M</dd></div>
       </dl>
       <ul class="findings">
@@ -86,6 +86,10 @@
       <div class="quotes">
         <p class="eyebrow">From the reviews</p>
         <div class="quotes-grid">
+          <figure>
+            <blockquote>“Verified and merging — thanks, this is a real break rather than a cosmetic endpoint bump.”</blockquote>
+            <figcaption>@beenuar, <a href="https://github.com/beenuar/AiSOC/pull/1524#issuecomment-6448411393">merging AiSOC's Jira fix</a> after checking each change in the new search API's contract</figcaption>
+          </figure>
           <figure>
             <blockquote>“Fixes like this keep StaffML and SocratiQ working for everyone, so thank you for jumping in and contributing.”</blockquote>
             <figcaption>Vijay Janapa Reddi, Harvard CS249r, <a href="https://github.com/harvard-edge/cs249r_book/pull/2163#issuecomment-6437003343">merging the Groq fix</a> to the Machine Learning Systems book</figcaption>
@@ -465,7 +469,7 @@ Show me the endpoints you chose before writing the file.</pre>
         </div>
         <div class="side">
           <p>We searched public code for fields that Stripe and Spotify removed. 78 repositories still read Stripe's <code>subscription.current_period_end</code>, gone since API version 2025-03-31, and 228 use Spotify fields and endpoints that changed for new apps in February 2026. One of them was Stripe's official subscription sample, which no longer type-checks against Stripe's own SDK. Tiltmeter fixed it and 14 others we checked by hand, and the pull requests are open. <a href="https://github.com/stripe-samples/subscription-use-cases/pull/1229">The fix for Stripe's sample →</a></p>
-          <p>Since then Tiltmeter has opened 84 pull requests for changes at Stripe, Jira, Spotify, OpenAI, Anthropic, Groq, Slack, OpenWeatherMap, Hugging Face and HubSpot. So far 9 have been merged, each as Tiltmeter wrote it, and 5 were closed: aicommits landed the same fix in its own commit, anything-llm asks for a linked issue first, and three touched code their projects no longer use. <a href="https://github.com/serenity-bdd/serenity-core/pull/3756">Serenity BDD</a> moved its Jira plugin off <code>/rest/api/3/search</code>, an endpoint Jira Cloud removed. <a href="https://github.com/ruvnet/ruflo/pull/4512">ruflo</a>, <a href="https://github.com/radareorg/r2ai/pull/249">radare2's r2ai</a>, <a href="https://github.com/Flux159/mcp-chat/pull/46">mcp-chat</a>, ByteDance's <a href="https://github.com/bytedance/deer-flow/pull/7585">deer-flow</a> and <a href="https://github.com/shareAI-lab/learn-claude-code/pull/602">learn-claude-code</a> moved their defaults off Claude models Anthropic has retired. <a href="https://github.com/harvard-edge/cs249r_book/pull/2163">Harvard's Machine Learning Systems book</a> and <a href="https://github.com/cdhigh/KindleEar/pull/747">KindleEar</a> moved off the Groq models Groq shut down, and <a href="https://github.com/Nutlope/aicommits/commit/98e9c4e4ea025053d4ede2ed4ee08aed9b7e0419">aicommits</a> made the same change in its own commit. <a href="https://github.com/Joseyosei/Share-The-Link/pull/112">Share-The-Link</a> reads subscription periods from subscription items, as Stripe's API has required since 2025-03-31.</p>
+          <p>Since then Tiltmeter has opened 84 pull requests for changes at Stripe, Jira, Spotify, OpenAI, Anthropic, Groq, Slack, OpenWeatherMap, Hugging Face and HubSpot. So far 10 have been merged, each as Tiltmeter wrote it, and 5 were closed: aicommits landed the same fix in its own commit, anything-llm asks for a linked issue first, and three touched code their projects no longer use. <a href="https://github.com/serenity-bdd/serenity-core/pull/3756">Serenity BDD</a> and <a href="https://github.com/beenuar/AiSOC/pull/1524">AiSOC</a> moved their Jira calls off <code>/rest/api/3/search</code>, an endpoint Jira Cloud removed. <a href="https://github.com/ruvnet/ruflo/pull/4512">ruflo</a>, <a href="https://github.com/radareorg/r2ai/pull/249">radare2's r2ai</a>, <a href="https://github.com/Flux159/mcp-chat/pull/46">mcp-chat</a>, ByteDance's <a href="https://github.com/bytedance/deer-flow/pull/7585">deer-flow</a> and <a href="https://github.com/shareAI-lab/learn-claude-code/pull/602">learn-claude-code</a> moved their defaults off Claude models Anthropic has retired. <a href="https://github.com/harvard-edge/cs249r_book/pull/2163">Harvard's Machine Learning Systems book</a> and <a href="https://github.com/cdhigh/KindleEar/pull/747">KindleEar</a> moved off the Groq models Groq shut down, and <a href="https://github.com/Nutlope/aicommits/commit/98e9c4e4ea025053d4ede2ed4ee08aed9b7e0419">aicommits</a> made the same change in its own commit. <a href="https://github.com/Joseyosei/Share-The-Link/pull/112">Share-The-Link</a> reads subscription periods from subscription items, as Stripe's API has required since 2025-03-31.</p>
           <p><a href="/migrations/">Every pull request and its status, by provider →</a></p>
         </div>
       </div>

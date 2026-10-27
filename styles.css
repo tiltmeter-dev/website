@@ -495,7 +495,7 @@ blockquote { margin-top: 28px; max-width: 520px; padding: 4px 0 4px 18px; border
 .findings li b { color: var(--ink); font-weight: 600; }
 .findings code { overflow-wrap: anywhere; }
 .quotes { margin-top: 44px; }
-.quotes-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
+.quotes-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
 .quotes figure { margin: 0; padding: 20px 22px; display: flex; flex-direction: column; justify-content: space-between; gap: 18px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; }
 .quotes blockquote { margin: 0; font-size: 1.02rem; line-height: 1.5; color: var(--ink); }
 .quotes figcaption { font-size: 0.84rem; line-height: 1.45; color: var(--soft); }
