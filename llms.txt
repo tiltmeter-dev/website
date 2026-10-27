@@ -1,8 +1,15 @@
 # Tiltmeter
 
-> Tiltmeter is an open-source (MIT) early-warning system for the third-party APIs that AI agents depend on. It learns the shape of JSON responses from real traffic, flags breaking changes such as removed fields, type changes and new nulls, warns you, your CI and your agents over MCP, and `tiltmeter fix` hands the drift to an agent that adapts your code and opens a pull request.
+> Tiltmeter turns API changes into pull requests in the code that still uses them. An API provider publishes one signed change notice; Tiltmeter finds the code that still calls what changed, adapts it in a sandbox and opens a pull request, before the shutdown date instead of after. Its open-source (MIT) core also works for developers on its own: `tiltmeter scan` finds code that still uses API changes that already shipped, `tiltmeter check` learns the shape of the JSON APIs a project calls and warns CI and agents (over MCP) when one changes, and `tiltmeter fix` opens the pull request that adapts the code.
 
-Install with `pip install tiltmeter` (Python 3.12 or later). It runs locally with one SQLite file and no account. No API spec is needed: the contract is learned from responses.
+Try it with `uvx tiltmeter scan` in any repository, or install with `pip install tiltmeter` (Python 3.12 or later). It runs locally with one SQLite file and no account. No API spec is needed: the contract is learned from responses.
+
+## Plans
+
+- Developers: free and open source (MIT): the CLI, the GitHub Action and the MCP server
+- Teams: per repository, in early access, for companies that depend on many third-party APIs: a GitHub App across the organization that covers private repositories, a view of every API their services call and what changed, alerts when a provider announces a change, and fixes included
+- API providers: priced by the size of the customer base; design partners get their first migration free. Signed notices, pull requests in their users' repositories under the provider's name, and a tracker of every merge. https://tiltmeter.dev/providers/
+- Contact: hello@tiltmeter.dev
 
 ## Docs
 
@@ -16,6 +23,12 @@ Install with `pip install tiltmeter` (Python 3.12 or later). It runs locally wit
 - [FAQ](https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/faq.md)
 - [Provider notices](https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/notices.md): providers publish signed change notices; customers get a pull request per change that affects their code, or follow a provider's OpenAPI spec directly
 - [API change notices, v1](https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/notice-spec.md): the open notice and feed format, signatures and the rules for readers, with JSON Schemas at https://tiltmeter.dev/schemas/api-change-notice/v1.json and https://tiltmeter.dev/schemas/api-change-feed/v1.json
+
+## Pages
+
+- [Home](https://tiltmeter.dev/): what Tiltmeter does for API providers and teams, traction and plans
+- [For developers](https://tiltmeter.dev/developers/): drift checks, agents over MCP, fixes and CI, for a project that calls third-party APIs
+- [For API providers](https://tiltmeter.dev/providers/): publishing signed change notices and getting the fixes to customers
 
 ## For agents
 
