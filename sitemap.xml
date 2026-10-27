@@ -19,31 +19,31 @@
   <!-- migrations: written by scripts/migrations.py -->
   <url>
     <loc>https://tiltmeter.dev/migrations/</loc>
-    <lastmod>2026-10-26</lastmod>
+    <lastmod>2026-10-27</lastmod>
   </url>
   <url>
     <loc>https://tiltmeter.dev/migrations/groq/</loc>
-    <lastmod>2026-10-26</lastmod>
+    <lastmod>2026-10-27</lastmod>
   </url>
   <url>
     <loc>https://tiltmeter.dev/migrations/anthropic/</loc>
-    <lastmod>2026-10-26</lastmod>
+    <lastmod>2026-10-27</lastmod>
   </url>
   <url>
     <loc>https://tiltmeter.dev/migrations/openai/</loc>
-    <lastmod>2026-10-26</lastmod>
+    <lastmod>2026-10-27</lastmod>
   </url>
   <url>
     <loc>https://tiltmeter.dev/migrations/stripe/</loc>
-    <lastmod>2026-10-26</lastmod>
+    <lastmod>2026-10-27</lastmod>
   </url>
   <url>
     <loc>https://tiltmeter.dev/migrations/jira/</loc>
-    <lastmod>2026-10-26</lastmod>
+    <lastmod>2026-10-27</lastmod>
   </url>
   <url>
     <loc>https://tiltmeter.dev/migrations/spotify/</loc>
-    <lastmod>2026-10-26</lastmod>
+    <lastmod>2026-10-27</lastmod>
   </url>
   <!-- /migrations -->
 </urlset>
