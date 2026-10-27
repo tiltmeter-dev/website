@@ -304,7 +304,7 @@ def head(path: str, title: str, description: str, social: str) -> str:
       </a>
       <nav class="links" aria-label="Sections">
         <a href="/#how">How it works</a>
-        <a href="/#fix">Fix</a>
+        <a href="/developers/#fix">Fix</a>
         <a href="/providers/">Providers</a>
         <a class="on" href="/migrations/"{' aria-current="page"' if path == "/migrations/" else ""}>Migrations</a>
       </nav>
