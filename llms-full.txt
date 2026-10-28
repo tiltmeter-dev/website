@@ -67,6 +67,10 @@ Tiltmeter is built for APIs that change without notice: smaller vendors and part
 
 It does not replace typed models (DTOs). A DTO checks the fields you modeled when your code reads them, in production, and coercion can hide type changes: Pydantic turns "1200" into 1200 without an error. Tiltmeter checks the whole response on a schedule or in CI, reports a removed field next to a similar new one as a probable rename, and reports integer → string as breaking. Agents read raw JSON and have no DTOs, so has_drifted gives them that check.
 
+## Languages
+
+Tiltmeter works on code in any language. The search for code that uses a change reads files as text (hosts, paths, field names, model ids), and it recognizes a provider's SDK from the manifests of eight package ecosystems: PyPI, npm, Go modules, Maven and Gradle, NuGet, RubyGems, Cargo and Packagist. The fix agent edits whatever language the code is in. The check for code nothing uses understands JavaScript and TypeScript, Python, Rust and Swift; in other languages it never holds a fix back. The fixes merged so far changed Python, TypeScript, JavaScript, Java and C.
+
 ## Configuration
 
 ```yaml
@@ -176,6 +180,9 @@ tiltmeter fix 2 --agent claude-code     # or --agent codex, on your own login, n
 - The agent stays inside the worktree: no network access, only tracked files; `.env` files, keys and `.git` are blocked.
 - Tiltmeter sees types, not values. When a number turns into a string, the agent updates the types and leaves the format question to a human in the pull request.
 - Flags: `--dry-run` shows the diff and discards it, `--no-pr` commits to a local branch, `--json` prints the outcome as JSON.
+- Agents: `deepagents` (the default) runs a LangChain Deep Agent on `ANTHROPIC_API_KEY`; `claude-code` runs `claude -p` on your Claude Code login (a Claude plan or an Anthropic key); `codex` runs `codex exec` on your Codex login (a ChatGPT plan or an OpenAI key). Set the default with `fix.agent` and override it with `--agent`; with Codex, an OpenAI model in `fix.model` picks the model. The built-in agent and Claude Code get file tools only; Codex keeps its shell inside its OS sandbox, under the same limits.
+- Tests: with `fix.test_command` (such as `python -m pytest -q` or `npm test`), Tiltmeter runs the repository's tests on the agent's edits, without a shell, and the agent sees a failure and edits again.
+- Code nothing uses: when every edit is in files nothing else imports or names, and none of them changed in over 180 days, Tiltmeter asks before opening the pull request, and with `--yes` keeps the fix in a local commit. `--allow-unused` opens it anyway.
 
 Details: https://raw.githubusercontent.com/tiltmeter-dev/tiltmeter/main/docs/fix.md
 
@@ -229,7 +236,10 @@ Anywhere else, keep `.tiltmeter/` between runs. Jobs for GitHub Actions, GitLab 
 - OpenAPI diff tools such as oasdiff compare two versions of a spec. They are the right tool when the vendor publishes and maintains one, and they cannot see changes the vendor did not document.
 - Contract testing such as Pact needs the provider to run your contracts, which third-party vendors don't do.
 - Uptime and synthetic monitors tell you an API is up. You write and maintain the response assertions yourself.
-- Tiltmeter learns the contract from real responses, so it needs nothing from the vendor and catches undocumented changes. It also hands what it learns to your agents.
+- Dependency bots such as Dependabot and Renovate bump a version number. They don't edit the code that calls what changed.
+- Codemods such as OpenRewrite apply rules someone wrote for a known migration.
+- Coding agents such as Copilot or Devin can make the edit, but only when someone asks, and they don't know what the provider changed.
+- Tiltmeter learns the contract from real responses, so it needs nothing from the vendor and catches undocumented changes. It also hands what it learns to your agents. From the provider's side, it starts from a signed notice, finds the customers' code that uses the change, opens the pull requests and shows the provider who migrated before the date.
 
 ## Privacy and security
 
@@ -239,6 +249,10 @@ Anywhere else, keep `.tiltmeter/` between runs. Jobs for GitHub Actions, GitLab 
 - `tiltmeter fix` sends the change list and the files the agent opens to the model provider. It never sees response values, `${VAR}` values or untracked files such as `.env`.
 
 Report vulnerabilities privately: https://github.com/tiltmeter-dev/tiltmeter/security/advisories/new
+
+## Field report
+
+From October 20 to 27, 2026, Tiltmeter opened 84 pull requests in public repositories for API changes at ten providers. As of October 28, 11 were merged as Tiltmeter wrote them, among them Harvard's CS249r book (merged by its author) and Tencent's AI-Infra-Guard, and one maintainer landed the same change in their own commit. Tiltmeter drafted those notices from public documentation; no provider signed them. Live status: https://tiltmeter.dev/migrations/status.json. Per provider: https://tiltmeter.dev/migrations/
 
 ## Plans
 
