@@ -6,7 +6,7 @@ Try it with `uvx tiltmeter scan` in any repository, or install with `pip install
 
 Fixes run on the built-in LangChain Deep Agent with an Anthropic API key, or on the user's own Claude Code or Codex login, with no API key to create. It works on code in any language: the search reads code as text and recognizes provider SDKs in eight package ecosystems (PyPI, npm, Go modules, Maven and Gradle, NuGet, RubyGems, Cargo and Packagist).
 
-From October 20 to 27, 2026, Tiltmeter opened 84 pull requests in public repositories for API changes at ten providers. As of October 28, 11 were merged as Tiltmeter wrote them, among them Harvard's CS249r book (merged by its author) and Tencent's AI-Infra-Guard, and one maintainer landed the same change in their own commit. Tiltmeter drafted those notices from public documentation; no provider signed them. Live status: https://tiltmeter.dev/migrations/status.json
+From October 20 to 27, 2026, Tiltmeter opened 84 pull requests in public repositories for API changes at ten providers. As of October 30, 13 were merged as Tiltmeter wrote them, among them Harvard's CS249r book (merged by its author) and Tencent's AI-Infra-Guard, and one maintainer landed the same change in their own commit. Tiltmeter drafted those notices from public documentation; no provider signed them. Live status: https://tiltmeter.dev/migrations/status.json
 
 ## Plans
 
