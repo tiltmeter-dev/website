@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 """Draw the home page's isometric scenes and write them into index.html.
 
-Four scenes, each between <!-- iso:NAME:start --> and <!-- iso:NAME:end -->:
+Two scenes, each between <!-- iso:NAME:start --> and <!-- iso:NAME:end -->:
 
 - provider: a provider's signed notice reaches Tiltmeter, which finds and fixes the code
-- drift: no provider; Tiltmeter catches a changed response itself
-- scan: `tiltmeter scan` sweeps a repository for API changes that already shipped
 - fix: the agent edits a sandboxed worktree and the pull request is merged
 
 home.js animates them. Without JavaScript, or with reduced motion, each SVG shows its
@@ -23,10 +21,8 @@ ROOT = Path(__file__).resolve().parent.parent
 
 PAPER = {"top": "#26262b", "left": "#1b1b1f", "right": "#141417"}
 LIGHT = {"top": "#f2efe7", "left": "#dcd7ca", "right": "#c9c3b4"}
-DARK = {"top": "#2b2b2f", "left": "#141416", "right": "#1e1e22"}
 RED = {"top": "#e2552d", "left": "#c0401b", "right": "#a9381a"}
 BLUE = {"top": "#3a76d8", "left": "#2c5fb4", "right": "#234e96"}
-MINT = {"top": "#d9eee1", "left": "#bcdcc8", "right": "#a9d1b8"}
 GLASS = {"top": "rgba(44,102,201,0.04)", "left": "rgba(44,102,201,0.07)", "right": "rgba(44,102,201,0.1)"}
 
 Point = tuple[float, float, float]
@@ -164,15 +160,9 @@ class Iso:
         )
 
 
-def cube(s: Iso, size: float, pal=RED, stripes: bool = False) -> str:
+def cube(s: Iso, size: float, pal=RED) -> str:
     h = size / 2
-    extra = ""
-    if stripes:
-        extra = "".join(
-            s.line([(-h + 0.12, -h + 0.14 + k * 0.16, h), (h - 0.14, -h + 0.14 + k * 0.16, h)], "stripe")
-            for k in range(3)
-        )
-    return s.box(-h, -h, -h, size, size, size, pal, extra=extra)
+    return s.box(-h, -h, -h, size, size, size, pal)
 
 
 def path_attr(points: list[tuple[float, float]]) -> str:
@@ -271,82 +261,7 @@ def provider() -> str:
                  "finds the three that call what changed, and opens a pull request in each; all three merge.")
 
 
-# -- 2. Without the provider: drift ----------------------------------------------
-
-
-def drift() -> str:
-    s = Iso(22)
-    s.add(s.floor(-1, 18, -1, 6))
-    s.add(s.line([(4.4, 2.2, 0), (6.4, 2.2, 0)], "path"))
-    s.add(s.line([(10.8, 1.2, 0), (12.8, 1.2, 0)], "path"), s.line([(10.8, 3.2, 0), (12.8, 3.2, 0)], "path"))
-
-    s.add(s.slab(0, 0, 4.4, 4.4, "THIRD-PARTY API"))
-    s.add(s.box(0.8, 0.8, 0.5, 2.8, 2.8, 2.2, cls="server"))
-    s.add(s.text("left", 0.98, 3.6, 2.15, "api.vendor.com", 6.4, "srv"))
-    s.add(s.text("left", 0.98, 3.6, 1.84, "GET /v1/customers", 5.0, "srv dim"))
-    s.add(*(s.dot(1.25 + n * 0.4, 3.6, 0.95, 1.7, f"led g{n % 3}") for n in range(4)))
-
-    s.add(s.slab(6.4, 0, 4.4, 4.4, "TILTMETER"))
-    entry = [s.p(3.6, 2.2, 1.1), s.p(4.7, 2.2, 0.85), s.p(6.5, 2.2, 0.85), s.p(7.05, 2.2, 0.95)]
-    for n in range(4):
-        s.add(s.mover(lambda: cube(s, 0.62, MINT, stripes=True), f"resp r{n}", entry[0], path=path_attr(entry)))
-    s.add(s.mover(lambda: cube(s, 0.62, RED, stripes=True), "resp odd", entry[0], path=path_attr(entry)))
-    device(s, 7.1, 0.7, 0.5, 3, 3, 1.4)
-
-    s.add(s.slab(12.8, 0, 4.4, 4.4, "YOUR CI AND AGENTS"))
-    s.add(s.box(13.3, 0.4, 0.5, 1.6, 1.6, 1.1, cls="ci"))
-    s.add(s.text("left", 13.45, 2.0, 0.85, "CI", 7.5, "srv"))
-    s.add(s.ring(14.1, 1.2, 1.6, 0.42, "ci-light"))
-    s.add(s.box(13.3, 2.4, 0.5, 1.6, 1.6, 1.1, cls="agent"))
-    s.add(s.text("left", 13.45, 4.0, 0.85, "agent", 7.5, "srv"))
-    s.add(*(s.ring(13.75 + n * 0.55, 3.2, 1.6, 0.12, "eye") for n in range(2)))
-
-    for name, y in (("to-ci", 1.2), ("to-agent", 3.2)):
-        route = [s.p(10.1, y, 0.9), s.p(11.0, y, 0.6), s.p(12.9, y, 0.6), s.p(13.4, y, 0.85)]
-        s.add(s.mover(lambda: s.dot(0, 0, 0, 3.6, "alert"), f"ping {name}", route[0], path=path_attr(route)))
-
-    s.add(s.billboard(14.1, 1.2, 1.6, [["exit 2"], ["exit 0"]], "ci-bb", 8.5, stem=0.7))
-    s.add(s.billboard(12.3, 3.6, 0.6, [["has_drifted: true"]], "agent-bb", 8.5, stem=1.0))
-    s.add(s.billboard(5.8, 2.3, 0.6, [["phone → phone_number"]], "diff-bb", 8.5, stem=0.55))
-    s.add(s.billboard(10.6, 1.0, 3.0, [["tiltmeter fix", "PR opened"], ["tiltmeter fix", "Merged"]], "fix-bb", 8.5))
-    return s.svg("A third-party API's responses reach Tiltmeter. One comes back with phone renamed to "
-                 "phone_number; Tiltmeter fails CI, tells the agent, and opens the pull request that fixes the code.")
-
-
-# -- 3. Already shipped: scan -----------------------------------------------------
-
-
-def scan() -> str:
-    s = Iso(22)
-    s.add(s.floor(-2, 13, -1, 7))
-    s.add(s.slab(-0.6, 1.3, 2.8, 2.8, "SCAN"))
-    device(s, -0.2, 1.7, 0.5, 2.0, 2.0, 1.2)
-
-    s.add(s.slab(3.4, 0, 7.8, 5.4, "YOUR REPOSITORY"))
-    hits = {(0, 2): "/rest/api/3/search", (2, 1): "files.upload", (3, 0): "llama-3.3-70b-versatile"}
-    stems = {(0, 2): 1.0, (2, 1): 2.4, (3, 0): 1.0}
-    spots = {}
-    for i, j in sorted(((i, j) for i in range(4) for j in range(3)), key=lambda q: (q[0] + q[1], q[0])):
-        x, y = 3.9 + i * 1.8, 0.45 + j * 1.65
-        cls = f"file hit f{i}{j}" if (i, j) in hits else "file"
-        at = f' data-at="{(x + 0.67 - 3.6) / 7.4:.2f}"'
-        s.add(s.box(x, y, 0.5, 1.35, 1.3, 0.16, cls=cls, top_cls="tt", extra=glyphs(s, x + 0.2, y + 0.3, 0.66, gap=0.28), attrs=at))
-        spots[(i, j)] = (x + 0.67, y + 0.65)
-
-    beam = s.quad([(3.6, 0.1, 0.5), (3.6, 5.3, 0.5), (3.6, 5.3, 2.4), (3.6, 0.1, 2.4)], "curtain")
-    beam += s.line([(3.6, 0.1, 2.4), (3.6, 5.3, 2.4)], "curtain-edge")
-    beam += s.quad([(3.4, 0.1, 0.7), (3.8, 0.1, 0.7), (3.8, 5.3, 0.7), (3.4, 5.3, 0.7)], "curtain-floor")
-    s.add(f'<g class="beam" data-dx="{7.4 * s.c:.1f}" data-dy="{7.4 * s.s:.1f}">{beam}</g>')
-
-    for (i, j), words in sorted(hits.items()):
-        x, y = spots[(i, j)]
-        s.add(s.billboard(x, y, 0.66, [[words]], f"hit-tag t{i}{j}", 8.5, stem=stems[(i, j)]))
-    s.add(s.billboard(9.4, -0.6, 3.5, [["$ uvx tiltmeter scan", "✗ 3 known API changes affect this repo"]], "result", 8.5))
-    return s.svg("tiltmeter scan sweeps a repository and marks the three files that still use API changes "
-                 "that already shipped: a retired Groq model, Jira's removed search endpoint and Slack's files.upload.")
-
-
-# -- 4. The pull request ----------------------------------------------------------
+# -- 2. The pull request ----------------------------------------------------------
 
 
 def fix() -> str:
@@ -386,7 +301,7 @@ def fix() -> str:
                  "runs the tests, and the pull request travels out and is merged.")
 
 
-SCENES = {"provider": provider, "drift": drift, "scan": scan, "fix": fix}
+SCENES = {"provider": provider, "fix": fix}
 
 
 def main() -> None:

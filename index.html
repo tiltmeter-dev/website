@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <title>Tiltmeter · Ship API changes without breaking your customers</title>
-  <meta name="description" content="When you retire a model, move an endpoint or rename a field, Tiltmeter opens the pull request that fixes each customer's code, before your shutdown date. 84 opened in a week, 13 merged as written.">
+  <title>Tiltmeter · Shut down old API versions on the date you announced</title>
+  <meta name="description" content="When you retire a model, move an endpoint or rename a field, publish one signed notice. Tiltmeter opens a pull request that fixes each customer's code before your shutdown date, and shows you who still uses the old version.">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="canonical" href="https://tiltmeter.dev/">
   <meta property="og:type" content="website">
@@ -36,111 +36,173 @@
       </a>
       <nav class="links" aria-label="Sections">
         <a href="#how">How it works</a>
-        <a href="#proof">Proof</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#trust">Security</a>
         <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
         <a href="/developers/">Developers</a>
-        <a href="/migrations/">Migrations</a>
       </nav>
       <a class="btn" href="mailto:hello@tiltmeter.dev?subject=Tiltmeter%20design%20partner">Talk to us</a>
     </div>
   </header>
 
-  <main>
-    <section class="co-hero wrap">
-      <div class="co-hero-text">
-        <h1>Ship API changes <br>without breaking <br>your customers<span class="needle">.</span></h1>
-        <p class="lede">When you retire a model, move an endpoint or rename a field, Tiltmeter opens the pull request that fixes each customer's code, before your shutdown date instead of after.</p>
-        <div class="co-actions">
-          <a class="btn lg" href="mailto:hello@tiltmeter.dev?subject=Tiltmeter%20design%20partner">Become a design partner</a>
-          <a class="arrow" href="/migrations/">See all 84 pull requests</a>
-        </div>
-        <p class="co-merged">Already merged at <a href="https://github.com/harvard-edge/cs249r_book/pull/2163">Harvard CS249r</a>, Tencent's <a href="https://github.com/Tencent/AI-Infra-Guard/pull/728">AI-Infra-Guard</a>, ByteDance's <a href="https://github.com/bytedance/deer-flow/pull/7585">deer-flow</a>, <a href="https://github.com/radareorg/r2ai/pull/249">radare2</a>, <a href="https://github.com/ruvnet/ruflo/pull/4512">ruflo</a>, <a href="https://github.com/serenity-bdd/serenity-core/pull/3756">Serenity BDD</a>, <a href="https://github.com/beenuar/AiSOC/pull/1524">AiSOC</a> and <a href="https://github.com/cdhigh/KindleEar/pull/747">KindleEar</a>.</p>
-      </div>
+  <main class="pv">
+    <div class="pv-backdrop" aria-hidden="true"></div>
 
-      <div class="pr-deck" data-deck>
-        <a class="pr front" data-pr href="https://github.com/harvard-edge/cs249r_book/pull/2163" aria-label="Pull request 2163 in harvard-edge/cs249r_book, merged">
-          <div class="pr-head">
-            <span class="pr-state" data-state>Merged</span>
-            <span class="pr-repo">harvard-edge/cs249r_book <b>#2163</b></span>
-            <span class="pr-stars" aria-label="29.7k GitHub stars">★ 29.7k</span>
+    <section class="pv-hero wrap">
+      <div class="pv-hero-text">
+        <p class="pv-pill"><i aria-hidden="true"></i>For teams that publish APIs</p>
+        <h1>Shut down the old version on the date you announced<span class="needle">.</span></h1>
+        <p class="lede">When you retire a model, move an endpoint or rename a field, publish one signed notice. Tiltmeter opens a pull request that fixes each customer's code before the date, and shows you who is still on the old version.</p>
+        <div class="co-actions">
+          <a class="btn lg" href="mailto:hello@tiltmeter.dev?subject=Tiltmeter%20design%20partner">Run your next deprecation with us</a>
+          <a class="arrow" href="#how">See how it works</a>
+        </div>
+        <p class="pv-dev">Building on someone else's API? <a href="/developers/">Tiltmeter is free for developers</a></p>
+      </div>
+      <div class="pv-hero-visual">
+        <p class="pv-visual-label">Real pull requests, merged by maintainers</p>
+        <div class="pr-deck" data-deck>
+          <a class="pr front" data-pr href="https://github.com/harvard-edge/cs249r_book/pull/2163" aria-label="Pull request 2163 in harvard-edge/cs249r_book, merged">
+            <div class="pr-head">
+              <span class="pr-state" data-state>Merged</span>
+              <span class="pr-repo">harvard-edge/cs249r_book <b>#2163</b></span>
+              <span class="pr-stars" aria-label="29.7k GitHub stars">★ 29.7k</span>
+            </div>
+            <p class="pr-title">fix: replace the models api.groq.com retired</p>
+            <p class="pr-meta">Opened by Tiltmeter<span class="pr-by"> · merged by profvjreddi, who wrote the book</span></p>
+            <div class="pr-diff" aria-label="The change">
+              <p class="pr-file">socratiq/src_shadow/configs/env_configs.js</p>
+              <pre class="pr-code"><span class="l"><span class="ln">34</span> export const PROVIDER_MODELS = {</span><span class="l del"><span class="ln">35</span>-  GROQ:   { model: 'llama-3.1-8b-instant', stream: true },</span><span class="l add"><span class="ln">35</span>+  GROQ:   { model: '<span class="ty" data-type>openai/gpt-oss-20b</span>',   stream: true },</span><span class="l"><span class="ln">36</span>   GEMINI: { model: 'gemini-2.5-flash',     stream: true },</span></pre>
+            </div>
+            <div class="pr-comment">
+              <p class="pr-who"><b>profvjreddi</b> commented</p>
+              <p>“Fixes like this keep StaffML and SocratiQ working for everyone, so thank you for jumping in and contributing.”</p>
+            </div>
+          </a>
+          <a class="pr back" data-pr href="https://github.com/Tencent/AI-Infra-Guard/pull/728" aria-label="Pull request 728 in Tencent/AI-Infra-Guard, merged">
+            <div class="pr-head">
+              <span class="pr-state" data-state>Merged</span>
+              <span class="pr-repo">Tencent/AI-Infra-Guard <b>#728</b></span>
+              <span class="pr-stars" aria-label="7.2k GitHub stars">★ 7.2k</span>
+            </div>
+            <p class="pr-title">fix(agent-scan): move Hugging Face preset to router.huggingface.co/hf-inference</p>
+            <p class="pr-meta">Opened by Tiltmeter<span class="pr-by"> · approved and merged by boy-hack</span></p>
+            <div class="pr-diff" aria-label="The change">
+              <p class="pr-file">agent-scan/providers.yaml</p>
+              <pre class="pr-code"><span class="l"><span class="ln">256</span>   env_keys: ["HF_API_TOKEN", "HUGGINGFACE_API_KEY"]</span><span class="l del"><span class="ln">257</span>-  base_url: "https://api-inference.huggingface.co"</span><span class="l add"><span class="ln">257</span>+  base_url: "<span class="ty" data-type>https://router.huggingface.co/hf-inference</span>"</span><span class="l"><span class="ln">258</span>   endpoint: "/models/{{model}}"</span></pre>
+            </div>
+            <div class="pr-comment">
+              <p class="pr-who"><b>boy-hack</b> approved these changes</p>
+              <p>“Only two references to the old URL exist in the repo, and both files are covered by this PR. […] Thanks for the fix!”</p>
+            </div>
+          </a>
+          <div class="pr-picks" hidden>
+            <button type="button" aria-pressed="true">Harvard CS249r</button>
+            <button type="button" aria-pressed="false">Tencent AI-Infra-Guard</button>
           </div>
-          <p class="pr-title">fix: replace the models api.groq.com retired</p>
-          <p class="pr-meta">Opened by Tiltmeter<span class="pr-by"> · merged by profvjreddi, who wrote the book</span></p>
-          <div class="pr-diff" aria-label="The change">
-            <p class="pr-file">socratiq/src_shadow/configs/env_configs.js</p>
-            <pre class="pr-code"><span class="l"><span class="ln">34</span> export const PROVIDER_MODELS = {</span><span class="l del"><span class="ln">35</span>-  GROQ:   { model: 'llama-3.1-8b-instant', stream: true },</span><span class="l add"><span class="ln">35</span>+  GROQ:   { model: '<span class="ty" data-type>openai/gpt-oss-20b</span>',   stream: true },</span><span class="l"><span class="ln">36</span>   GEMINI: { model: 'gemini-2.5-flash',     stream: true },</span></pre>
-          </div>
-          <div class="pr-comment">
-            <p class="pr-who"><b>profvjreddi</b> commented</p>
-            <p>“Fixes like this keep StaffML and SocratiQ working for everyone, so thank you for jumping in and contributing.”</p>
-          </div>
-        </a>
-        <a class="pr back" data-pr href="https://github.com/Tencent/AI-Infra-Guard/pull/728" aria-label="Pull request 728 in Tencent/AI-Infra-Guard, merged">
-          <div class="pr-head">
-            <span class="pr-state" data-state>Merged</span>
-            <span class="pr-repo">Tencent/AI-Infra-Guard <b>#728</b></span>
-            <span class="pr-stars" aria-label="7.2k GitHub stars">★ 7.2k</span>
-          </div>
-          <p class="pr-title">fix(agent-scan): move Hugging Face preset to router.huggingface.co/hf-inference</p>
-          <p class="pr-meta">Opened by Tiltmeter<span class="pr-by"> · approved and merged by boy-hack</span></p>
-          <div class="pr-diff" aria-label="The change">
-            <p class="pr-file">agent-scan/providers.yaml</p>
-            <pre class="pr-code"><span class="l"><span class="ln">256</span>   env_keys: ["HF_API_TOKEN", "HUGGINGFACE_API_KEY"]</span><span class="l del"><span class="ln">257</span>-  base_url: "https://api-inference.huggingface.co"</span><span class="l add"><span class="ln">257</span>+  base_url: "<span class="ty" data-type>https://router.huggingface.co/hf-inference</span>"</span><span class="l"><span class="ln">258</span>   endpoint: "/models/{{model}}"</span></pre>
-          </div>
-          <div class="pr-comment">
-            <p class="pr-who"><b>boy-hack</b> approved these changes</p>
-            <p>“Only two references to the old URL exist in the repo, and both files are covered by this PR. […] Thanks for the fix!”</p>
-          </div>
-        </a>
-        <div class="pr-picks" hidden>
-          <button type="button" aria-pressed="true">Harvard CS249r</button>
-          <button type="button" aria-pressed="false">Tencent AI-Infra-Guard</button>
         </div>
       </div>
     </section>
 
-    <section class="seis wrap" aria-label="One deprecation, recorded with and without Tiltmeter">
-      <div class="seis-head">
-        <p>One deprecation, recorded twice</p>
-        <span class="seis-live">same API, same shutdown date</span>
+    <section class="pv-proof wrap" aria-labelledby="proof-title">
+      <div class="pv-proof-top">
+        <h2 id="proof-title">One week, ten public deprecations</h2>
+        <a class="arrow" href="/migrations/">See all 84 pull requests</a>
       </div>
-      <div class="seis-plot" data-seis>
-        <svg aria-hidden="true">
-          <defs><clipPath id="seis-clip"><rect class="seis-clip" x="0" y="0" width="100%" height="100%"/></clipPath></defs>
-          <g clip-path="url(#seis-clip)">
-            <g class="seis-ch-a"><path class="seis-a"/><path class="seis-quake"/></g>
-            <path class="seis-b"/>
-          </g>
-        </svg>
-        <p class="seis-ch a">Without Tiltmeter</p>
-        <p class="seis-ch b">With Tiltmeter</p>
-        <p class="seis-out a" data-at="0.77">Production breaks</p>
-        <p class="seis-out b" data-at="0.82">Nothing breaks</p>
-        <span class="seis-now" aria-hidden="true"></span>
-        <span class="seis-pen a" aria-hidden="true"></span>
-        <span class="seis-pen b" aria-hidden="true"></span>
-        <ol class="seis-rail">
-          <li style="--x: 13%" data-at="0.13"><i>1</i><b>Notice published</b><span>signed on your domain</span></li>
-          <li style="--x: 33%" data-at="0.33"><i>2</i><b>Pull requests opened</b><span>one per repository that calls it</span></li>
-          <li class="ok" style="--x: 53%" data-at="0.53"><i>3</i><b>Merged</b><span>reviewed by each team</span></li>
-          <li class="date" style="--x: 75%" data-at="0.75"><i>4</i><b>Shutdown date</b><span>the old version goes away</span></li>
+      <dl class="pv-stats">
+        <div><dt>pull requests opened in one week</dt><dd data-count="84">84</dd></div>
+        <div><dt>merged as written, and 1 more adopted</dt><dd data-count="13">13</dd></div>
+        <div><dt>providers' public deprecations: Anthropic, Groq, Stripe and seven more</dt><dd data-count="10">10</dd></div>
+        <div><dt>combined GitHub stars of those repositories</dt><dd>1.31M</dd></div>
+      </dl>
+      <div class="pv-merged">
+        <p>Fixes merged by maintainers at</p>
+        <ul>
+          <li><a href="https://github.com/harvard-edge/cs249r_book/pull/2163">Harvard CS249r</a></li>
+          <li><a href="https://github.com/Tencent/AI-Infra-Guard/pull/728">Tencent AI-Infra-Guard</a></li>
+          <li><a href="https://github.com/bytedance/deer-flow/pull/7585">ByteDance deer-flow</a></li>
+          <li><a href="https://github.com/radareorg/r2ai/pull/249">radare2</a></li>
+          <li><a href="https://github.com/serenity-bdd/serenity-core/pull/3756">Serenity BDD</a></li>
+          <li><a href="https://github.com/beenuar/AiSOC/pull/1524">AiSOC</a></li>
+          <li><a href="https://github.com/cdhigh/KindleEar/pull/747">KindleEar</a></li>
+          <li><a href="https://github.com/ruvnet/ruflo/pull/4512">ruflo</a></li>
+        </ul>
+      </div>
+      <p class="pv-note">A public test, not a customer list. We drafted every notice ourselves from the provider's public deprecation page. No provider signed, endorsed or uses Tiltmeter.</p>
+    </section>
+
+    <section id="problem" class="wrap section pv-problem">
+      <div class="pv-head">
+        <div>
+          <p class="eyebrow">The problem</p>
+          <h2 data-reveal>Announcing a change doesn't change anyone's code.</h2>
+        </div>
+        <p class="side" data-reveal>Customers skim the changelog, the emails land in a shared inbox, and the shutdown date arrives anyway. Two public deprecations show what's left behind.</p>
+      </div>
+      <div class="pv-pain">
+        <div class="pv-numbers">
+          <article class="pv-num" data-reveal>
+            <p class="pv-num-n">314,000</p>
+            <p>files on GitHub still call <code>llama-3.3-70b-versatile</code>, ten weeks after Groq shut it down on August 16.</p>
+          </article>
+          <article class="pv-num" data-reveal>
+            <p class="pv-num-n">78</p>
+            <p>repositories still read the subscription period field Stripe moved to the items in 2025. Stripe's own sample is one of them.</p>
+          </article>
+        </div>
+        <ul class="pv-pains" data-reveal>
+          <li><b>Changelogs and emails go unread.</b> The developer who wrote the call never sees them.</li>
+          <li><b>Tickets spike on the shutdown date.</b> Support finds out when production breaks.</li>
+          <li><b>Customers ask for more time.</b> Each extension moves the date you planned around.</li>
+          <li><b>Old versions keep running, and keep costing.</b> Groq still serves its retired models to enterprise customers with committed-spend contracts.</li>
+          <li><b>You can't see who is still on it.</b> Your traffic shows an API key, not the repository or the line to change.</li>
+        </ul>
+      </div>
+      <div class="seis pv-seis" role="group" aria-label="One deprecation, recorded with and without Tiltmeter">
+        <div class="seis-head">
+          <p>One deprecation, recorded twice</p>
+          <span class="seis-live">same API, same shutdown date</span>
+        </div>
+        <div class="seis-plot" data-seis>
+          <svg aria-hidden="true">
+            <defs><clipPath id="seis-clip"><rect class="seis-clip" x="0" y="0" width="100%" height="100%"/></clipPath></defs>
+            <g clip-path="url(#seis-clip)">
+              <g class="seis-ch-a"><path class="seis-a"/><path class="seis-quake"/></g>
+              <path class="seis-b"/>
+            </g>
+          </svg>
+          <p class="seis-ch a">Without Tiltmeter</p>
+          <p class="seis-ch b">With Tiltmeter</p>
+          <p class="seis-out a" data-at="0.77">Production breaks</p>
+          <p class="seis-out b" data-at="0.82">Nothing breaks</p>
+          <span class="seis-now" aria-hidden="true"></span>
+          <span class="seis-pen a" aria-hidden="true"></span>
+          <span class="seis-pen b" aria-hidden="true"></span>
+          <ol class="seis-rail">
+            <li style="--x: 13%" data-at="0.13"><i>1</i><b>Notice published</b><span>signed on your domain</span></li>
+            <li style="--x: 33%" data-at="0.33"><i>2</i><b>Pull requests opened</b><span>one per repository that calls it</span></li>
+            <li class="ok" style="--x: 53%" data-at="0.53"><i>3</i><b>Merged</b><span>reviewed by each team</span></li>
+            <li class="date" style="--x: 75%" data-at="0.75"><i>4</i><b>Shutdown date</b><span>the old version goes away</span></li>
+          </ol>
+        </div>
+        <ol class="seis-legend">
+          <li><span><b>Notice published</b>, signed on your domain</span></li>
+          <li><span><b>Pull requests opened</b>, one per repository that calls it</span></li>
+          <li><span><b>Merged</b>, reviewed by each team</span></li>
+          <li><span><b>Shutdown date</b>: the old version goes away</span></li>
         </ol>
       </div>
-      <ol class="seis-legend">
-        <li><span><b>Notice published</b>, signed on your domain</span></li>
-        <li><span><b>Pull requests opened</b>, one per repository that calls it</span></li>
-        <li><span><b>Merged</b>, reviewed by each team</span></li>
-        <li><span><b>Shutdown date</b>: the old version goes away</span></li>
-      </ol>
     </section>
 
-    <section class="statement wrap co-statement">
-      <p><span class="ink">Groq shut down <code>llama-3.3-70b-versatile</code> on August 16.</span> Ten weeks later, 314,000 files on GitHub still call it. <span class="ink">Stripe moved subscription periods to the items in 2025.</span> 78 repositories still read the old field, Stripe's own sample among them.</p>
-      <p class="co-statement-tail">Every deprecation ends the same way: support tickets, requests for more time, and old versions you keep running for whoever didn't migrate. Groq still serves its retired models to enterprise customers with committed-spend contracts.</p>
-    </section>
-
-    <section id="how" class="wrap section">
-      <h2 data-reveal>One notice in. <br>A pull request per repository out.</h2>
+    <section id="how" class="wrap section pv-how">
+      <div class="pv-head">
+        <div>
+          <p class="eyebrow">How it works</p>
+          <h2 data-reveal>One notice in.<br> A pull request<br> per repository out.</h2>
+        </div>
+        <p class="side" data-reveal>You describe the change once. Tiltmeter finds the code that uses it, fixes it, and tracks every merge until your shutdown date.</p>
+      </div>
       <figure class="iso iso-main" data-scene="provider" data-reveal>
         <div class="iso-stage"><!-- iso:provider:start --><svg class="iso-svg" viewBox="-122 -107 556 437" role="img" aria-label="A provider publishes a signed notice. Tiltmeter scans its customers&#x27; repositories, finds the three that call what changed, and opens a pull request in each; all three merge."><g class="floor"><polyline class="grid" points="0.0,-24.0 -166.3,72.0"/><polyline class="grid" points="20.8,-12.0 -145.5,84.0"/><polyline class="grid" points="41.6,0.0 -124.7,96.0"/><polyline class="grid" points="62.4,12.0 -103.9,108.0"/><polyline class="grid" points="83.1,24.0 -83.1,120.0"/><polyline class="grid" points="103.9,36.0 -62.4,132.0"/><polyline class="grid" points="124.7,48.0 -41.6,144.0"/><polyline class="grid" points="145.5,60.0 -20.8,156.0"/><polyline class="grid" points="166.3,72.0 0.0,168.0"/><polyline class="grid" points="187.1,84.0 20.8,180.0"/><polyline class="grid" points="207.8,96.0 41.6,192.0"/><polyline class="grid" points="228.6,108.0 62.4,204.0"/><polyline class="grid" points="249.4,120.0 83.1,216.0"/><polyline class="grid" points="270.2,132.0 103.9,228.0"/><polyline class="grid" points="291.0,144.0 124.7,240.0"/><polyline class="grid" points="311.8,156.0 145.5,252.0"/><polyline class="grid" points="332.6,168.0 166.3,264.0"/><polyline class="grid" points="353.3,180.0 187.1,276.0"/><polyline class="grid" points="374.1,192.0 207.8,288.0"/><polyline class="grid" points="394.9,204.0 228.6,300.0"/><polyline class="grid" points="415.7,216.0 249.4,312.0"/><polyline class="grid" points="436.5,228.0 270.2,324.0"/><polyline class="grid" points="457.3,240.0 291.0,336.0"/><polyline class="grid" points="0.0,-24.0 457.3,240.0"/><polyline class="grid" points="-20.8,-12.0 436.5,252.0"/><polyline class="grid" points="-41.6,0.0 415.7,264.0"/><polyline class="grid" points="-62.4,12.0 394.9,276.0"/><polyline class="grid" points="-83.1,24.0 374.1,288.0"/><polyline class="grid" points="-103.9,36.0 353.3,300.0"/><polyline class="grid" points="-124.7,48.0 332.6,312.0"/><polyline class="grid" points="-145.5,60.0 311.8,324.0"/><polyline class="grid" points="-166.3,72.0 291.0,336.0"/></g><polyline class="path" points="52.0,90.0 93.5,114.0"/><polyline class="path" points="187.1,180.0 228.6,204.0"/><g class="slab"><polygon class="fl" points="-103.9,60.0 0.0,120.0 0.0,108.0 -103.9,48.0" fill="#1b1b1f"/><polygon class="fr" points="103.9,60.0 0.0,120.0 0.0,108.0 103.9,48.0" fill="#141417"/><polygon class="ft" points="0.0,-12.0 103.9,48.0 0.0,108.0 -103.9,48.0" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,-96.6,60.8)" font-size="7.5" text-anchor="start">YOUR API</text><g class="server"><polygon class="fl" points="-58.2,48.0 0.0,81.6 0.0,64.8 -58.2,31.2" fill="#1b1b1f"/><polygon class="fr" points="58.2,48.0 0.0,81.6 0.0,64.8 58.2,31.2" fill="#141417"/><polygon class="ft" points="0.0,-2.4 58.2,31.2 0.0,64.8 -58.2,31.2" fill="#26262b"/></g><circle class="led g0" cx="-49.9" cy="44.2" r="1.7"/><circle class="led g1" cx="-41.2" cy="49.2" r="1.7"/><circle class="led g2" cx="-32.4" cy="54.2" r="1.7"/><g class="server"><polygon class="fl" points="-58.2,27.6 0.0,61.2 0.0,44.4 -58.2,10.8" fill="#1b1b1f"/><polygon class="fr" points="58.2,27.6 0.0,61.2 0.0,44.4 58.2,10.8" fill="#141417"/><polygon class="ft" points="0.0,-22.8 58.2,10.8 0.0,44.4 -58.2,10.8" fill="#26262b"/></g><circle class="led g1" cx="-49.9" cy="23.8" r="1.7"/><circle class="led g2" cx="-41.2" cy="28.8" r="1.7"/><circle class="led g0" cx="-32.4" cy="33.8" r="1.7"/><g class="server"><polygon class="fl" points="-58.2,7.2 0.0,40.8 0.0,24.0 -58.2,-9.6" fill="#1b1b1f"/><polygon class="fr" points="58.2,7.2 0.0,40.8 0.0,24.0 58.2,-9.6" fill="#141417"/><polygon class="ft" points="0.0,-43.2 58.2,-9.6 0.0,24.0 -58.2,-9.6" fill="#26262b"/></g><circle class="led g2" cx="-49.9" cy="3.4" r="1.7"/><circle class="led g0" cx="-41.2" cy="8.4" r="1.7"/><circle class="led g1" cx="-32.4" cy="13.4" r="1.7"/><ellipse class="shadow" cx="0.0" cy="-9.6" rx="22.0" ry="12.7"/><path class="trail" d="M0.0,-25.2 Q72.7,-89.2 145.5,94.8"/><g class="slab"><polygon class="fl" points="41.6,144.0 145.5,204.0 145.5,192.0 41.6,132.0" fill="#1b1b1f"/><polygon class="fr" points="249.4,144.0 145.5,204.0 145.5,192.0 249.4,132.0" fill="#141417"/><polygon class="ft" points="145.5,72.0 249.4,132.0 145.5,192.0 41.6,132.0" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,48.8,144.8)" font-size="7.5" text-anchor="start">TILTMETER</text><g class="device"><polygon class="fl" points="83.1,132.0 145.5,168.0 145.5,132.0 83.1,96.0" fill="#dcd7ca"/><polygon class="fr" points="207.8,132.0 145.5,168.0 145.5,132.0 207.8,96.0" fill="#c9c3b4"/><polygon class="ft" points="145.5,60.0 207.8,96.0 145.5,132.0 83.1,96.0" fill="#f2efe7"/></g><polygon class="screen" points="87.7,129.4 140.9,160.1 140.9,134.6 87.7,103.9"/><polyline class="wave calm" points="89.4,117.6 90.4,117.3 91.5,117.6 92.5,118.6 93.5,120.0 94.6,121.5 95.6,122.4 96.6,122.6 97.7,122.3 98.7,122.1 99.8,122.4 100.8,123.4 101.8,124.9 102.9,126.3 103.9,127.2 105.0,127.4 106.0,127.1 107.0,126.9 108.1,127.2 109.1,128.3 110.2,129.8 111.2,131.2 112.2,132.0 113.3,132.1 114.3,131.8 115.4,131.6 116.4,132.0 117.4,133.1 118.5,134.6 119.5,136.0 120.6,136.8 121.6,136.9 122.6,136.6 123.7,136.4 124.7,136.8 125.7,138.0 126.8,139.5 127.8,140.8 128.9,141.6 129.9,141.6 130.9,141.3 132.0,141.2 133.0,141.6 134.1,142.8 135.1,144.3 136.1,145.7 137.2,146.4 138.2,146.4 139.3,146.0"/><polyline class="wave quake" points="89.4,117.6 90.4,117.3 91.5,117.6 92.5,118.6 93.5,120.0 94.6,121.5 95.6,122.4 96.6,122.6 97.7,122.3 98.7,122.1 99.8,122.4 100.8,123.4 101.8,124.9 102.9,126.3 103.9,127.2 105.0,127.4 106.0,127.1 107.0,126.9 108.1,127.2 109.1,128.2 110.2,129.8 111.2,132.0 112.2,134.1 113.3,134.4 114.3,131.0 115.4,125.6 116.4,123.6 117.4,128.2 118.5,135.9 119.5,140.4 120.6,140.1 121.6,137.9 122.6,136.4 123.7,136.1 124.7,136.7 125.7,137.9 126.8,139.5 127.8,140.8 128.9,141.6 129.9,141.6 130.9,141.3 132.0,141.2 133.0,141.6 134.1,142.8 135.1,144.3 136.1,145.7 137.2,146.4 138.2,146.4 139.3,146.0"/><g class="needle"><polyline class="needle-l" points="120.6,91.0 170.4,101.0"/></g><circle class="led red" cx="189.1" cy="116.9" r="2.2"/><ellipse class="pulse p1" cx="145.5" cy="96.0" rx="37.0" ry="21.4"/><ellipse class="pulse p2" cx="145.5" cy="96.0" rx="37.0" ry="21.4"/><g class="slab"><polygon class="fl" points="166.3,240.0 291.0,312.0 291.0,300.0 166.3,228.0" fill="#1b1b1f"/><polygon class="fr" points="415.7,240.0 291.0,312.0 291.0,300.0 415.7,228.0" fill="#141417"/><polygon class="ft" points="291.0,156.0 415.7,228.0 291.0,300.0 166.3,228.0" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,173.6,240.8)" font-size="7.5" text-anchor="start">YOUR CUSTOMERS&#x27; CODE</text><g class="tile" data-at="0.17"><polygon class="fl" points="262.9,184.2 291.0,200.4 291.0,190.8 262.9,174.6" fill="#1b1b1f"/><polygon class="fr" points="319.0,184.2 291.0,200.4 291.0,190.8 319.0,174.6" fill="#141417"/><polygon class="ft tt" points="291.0,158.4 319.0,174.6 291.0,190.8 262.9,174.6" fill="#26262b"/><polyline class="glyph" points="288.9,165.6 299.3,171.6"/><polyline class="glyph" points="282.7,169.2 300.3,179.4"/><polyline class="glyph" points="276.4,172.8 294.1,183.0"/></g><g class="tile" data-at="0.17"><polygon class="fl" points="226.6,205.2 254.6,221.4 254.6,211.8 226.6,195.6" fill="#1b1b1f"/><polygon class="fr" points="282.7,205.2 254.6,221.4 254.6,211.8 282.7,195.6" fill="#141417"/><polygon class="ft tt" points="254.6,179.4 282.7,195.6 254.6,211.8 226.6,195.6" fill="#26262b"/><polyline class="glyph" points="252.5,186.6 262.9,192.6"/><polyline class="glyph" points="246.3,190.2 264.0,200.4"/><polyline class="glyph" points="240.1,193.8 257.7,204.0"/></g><g class="tile" data-at="0.49"><polygon class="fl" points="299.3,205.2 327.4,221.4 327.4,211.8 299.3,195.6" fill="#1b1b1f"/><polygon class="fr" points="355.4,205.2 327.4,221.4 327.4,211.8 355.4,195.6" fill="#141417"/><polygon class="ft tt" points="327.4,179.4 355.4,195.6 327.4,211.8 299.3,195.6" fill="#26262b"/><polyline class="glyph" points="325.3,186.6 335.7,192.6"/><polyline class="glyph" points="319.0,190.2 336.7,200.4"/><polyline class="glyph" points="312.8,193.8 330.5,204.0"/></g><g class="tile hit h-a" data-at="0.17"><polygon class="fl" points="190.2,226.2 218.2,242.4 218.2,232.8 190.2,216.6" fill="#1b1b1f"/><polygon class="fr" points="246.3,226.2 218.2,242.4 218.2,232.8 246.3,216.6" fill="#141417"/><polygon class="ft tt" points="218.2,200.4 246.3,216.6 218.2,232.8 190.2,216.6" fill="#26262b"/><polyline class="glyph" points="216.2,207.6 226.6,213.6"/><polyline class="glyph" points="209.9,211.2 227.6,221.4"/><polyline class="glyph" points="203.7,214.8 221.4,225.0"/></g><g class="tile hit h-b" data-at="0.49"><polygon class="fl" points="262.9,226.2 291.0,242.4 291.0,232.8 262.9,216.6" fill="#1b1b1f"/><polygon class="fr" points="319.0,226.2 291.0,242.4 291.0,232.8 319.0,216.6" fill="#141417"/><polygon class="ft tt" points="291.0,200.4 319.0,216.6 291.0,232.8 262.9,216.6" fill="#26262b"/><polyline class="glyph" points="288.9,207.6 299.3,213.6"/><polyline class="glyph" points="282.7,211.2 300.3,221.4"/><polyline class="glyph" points="276.4,214.8 294.1,225.0"/></g><g class="tile hit h-c" data-at="0.80"><polygon class="fl" points="335.7,226.2 363.7,242.4 363.7,232.8 335.7,216.6" fill="#1b1b1f"/><polygon class="fr" points="391.8,226.2 363.7,242.4 363.7,232.8 391.8,216.6" fill="#141417"/><polygon class="ft tt" points="363.7,200.4 391.8,216.6 363.7,232.8 335.7,216.6" fill="#26262b"/><polyline class="glyph" points="361.7,207.6 372.0,213.6"/><polyline class="glyph" points="355.4,211.2 373.1,221.4"/><polyline class="glyph" points="349.2,214.8 366.8,225.0"/></g><g class="tile" data-at="0.49"><polygon class="fl" points="226.6,247.2 254.6,263.4 254.6,253.8 226.6,237.6" fill="#1b1b1f"/><polygon class="fr" points="282.7,247.2 254.6,263.4 254.6,253.8 282.7,237.6" fill="#141417"/><polygon class="ft tt" points="254.6,221.4 282.7,237.6 254.6,253.8 226.6,237.6" fill="#26262b"/><polyline class="glyph" points="252.5,228.6 262.9,234.6"/><polyline class="glyph" points="246.3,232.2 264.0,242.4"/><polyline class="glyph" points="240.1,235.8 257.7,246.0"/></g><g class="tile" data-at="0.80"><polygon class="fl" points="299.3,247.2 327.4,263.4 327.4,253.8 299.3,237.6" fill="#1b1b1f"/><polygon class="fr" points="355.4,247.2 327.4,263.4 327.4,253.8 355.4,237.6" fill="#141417"/><polygon class="ft tt" points="327.4,221.4 355.4,237.6 327.4,253.8 299.3,237.6" fill="#26262b"/><polyline class="glyph" points="325.3,228.6 335.7,234.6"/><polyline class="glyph" points="319.0,232.2 336.7,242.4"/><polyline class="glyph" points="312.8,235.8 330.5,246.0"/></g><g class="tile" data-at="0.80"><polygon class="fl" points="262.9,268.2 291.0,284.4 291.0,274.8 262.9,258.6" fill="#1b1b1f"/><polygon class="fr" points="319.0,268.2 291.0,284.4 291.0,274.8 319.0,258.6" fill="#141417"/><polygon class="ft tt" points="291.0,242.4 319.0,258.6 291.0,274.8 262.9,258.6" fill="#26262b"/><polyline class="glyph" points="288.9,249.6 299.3,255.6"/><polyline class="glyph" points="282.7,253.2 300.3,263.4"/><polyline class="glyph" points="276.4,256.8 294.1,267.0"/></g><g class="beam" data-dx="116.4" data-dy="67.2"><polygon class="curtain" points="291.0,160.8 174.6,228.0 174.6,184.8 291.0,117.6"/><polyline class="curtain-edge" points="291.0,117.6 174.6,184.8"/><polygon class="curtain-floor" points="286.8,148.3 295.1,153.1 178.7,220.3 170.4,215.5"/></g><g class="mv fixer f-a" transform="translate(166.3,144.0)" data-path="166.3,144.0 191.2,174.0 228.6,184.8 252.9,191.6 218.2,211.7"><g class="in"><g><polygon class="fl" points="-8.7,5.0 0.0,10.1 0.0,-0.0 -8.7,-5.0" fill="#2c5fb4"/><polygon class="fr" points="8.7,5.0 0.0,10.1 0.0,-0.0 8.7,-5.0" fill="#234e96"/><polygon class="ft" points="0.0,-10.1 8.7,-5.0 0.0,-0.0 -8.7,-5.0" fill="#3a76d8"/></g></g></g><g class="mv fixer f-b" transform="translate(166.3,144.0)" data-path="166.3,144.0 191.2,174.0 228.6,184.8 289.3,212.6 291.0,211.7"><g class="in"><g><polygon class="fl" points="-8.7,5.0 0.0,10.1 0.0,-0.0 -8.7,-5.0" fill="#2c5fb4"/><polygon class="fr" points="8.7,5.0 0.0,10.1 0.0,-0.0 8.7,-5.0" fill="#234e96"/><polygon class="ft" points="0.0,-10.1 8.7,-5.0 0.0,-0.0 -8.7,-5.0" fill="#3a76d8"/></g></g></g><g class="mv fixer f-c" transform="translate(166.3,144.0)" data-path="166.3,144.0 191.2,174.0 228.6,184.8 325.7,233.6 363.7,211.7"><g class="in"><g><polygon class="fl" points="-8.7,5.0 0.0,10.1 0.0,-0.0 -8.7,-5.0" fill="#2c5fb4"/><polygon class="fr" points="8.7,5.0 0.0,10.1 0.0,-0.0 8.7,-5.0" fill="#234e96"/><polygon class="ft" points="0.0,-10.1 8.7,-5.0 0.0,-0.0 -8.7,-5.0" fill="#3a76d8"/></g></g></g><g class="bb multi prb prb-a"><rect x="181.5" y="163.8" width="73.4" height="23.9" rx="8"/><line class="stem" x1="218.2" y1="187.7" x2="218.2" y2="216.5"/><text class="s0" x="218.2" y="178.7" font-size="8.5" text-anchor="middle"><tspan x="218.2" dy="0.0">PR opened</tspan></text><text class="s1" x="218.2" y="178.7" font-size="8.5" text-anchor="middle"><tspan x="218.2" dy="0.0">Merged</tspan></text></g><g class="bb multi prb prb-b"><rect x="254.3" y="144.6" width="73.4" height="23.9" rx="8"/><line class="stem" x1="291.0" y1="168.5" x2="291.0" y2="216.5"/><text class="s0" x="291.0" y="159.5" font-size="8.5" text-anchor="middle"><tspan x="291.0" dy="0.0">PR opened</tspan></text><text class="s1" x="291.0" y="159.5" font-size="8.5" text-anchor="middle"><tspan x="291.0" dy="0.0">Merged</tspan></text></g><g class="bb multi prb prb-c"><rect x="327.0" y="163.8" width="73.4" height="23.9" rx="8"/><line class="stem" x1="363.7" y1="187.7" x2="363.7" y2="216.5"/><text class="s0" x="363.7" y="178.7" font-size="8.5" text-anchor="middle"><tspan x="363.7" dy="0.0">PR opened</tspan></text><text class="s1" x="363.7" y="178.7" font-size="8.5" text-anchor="middle"><tspan x="363.7" dy="0.0">Merged</tspan></text></g><g class="mv notice" transform="translate(0.0,-25.2)" data-arc="0.0,-25.2 72.7,-89.2 145.5,94.8"><g class="in"><g class="sheet"><polygon class="fl" points="-40.5,-3.0 5.2,23.4 5.2,21.0 -40.5,-5.4" fill="#dcd7ca"/><polygon class="fr" points="40.5,3.0 5.2,23.4 5.2,21.0 40.5,0.6" fill="#c9c3b4"/><polygon class="ft" points="-5.2,-25.8 40.5,0.6 5.2,21.0 -40.5,-5.4" fill="#f2efe7"/></g><polyline class="ink-line" points="-7.3,-17.4 12.5,-6.0"/><polyline class="ink-line" points="-13.9,-13.6 5.8,-2.2"/><polyline class="ink-line" points="-20.6,-9.7 -0.8,1.7"/><ellipse class="seal" cx="4.2" cy="8.4" rx="7.6" ry="4.4"/><text class="it seal-t" transform="matrix(0.8660,0.5000,-0.8660,0.5000,-33.9,-3.2)" font-size="4.6" text-anchor="start">SIGNED</text></g></g></svg><!-- iso:provider:end --></div>
         <ol class="iso-steps" aria-label="What happens">
@@ -152,7 +214,7 @@
       </figure>
       <div class="flow">
         <article data-reveal>
-          <p class="flow-n">1 &nbsp;You describe the change</p>
+          <h3 class="flow-n"><span>1</span>Publish one signed notice</h3>
 <pre class="code"><span class="mu">// notice.json</span>
 {
   <span class="k">"id"</span>: "groq-retired-models-2026-08",
@@ -167,20 +229,20 @@
     }]
   }]
 }</pre>
-          <p class="flow-text">A small JSON file in an <a class="u" href="https://github.com/tiltmeter-dev/tiltmeter/blob/main/docs/notice-spec.md">open format</a>, drafted from two versions of your OpenAPI spec or by hand, and signed with your key so only you can speak for your API.</p>
+          <p class="flow-text">A small JSON file in an <a class="u" href="https://github.com/tiltmeter-dev/tiltmeter/blob/main/docs/notice-spec.md">open format</a>, signed with your key on your own domain. The <a class="u" href="https://github.com/tiltmeter-dev/tiltmeter-action">GitHub Action</a> drafts it in CI from the diff between two versions of your OpenAPI spec.</p>
         </article>
         <article data-reveal>
-          <p class="flow-n">2 &nbsp;We fix each repository</p>
+          <h3 class="flow-n"><span>2</span>Each repository gets a pull request</h3>
 <pre class="code dark" data-typed><span class="ps">$</span> tiltmeter fix \
     --notice groq-retired-models-2026-08
 <span class="ok">✓</span> still calls it: configs/env_configs.js:35
 <span class="ok">✓</span> fixed in a fresh worktree
 <span class="ok">✓</span> pull request opened
   <span class="mu">harvard-edge/cs249r_book#2163</span></pre>
-          <p class="flow-text">Tiltmeter finds the code that still calls what changed, adapts it in a sandbox where it can also run the repository's tests, and opens one reviewable pull request that follows the repository's contribution rules.</p>
+          <p class="flow-text">Tiltmeter finds the code that still calls what changed, adapts it and opens one reviewable pull request per repository, before the date. Public repositories get theirs from Tiltmeter; private ones are covered when your customers run the GitHub Action.</p>
         </article>
         <article data-reveal>
-          <p class="flow-n">3 &nbsp;You see who migrated</p>
+          <h3 class="flow-n"><span>3</span>You see who's left</h3>
           <div class="mini-table" data-tracker role="table" aria-label="Pull requests for Groq's retired models">
             <div class="mt th" role="row"><span role="columnheader">Repository</span><span role="columnheader">Status</span></div>
             <div class="mt" role="row"><span role="cell">harvard-edge/cs249r_book</span><span role="cell"><i class="badge merged" data-flip="merged">Merged</i></span></div>
@@ -192,78 +254,10 @@
           <p class="flow-text">A <a class="u" href="/migrations/groq/">live tracker</a> shows who merged, who made the change their own way and who still calls the old version, while there is still time before the date.</p>
         </article>
       </div>
-    </section>
-
-    <section id="ways" class="wrap section co-ways">
-      <div class="co-proof-head">
-        <h2 data-reveal>With the provider, <br>or without it.</h2>
-        <p class="side" data-reveal>Providers sign what changed. Without them, Tiltmeter learns each API from its own responses, or checks your code against changes that already shipped. Either way, the fix arrives as a pull request.</p>
-      </div>
-      <div class="ways">
-        <article class="way" data-reveal>
-          <div class="way-text">
-            <p class="way-k">No provider needed</p>
-            <h3>It watches the API itself.</h3>
-            <p>Tiltmeter learns each third-party API's shape from real responses. When a field is renamed, turns into a string or starts coming back null, it fails your CI, tells your agents over MCP, and opens the fix.</p>
-            <a class="arrow" href="/developers/#how">How drift detection works</a>
-          </div>
-          <figure class="iso iso-card" data-scene="drift"><div class="iso-stage"><!-- iso:drift:start --><svg class="iso-svg" viewBox="-102 -60 448 315" role="img" aria-label="A third-party API&#x27;s responses reach Tiltmeter. One comes back with phone renamed to phone_number; Tiltmeter fails CI, tells the agent, and opens the pull request that fixes the code."><g class="floor"><polyline class="grid" points="0.0,-22.0 -133.4,55.0"/><polyline class="grid" points="19.1,-11.0 -114.3,66.0"/><polyline class="grid" points="38.1,0.0 -95.3,77.0"/><polyline class="grid" points="57.2,11.0 -76.2,88.0"/><polyline class="grid" points="76.2,22.0 -57.2,99.0"/><polyline class="grid" points="95.3,33.0 -38.1,110.0"/><polyline class="grid" points="114.3,44.0 -19.1,121.0"/><polyline class="grid" points="133.4,55.0 0.0,132.0"/><polyline class="grid" points="152.4,66.0 19.1,143.0"/><polyline class="grid" points="171.5,77.0 38.1,154.0"/><polyline class="grid" points="190.5,88.0 57.2,165.0"/><polyline class="grid" points="209.6,99.0 76.2,176.0"/><polyline class="grid" points="228.6,110.0 95.3,187.0"/><polyline class="grid" points="247.7,121.0 114.3,198.0"/><polyline class="grid" points="266.7,132.0 133.4,209.0"/><polyline class="grid" points="285.8,143.0 152.4,220.0"/><polyline class="grid" points="304.8,154.0 171.5,231.0"/><polyline class="grid" points="323.9,165.0 190.5,242.0"/><polyline class="grid" points="342.9,176.0 209.6,253.0"/><polyline class="grid" points="362.0,187.0 228.6,264.0"/><polyline class="grid" points="0.0,-22.0 362.0,187.0"/><polyline class="grid" points="-19.1,-11.0 342.9,198.0"/><polyline class="grid" points="-38.1,0.0 323.9,209.0"/><polyline class="grid" points="-57.2,11.0 304.8,220.0"/><polyline class="grid" points="-76.2,22.0 285.8,231.0"/><polyline class="grid" points="-95.3,33.0 266.7,242.0"/><polyline class="grid" points="-114.3,44.0 247.7,253.0"/><polyline class="grid" points="-133.4,55.0 228.6,264.0"/></g><polyline class="path" points="41.9,72.6 80.0,94.6"/><polyline class="path" points="182.9,132.0 221.0,154.0"/><polyline class="path" points="144.8,154.0 182.9,176.0"/><g class="slab"><polygon class="fl" points="-83.8,48.4 0.0,96.8 0.0,85.8 -83.8,37.4" fill="#1b1b1f"/><polygon class="fr" points="83.8,48.4 0.0,96.8 0.0,85.8 83.8,37.4" fill="#141417"/><polygon class="ft" points="0.0,-11.0 83.8,37.4 0.0,85.8 -83.8,37.4" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,-77.2,49.2)" font-size="7.5" text-anchor="start">THIRD-PARTY API</text><g class="server"><polygon class="fl" points="-53.3,37.4 0.0,68.2 0.0,19.8 -53.3,-11.0" fill="#1b1b1f"/><polygon class="fr" points="53.3,37.4 0.0,68.2 0.0,19.8 53.3,-11.0" fill="#141417"/><polygon class="ft" points="0.0,-41.8 53.3,-11.0 0.0,19.8 -53.3,-11.0" fill="#26262b"/></g><text class="it srv" transform="matrix(0.8660,0.5000,0.0000,1.0000,-49.9,3.1)" font-size="6.4" text-anchor="start">api.vendor.com</text><text class="it srv dim" transform="matrix(0.8660,0.5000,0.0000,1.0000,-49.9,9.9)" font-size="5.0" text-anchor="start">GET /v1/customers</text><circle class="led g0" cx="-44.8" cy="32.4" r="1.7"/><circle class="led g1" cx="-37.2" cy="36.8" r="1.7"/><circle class="led g2" cx="-29.5" cy="41.2" r="1.7"/><circle class="led g0" cx="-21.9" cy="45.6" r="1.7"/><g class="slab"><polygon class="fl" points="38.1,118.8 121.9,167.2 121.9,156.2 38.1,107.8" fill="#1b1b1f"/><polygon class="fr" points="205.8,118.8 121.9,167.2 121.9,156.2 205.8,107.8" fill="#141417"/><polygon class="ft" points="121.9,59.4 205.8,107.8 121.9,156.2 38.1,107.8" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,44.8,119.6)" font-size="7.5" text-anchor="start">TILTMETER</text><g class="mv resp r0" transform="translate(26.7,39.6)" data-path="26.7,39.6 47.6,57.2 81.9,77.0 92.4,80.8"><g class="in"><g><polygon class="fl" points="-11.8,6.8 0.0,13.6 0.0,-0.0 -11.8,-6.8" fill="#bcdcc8"/><polygon class="fr" points="11.8,6.8 0.0,13.6 0.0,-0.0 11.8,-6.8" fill="#a9d1b8"/><polygon class="ft" points="0.0,-13.6 11.8,-6.8 0.0,-0.0 -11.8,-6.8" fill="#d9eee1"/><polyline class="stripe" points="-0.4,-10.8 6.5,-6.8"/><polyline class="stripe" points="-3.4,-9.0 3.4,-5.1"/><polyline class="stripe" points="-6.5,-7.3 0.4,-3.3"/></g></g></g><g class="mv resp r1" transform="translate(26.7,39.6)" data-path="26.7,39.6 47.6,57.2 81.9,77.0 92.4,80.8"><g class="in"><g><polygon class="fl" points="-11.8,6.8 0.0,13.6 0.0,-0.0 -11.8,-6.8" fill="#bcdcc8"/><polygon class="fr" points="11.8,6.8 0.0,13.6 0.0,-0.0 11.8,-6.8" fill="#a9d1b8"/><polygon class="ft" points="0.0,-13.6 11.8,-6.8 0.0,-0.0 -11.8,-6.8" fill="#d9eee1"/><polyline class="stripe" points="-0.4,-10.8 6.5,-6.8"/><polyline class="stripe" points="-3.4,-9.0 3.4,-5.1"/><polyline class="stripe" points="-6.5,-7.3 0.4,-3.3"/></g></g></g><g class="mv resp r2" transform="translate(26.7,39.6)" data-path="26.7,39.6 47.6,57.2 81.9,77.0 92.4,80.8"><g class="in"><g><polygon class="fl" points="-11.8,6.8 0.0,13.6 0.0,-0.0 -11.8,-6.8" fill="#bcdcc8"/><polygon class="fr" points="11.8,6.8 0.0,13.6 0.0,-0.0 11.8,-6.8" fill="#a9d1b8"/><polygon class="ft" points="0.0,-13.6 11.8,-6.8 0.0,-0.0 -11.8,-6.8" fill="#d9eee1"/><polyline class="stripe" points="-0.4,-10.8 6.5,-6.8"/><polyline class="stripe" points="-3.4,-9.0 3.4,-5.1"/><polyline class="stripe" points="-6.5,-7.3 0.4,-3.3"/></g></g></g><g class="mv resp r3" transform="translate(26.7,39.6)" data-path="26.7,39.6 47.6,57.2 81.9,77.0 92.4,80.8"><g class="in"><g><polygon class="fl" points="-11.8,6.8 0.0,13.6 0.0,-0.0 -11.8,-6.8" fill="#bcdcc8"/><polygon class="fr" points="11.8,6.8 0.0,13.6 0.0,-0.0 11.8,-6.8" fill="#a9d1b8"/><polygon class="ft" points="0.0,-13.6 11.8,-6.8 0.0,-0.0 -11.8,-6.8" fill="#d9eee1"/><polyline class="stripe" points="-0.4,-10.8 6.5,-6.8"/><polyline class="stripe" points="-3.4,-9.0 3.4,-5.1"/><polyline class="stripe" points="-6.5,-7.3 0.4,-3.3"/></g></g></g><g class="mv resp odd" transform="translate(26.7,39.6)" data-path="26.7,39.6 47.6,57.2 81.9,77.0 92.4,80.8"><g class="in"><g><polygon class="fl" points="-11.8,6.8 0.0,13.6 0.0,-0.0 -11.8,-6.8" fill="#c0401b"/><polygon class="fr" points="11.8,6.8 0.0,13.6 0.0,-0.0 11.8,-6.8" fill="#a9381a"/><polygon class="ft" points="0.0,-13.6 11.8,-6.8 0.0,-0.0 -11.8,-6.8" fill="#e2552d"/><polyline class="stripe" points="-0.4,-10.8 6.5,-6.8"/><polyline class="stripe" points="-3.4,-9.0 3.4,-5.1"/><polyline class="stripe" points="-6.5,-7.3 0.4,-3.3"/></g></g></g><g class="device"><polygon class="fl" points="64.8,107.8 121.9,140.8 121.9,110.0 64.8,77.0" fill="#dcd7ca"/><polygon class="fr" points="179.1,107.8 121.9,140.8 121.9,110.0 179.1,77.0" fill="#c9c3b4"/><polygon class="ft" points="121.9,44.0 179.1,77.0 121.9,110.0 64.8,77.0" fill="#f2efe7"/></g><polygon class="screen" points="69.0,105.4 117.7,133.5 117.7,112.4 69.0,84.3"/><polyline class="wave calm" points="70.5,95.7 71.4,95.5 72.4,95.7 73.4,96.6 74.3,97.9 75.3,99.3 76.2,100.1 77.2,100.3 78.1,100.0 79.1,99.8 80.0,100.1 81.0,101.0 81.9,102.4 82.9,103.7 83.8,104.5 84.8,104.7 85.7,104.4 86.7,104.2 87.6,104.5 88.6,105.5 89.5,106.8 90.5,108.1 91.5,108.9 92.4,109.0 93.4,108.7 94.3,108.6 95.3,108.9 96.2,109.9 97.2,111.3 98.1,112.6 99.1,113.3 100.0,113.4 101.0,113.1 101.9,112.9 102.9,113.3 103.8,114.4 104.8,115.7 105.7,117.0 106.7,117.7 107.6,117.7 108.6,117.4 109.6,117.3 110.5,117.7 111.5,118.8 112.4,120.2 113.4,121.4 114.3,122.1 115.3,122.1 116.2,121.8"/><polyline class="wave quake" points="70.5,95.7 71.4,95.5 72.4,95.7 73.4,96.6 74.3,97.9 75.3,99.3 76.2,100.1 77.2,100.3 78.1,100.0 79.1,99.8 80.0,100.1 81.0,101.0 81.9,102.4 82.9,103.7 83.8,104.5 84.8,104.7 85.7,104.4 86.7,104.2 87.6,104.5 88.6,105.4 89.5,106.9 90.5,108.9 91.5,110.8 92.4,111.1 93.4,108.0 94.3,103.0 95.3,101.2 96.2,105.5 97.2,112.4 98.1,116.6 99.1,116.3 100.0,114.3 101.0,112.9 101.9,112.6 102.9,113.2 103.8,114.3 104.8,115.7 105.7,117.0 106.7,117.7 107.6,117.7 108.6,117.4 109.6,117.3 110.5,117.7 111.5,118.8 112.4,120.2 113.4,121.4 114.3,122.1 115.3,122.1 116.2,121.8"/><g class="needle"><polyline class="needle-l" points="99.1,72.4 144.8,81.6"/></g><circle class="led red" cx="161.9" cy="95.5" r="2.2"/><ellipse class="pulse p1" cx="121.9" cy="77.0" rx="33.9" ry="19.6"/><ellipse class="pulse p2" cx="121.9" cy="77.0" rx="33.9" ry="19.6"/><g class="slab"><polygon class="fl" points="160.0,189.2 243.9,237.6 243.9,226.6 160.0,178.2" fill="#1b1b1f"/><polygon class="fr" points="327.7,189.2 243.9,237.6 243.9,226.6 327.7,178.2" fill="#141417"/><polygon class="ft" points="243.9,129.8 327.7,178.2 243.9,226.6 160.0,178.2" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,166.7,190.0)" font-size="7.5" text-anchor="start">YOUR CI AND AGENTS</text><g class="ci"><polygon class="fl" points="215.3,157.3 245.8,174.9 245.8,150.7 215.3,133.1" fill="#1b1b1f"/><polygon class="fr" points="276.3,157.3 245.8,174.9 245.8,150.7 276.3,133.1" fill="#141417"/><polygon class="ft" points="245.8,115.5 276.3,133.1 245.8,150.7 215.3,133.1" fill="#26262b"/></g><text class="it srv" transform="matrix(0.8660,0.5000,0.0000,1.0000,218.2,151.2)" font-size="7.5" text-anchor="start">CI</text><ellipse class="ci-light" cx="245.8" cy="133.1" rx="11.3" ry="6.5"/><g class="agent"><polygon class="fl" points="177.2,179.3 207.7,196.9 207.7,172.7 177.2,155.1" fill="#1b1b1f"/><polygon class="fr" points="238.2,179.3 207.7,196.9 207.7,172.7 238.2,155.1" fill="#141417"/><polygon class="ft" points="207.7,137.5 238.2,155.1 207.7,172.7 177.2,155.1" fill="#26262b"/></g><text class="it srv" transform="matrix(0.8660,0.5000,0.0000,1.0000,180.0,173.2)" font-size="7.5" text-anchor="start">agent</text><ellipse class="eye" cx="201.0" cy="151.2" rx="3.2" ry="1.9"/><ellipse class="eye" cx="211.5" cy="157.3" rx="3.2" ry="1.9"/><g class="mv ping to-ci" transform="translate(169.6,104.5)" data-path="169.6,104.5 186.7,121.0 222.9,141.9 232.4,141.9"><g class="in"><circle class="alert" cx="0.0" cy="0.0" r="3.6"/></g></g><g class="mv ping to-agent" transform="translate(131.5,126.5)" data-path="131.5,126.5 148.6,143.0 184.8,163.9 194.3,163.9"><g class="in"><circle class="alert" cx="0.0" cy="0.0" r="3.6"/></g></g><g class="bb multi ci-bb"><rect x="217.0" y="87.8" width="57.6" height="23.9" rx="8"/><line class="stem" x1="245.8" y1="111.7" x2="245.8" y2="133.1"/><text class="s0" x="245.8" y="102.7" font-size="8.5" text-anchor="middle"><tspan x="245.8" dy="0.0">exit 2</tspan></text><text class="s1" x="245.8" y="102.7" font-size="8.5" text-anchor="middle"><tspan x="245.8" dy="0.0">exit 0</tspan></text></g><g class="bb agent-bb"><rect x="108.0" y="109.8" width="115.6" height="23.9" rx="8"/><line class="stem" x1="165.8" y1="133.7" x2="165.8" y2="161.7"/><text class="s0" x="165.8" y="124.7" font-size="8.5" text-anchor="middle"><tspan x="165.8" dy="0.0">has_drifted: true</tspan></text></g><g class="bb diff-bb"><rect x="1.0" y="33.9" width="131.4" height="23.9" rx="8"/><line class="stem" x1="66.7" y1="57.8" x2="66.7" y2="75.9"/><text class="s0" x="66.7" y="48.8" font-size="8.5" text-anchor="middle"><tspan x="66.7" dy="0.0">phone → phone_number</tspan></text></g><g class="bb multi fix-bb"><rect x="135.6" y="19.8" width="94.5" height="35.8" rx="8"/><text class="s0" x="182.9" y="34.7" font-size="8.5" text-anchor="middle"><tspan x="182.9" dy="0.0">tiltmeter fix</tspan><tspan x="182.9" dy="11.9">PR opened</tspan></text><text class="s1" x="182.9" y="34.7" font-size="8.5" text-anchor="middle"><tspan x="182.9" dy="0.0">tiltmeter fix</tspan><tspan x="182.9" dy="11.9">Merged</tspan></text></g></svg><!-- iso:drift:end --></div></figure>
-        </article>
-        <article class="way flip" data-reveal>
-          <div class="way-text">
-            <p class="way-k"><code>uvx tiltmeter scan</code></p>
-            <h3>Finds what already broke.</h3>
-            <p>A catalog of API changes that already shipped, checked against your code: retired models, removed endpoints, moved fields. No setup, no account, and nothing leaves your machine.</p>
-            <a class="arrow" href="https://github.com/tiltmeter-dev/tiltmeter/blob/main/docs/scan.md">What the scan checks</a>
-          </div>
-          <figure class="iso iso-card" data-scene="scan"><div class="iso-stage"><!-- iso:scan:start --><svg class="iso-svg" viewBox="-108 -44 429 245" role="img" aria-label="tiltmeter scan sweeps a repository and marks the three files that still use API changes that already shipped: a retired Groq model, Jira&#x27;s removed search endpoint and Slack&#x27;s files.upload."><g class="floor"><polyline class="grid" points="-19.1,-33.0 -171.5,55.0"/><polyline class="grid" points="0.0,-22.0 -152.4,66.0"/><polyline class="grid" points="19.1,-11.0 -133.4,77.0"/><polyline class="grid" points="38.1,0.0 -114.3,88.0"/><polyline class="grid" points="57.2,11.0 -95.3,99.0"/><polyline class="grid" points="76.2,22.0 -76.2,110.0"/><polyline class="grid" points="95.3,33.0 -57.2,121.0"/><polyline class="grid" points="114.3,44.0 -38.1,132.0"/><polyline class="grid" points="133.4,55.0 -19.1,143.0"/><polyline class="grid" points="152.4,66.0 0.0,154.0"/><polyline class="grid" points="171.5,77.0 19.1,165.0"/><polyline class="grid" points="190.5,88.0 38.1,176.0"/><polyline class="grid" points="209.6,99.0 57.2,187.0"/><polyline class="grid" points="228.6,110.0 76.2,198.0"/><polyline class="grid" points="247.7,121.0 95.3,209.0"/><polyline class="grid" points="266.7,132.0 114.3,220.0"/><polyline class="grid" points="-19.1,-33.0 266.7,132.0"/><polyline class="grid" points="-38.1,-22.0 247.7,143.0"/><polyline class="grid" points="-57.2,-11.0 228.6,154.0"/><polyline class="grid" points="-76.2,0.0 209.6,165.0"/><polyline class="grid" points="-95.3,11.0 190.5,176.0"/><polyline class="grid" points="-114.3,22.0 171.5,187.0"/><polyline class="grid" points="-133.4,33.0 152.4,198.0"/><polyline class="grid" points="-152.4,44.0 133.4,209.0"/><polyline class="grid" points="-171.5,55.0 114.3,220.0"/></g><g class="slab"><polygon class="fl" points="-89.5,38.5 -36.2,69.3 -36.2,58.3 -89.5,27.5" fill="#1b1b1f"/><polygon class="fr" points="17.1,38.5 -36.2,69.3 -36.2,58.3 17.1,27.5" fill="#141417"/><polygon class="ft" points="-36.2,-3.3 17.1,27.5 -36.2,58.3 -89.5,27.5" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,-82.9,39.3)" font-size="7.5" text-anchor="start">SCAN</text><g class="device"><polygon class="fl" points="-74.3,27.5 -36.2,49.5 -36.2,23.1 -74.3,1.1" fill="#dcd7ca"/><polygon class="fr" points="1.9,27.5 -36.2,49.5 -36.2,23.1 1.9,1.1" fill="#c9c3b4"/><polygon class="ft" points="-36.2,-20.9 1.9,1.1 -36.2,23.1 -74.3,1.1" fill="#f2efe7"/></g><polygon class="screen" points="-70.1,25.1 -40.4,42.2 -40.4,25.5 -70.1,8.4"/><polyline class="wave calm" points="-68.6,17.6 -68.0,17.1 -67.5,17.1 -66.9,17.8 -66.4,18.9 -65.8,20.0 -65.3,20.6 -64.7,20.6 -64.1,20.1 -63.6,19.7 -63.0,19.7 -62.5,20.4 -61.9,21.5 -61.4,22.6 -60.8,23.2 -60.3,23.1 -59.7,22.6 -59.1,22.2 -58.6,22.3 -58.0,23.0 -57.5,24.2 -56.9,25.2 -56.4,25.7 -55.8,25.6 -55.3,25.1 -54.7,24.7 -54.1,24.9 -53.6,25.6 -53.0,26.8 -52.5,27.8 -51.9,28.3 -51.4,28.2 -50.8,27.6 -50.3,27.3 -49.7,27.4 -49.1,28.2 -48.6,29.4 -48.0,30.4 -47.5,30.9 -46.9,30.7 -46.4,30.2 -45.8,29.8 -45.2,30.0 -44.7,30.9 -44.1,32.0 -43.6,33.0 -43.0,33.4 -42.5,33.2 -41.9,32.7"/><polyline class="wave quake" points="-68.6,17.6 -68.0,17.1 -67.5,17.1 -66.9,17.8 -66.4,18.9 -65.8,20.0 -65.3,20.6 -64.7,20.6 -64.1,20.1 -63.6,19.7 -63.0,19.7 -62.5,20.4 -61.9,21.5 -61.4,22.6 -60.8,23.2 -60.3,23.1 -59.7,22.6 -59.1,22.2 -58.6,22.2 -58.0,22.9 -57.5,24.2 -56.9,26.0 -56.4,27.7 -55.8,27.7 -55.3,24.4 -54.7,19.2 -54.1,17.1 -53.6,21.2 -53.0,27.9 -52.5,31.8 -51.9,31.4 -51.4,29.1 -50.8,27.5 -50.3,27.0 -49.7,27.3 -49.1,28.2 -48.6,29.4 -48.0,30.4 -47.5,30.9 -46.9,30.7 -46.4,30.2 -45.8,29.8 -45.2,30.0 -44.7,30.9 -44.1,32.0 -43.6,33.0 -43.0,33.4 -42.5,33.2 -41.9,32.7"/><g class="needle"><polyline class="needle-l" points="-51.4,-2.0 -21.0,4.2"/></g><circle class="led red" cx="-9.5" cy="15.1" r="2.2"/><ellipse class="pulse p1" cx="-36.2" cy="1.1" rx="22.6" ry="13.1"/><ellipse class="pulse p2" cx="-36.2" cy="1.1" rx="22.6" ry="13.1"/><g class="slab"><polygon class="fl" points="-38.1,96.8 110.5,182.6 110.5,171.6 -38.1,85.8" fill="#1b1b1f"/><polygon class="fr" points="213.4,123.2 110.5,182.6 110.5,171.6 213.4,112.2" fill="#141417"/><polygon class="ft" points="64.8,26.4 213.4,112.2 110.5,171.6 -38.1,85.8" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,-31.4,97.6)" font-size="7.5" text-anchor="start">YOUR REPOSITORY</text><g class="file" data-at="0.13"><polygon class="fl" points="41.0,51.1 66.7,66.0 66.7,62.5 41.0,47.6" fill="#1b1b1f"/><polygon class="fr" points="91.5,51.7 66.7,66.0 66.7,62.5 91.5,48.2" fill="#141417"/><polygon class="ft tt" points="65.7,33.3 91.5,48.2 66.7,62.5 41.0,47.6" fill="#26262b"/><polyline class="glyph" points="63.8,38.8 73.4,44.3"/><polyline class="glyph" points="58.5,41.9 74.7,51.3"/><polyline class="glyph" points="53.2,45.0 69.4,54.3"/></g><g class="file" data-at="0.13"><polygon class="fl" points="9.5,69.3 35.2,84.1 35.2,80.6 9.5,65.8" fill="#1b1b1f"/><polygon class="fr" points="60.0,69.8 35.2,84.1 35.2,80.6 60.0,66.3" fill="#141417"/><polygon class="ft tt" points="34.3,51.5 60.0,66.3 35.2,80.6 9.5,65.8" fill="#26262b"/><polyline class="glyph" points="32.4,57.0 41.9,62.5"/><polyline class="glyph" points="27.1,60.1 43.2,69.4"/><polyline class="glyph" points="21.7,63.1 37.9,72.5"/></g><g class="file" data-at="0.37"><polygon class="fl" points="75.3,70.9 101.0,85.8 101.0,82.3 75.3,67.4" fill="#1b1b1f"/><polygon class="fr" points="125.7,71.5 101.0,85.8 101.0,82.3 125.7,68.0" fill="#141417"/><polygon class="ft tt" points="100.0,53.1 125.7,68.0 101.0,82.3 75.3,67.4" fill="#26262b"/><polyline class="glyph" points="98.1,58.6 107.6,64.1"/><polyline class="glyph" points="92.8,61.7 109.0,71.1"/><polyline class="glyph" points="87.5,64.8 103.6,74.1"/></g><g class="file hit f02" data-at="0.13"><polygon class="fl" points="-21.9,87.4 3.8,102.3 3.8,98.8 -21.9,83.9" fill="#1b1b1f"/><polygon class="fr" points="28.6,88.0 3.8,102.3 3.8,98.8 28.6,84.5" fill="#141417"/><polygon class="ft tt" points="2.9,69.6 28.6,84.5 3.8,98.8 -21.9,83.9" fill="#26262b"/><polyline class="glyph" points="1.0,75.1 10.5,80.6"/><polyline class="glyph" points="-4.4,78.2 11.8,87.6"/><polyline class="glyph" points="-9.7,81.3 6.5,90.6"/></g><g class="file" data-at="0.37"><polygon class="fl" points="43.8,89.1 69.5,103.9 69.5,100.4 43.8,85.6" fill="#1b1b1f"/><polygon class="fr" points="94.3,89.6 69.5,103.9 69.5,100.4 94.3,86.1" fill="#141417"/><polygon class="ft tt" points="68.6,71.3 94.3,86.1 69.5,100.4 43.8,85.6" fill="#26262b"/><polyline class="glyph" points="66.7,76.8 76.2,82.3"/><polyline class="glyph" points="61.3,79.9 77.5,89.2"/><polyline class="glyph" points="56.0,82.9 72.2,92.3"/></g><g class="file" data-at="0.62"><polygon class="fl" points="109.6,90.7 135.3,105.6 135.3,102.1 109.6,87.2" fill="#1b1b1f"/><polygon class="fr" points="160.0,91.3 135.3,105.6 135.3,102.1 160.0,87.8" fill="#141417"/><polygon class="ft tt" points="134.3,72.9 160.0,87.8 135.3,102.1 109.6,87.2" fill="#26262b"/><polyline class="glyph" points="132.4,78.4 141.9,83.9"/><polyline class="glyph" points="127.1,81.5 143.3,90.9"/><polyline class="glyph" points="121.7,84.6 137.9,93.9"/></g><g class="file" data-at="0.37"><polygon class="fl" points="12.4,107.2 38.1,122.1 38.1,118.6 12.4,103.7" fill="#1b1b1f"/><polygon class="fr" points="62.9,107.8 38.1,122.1 38.1,118.6 62.9,104.3" fill="#141417"/><polygon class="ft tt" points="37.2,89.4 62.9,104.3 38.1,118.6 12.4,103.7" fill="#26262b"/><polyline class="glyph" points="35.2,94.9 44.8,100.4"/><polyline class="glyph" points="29.9,98.0 46.1,107.4"/><polyline class="glyph" points="24.6,101.1 40.8,110.4"/></g><g class="file hit f21" data-at="0.62"><polygon class="fl" points="78.1,108.9 103.8,123.7 103.8,120.2 78.1,105.4" fill="#1b1b1f"/><polygon class="fr" points="128.6,109.4 103.8,123.7 103.8,120.2 128.6,105.9" fill="#141417"/><polygon class="ft tt" points="102.9,91.1 128.6,105.9 103.8,120.2 78.1,105.4" fill="#26262b"/><polyline class="glyph" points="101.0,96.6 110.5,102.1"/><polyline class="glyph" points="95.6,99.7 111.8,109.0"/><polyline class="glyph" points="90.3,102.7 106.5,112.1"/></g><g class="file hit f30" data-at="0.86"><polygon class="fl" points="143.8,110.5 169.6,125.4 169.6,121.9 143.8,107.0" fill="#1b1b1f"/><polygon class="fr" points="194.3,111.1 169.6,125.4 169.6,121.9 194.3,107.6" fill="#141417"/><polygon class="ft tt" points="168.6,92.7 194.3,107.6 169.6,121.9 143.8,107.0" fill="#26262b"/><polyline class="glyph" points="166.7,98.2 176.2,103.7"/><polyline class="glyph" points="161.4,101.3 177.6,110.7"/><polyline class="glyph" points="156.0,104.4 172.2,113.7"/></g><g class="file" data-at="0.62"><polygon class="fl" points="46.7,127.0 72.4,141.9 72.4,138.4 46.7,123.5" fill="#1b1b1f"/><polygon class="fr" points="97.2,127.6 72.4,141.9 72.4,138.4 97.2,124.1" fill="#141417"/><polygon class="ft tt" points="71.4,109.2 97.2,124.1 72.4,138.4 46.7,123.5" fill="#26262b"/><polyline class="glyph" points="69.5,114.7 79.1,120.2"/><polyline class="glyph" points="64.2,117.8 80.4,127.2"/><polyline class="glyph" points="58.9,120.9 75.1,130.2"/></g><g class="file" data-at="0.86"><polygon class="fl" points="112.4,128.7 138.1,143.5 138.1,140.0 112.4,125.2" fill="#1b1b1f"/><polygon class="fr" points="162.9,129.2 138.1,143.5 138.1,140.0 162.9,125.7" fill="#141417"/><polygon class="ft tt" points="137.2,110.9 162.9,125.7 138.1,140.0 112.4,125.2" fill="#26262b"/><polyline class="glyph" points="135.3,116.4 144.8,121.9"/><polyline class="glyph" points="129.9,119.5 146.1,128.8"/><polyline class="glyph" points="124.6,122.5 140.8,131.9"/></g><g class="file" data-at="0.86"><polygon class="fl" points="81.0,146.8 106.7,161.7 106.7,158.2 81.0,143.3" fill="#1b1b1f"/><polygon class="fr" points="131.5,147.4 106.7,161.7 106.7,158.2 131.5,143.9" fill="#141417"/><polygon class="ft tt" points="105.7,129.0 131.5,143.9 106.7,158.2 81.0,143.3" fill="#26262b"/><polyline class="glyph" points="103.8,134.5 113.4,140.0"/><polyline class="glyph" points="98.5,137.6 114.7,147.0"/><polyline class="glyph" points="93.2,140.7 109.4,150.0"/></g><g class="beam" data-dx="141.0" data-dy="81.4"><polygon class="curtain" points="66.7,29.7 -32.4,86.9 -32.4,45.1 66.7,-12.1"/><polyline class="curtain-edge" points="66.7,-12.1 -32.4,45.1"/><polygon class="curtain-floor" points="62.9,23.1 70.5,27.5 -28.6,84.7 -36.2,80.3"/></g><g class="bb hit-tag t02"><rect x="-57.2" y="32.2" width="120.9" height="23.9" rx="8"/><line class="stem" x1="3.2" y1="56.1" x2="3.2" y2="84.1"/><text class="s0" x="3.2" y="47.2" font-size="8.5" text-anchor="middle"><tspan x="3.2" dy="0.0">/rest/api/3/search</tspan></text></g><g class="bb hit-tag t21"><rect x="58.6" y="22.9" width="89.2" height="23.9" rx="8"/><line class="stem" x1="103.3" y1="46.8" x2="103.3" y2="105.6"/><text class="s0" x="103.3" y="37.8" font-size="8.5" text-anchor="middle"><tspan x="103.3" dy="0.0">files.upload</tspan></text></g><g class="bb hit-tag t30"><rect x="95.4" y="55.3" width="147.2" height="23.9" rx="8"/><line class="stem" x1="169.0" y1="79.2" x2="169.0" y2="107.2"/><text class="s0" x="169.0" y="70.3" font-size="8.5" text-anchor="middle"><tspan x="169.0" dy="0.0">llama-3.3-70b-versatile</tspan></text></g><g class="bb result"><rect x="77.4" y="-22.0" width="226.3" height="35.8" rx="8"/><text class="s0" x="190.5" y="-7.1" font-size="8.5" text-anchor="middle"><tspan x="190.5" dy="0.0">$ uvx tiltmeter scan</tspan><tspan x="190.5" dy="11.9">✗ 3 known API changes affect this repo</tspan></text></g></svg><!-- iso:scan:end --></div></figure>
-        </article>
-        <article class="way" data-reveal>
-          <div class="way-text">
-            <p class="way-k">The fix</p>
-            <h3>A pull request, not a ticket.</h3>
-            <p>The agent edits a fresh, sandboxed worktree, can run the repository's tests, follows its contribution rules, and holds back edits to code that nothing uses. You review a small diff that explains itself.</p>
-            <a class="arrow" href="https://github.com/tiltmeter-dev/tiltmeter/blob/main/docs/fix.md">How fixes are made</a>
-          </div>
-          <figure class="iso iso-card" data-scene="fix"><div class="iso-stage"><!-- iso:fix:start --><svg class="iso-svg" viewBox="-146 -76 434 299" role="img" aria-label="An agent edits the affected file in a sandboxed worktree, skips a file nothing imports, runs the tests, and the pull request travels out and is merged."><g class="floor"><polyline class="grid" points="-57.2,-55.0 -190.5,22.0"/><polyline class="grid" points="-38.1,-44.0 -171.5,33.0"/><polyline class="grid" points="-19.1,-33.0 -152.4,44.0"/><polyline class="grid" points="0.0,-22.0 -133.4,55.0"/><polyline class="grid" points="19.1,-11.0 -114.3,66.0"/><polyline class="grid" points="38.1,0.0 -95.3,77.0"/><polyline class="grid" points="57.2,11.0 -76.2,88.0"/><polyline class="grid" points="76.2,22.0 -57.2,99.0"/><polyline class="grid" points="95.3,33.0 -38.1,110.0"/><polyline class="grid" points="114.3,44.0 -19.1,121.0"/><polyline class="grid" points="133.4,55.0 0.0,132.0"/><polyline class="grid" points="152.4,66.0 19.1,143.0"/><polyline class="grid" points="171.5,77.0 38.1,154.0"/><polyline class="grid" points="190.5,88.0 57.2,165.0"/><polyline class="grid" points="209.6,99.0 76.2,176.0"/><polyline class="grid" points="228.6,110.0 95.3,187.0"/><polyline class="grid" points="247.7,121.0 114.3,198.0"/><polyline class="grid" points="266.7,132.0 133.4,209.0"/><polyline class="grid" points="285.8,143.0 152.4,220.0"/><polyline class="grid" points="304.8,154.0 171.5,231.0"/><polyline class="grid" points="-57.2,-55.0 304.8,154.0"/><polyline class="grid" points="-76.2,-44.0 285.8,165.0"/><polyline class="grid" points="-95.3,-33.0 266.7,176.0"/><polyline class="grid" points="-114.3,-22.0 247.7,187.0"/><polyline class="grid" points="-133.4,-11.0 228.6,198.0"/><polyline class="grid" points="-152.4,0.0 209.6,209.0"/><polyline class="grid" points="-171.5,11.0 190.5,220.0"/><polyline class="grid" points="-190.5,22.0 171.5,231.0"/></g><g class="slab"><polygon class="fl" points="-127.7,3.3 -85.7,27.5 -85.7,18.7 -127.7,-5.5" fill="#1b1b1f"/><polygon class="fr" points="-43.8,3.3 -85.7,27.5 -85.7,18.7 -43.8,-5.5" fill="#141417"/><polygon class="ft" points="-85.7,-29.7 -43.8,-5.5 -85.7,18.7 -127.7,-5.5" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,-121.0,4.1)" font-size="7.5" text-anchor="start">AGENT</text><g class="slab"><polygon class="fl" points="-87.6,50.6 19.1,112.2 19.1,101.2 -87.6,39.6" fill="#1b1b1f"/><polygon class="fr" points="106.7,61.6 19.1,112.2 19.1,101.2 106.7,50.6" fill="#141417"/><polygon class="ft" points="0.0,-11.0 106.7,50.6 19.1,101.2 -87.6,39.6" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,-81.0,51.4)" font-size="7.5" text-anchor="start">FRESH WORKTREE</text><g class="file ok1"><polygon class="fl" points="-30.5,22.0 0.0,39.6 0.0,35.9 -30.5,18.3" fill="#1b1b1f"/><polygon class="fr" points="28.6,23.1 0.0,39.6 0.0,35.9 28.6,19.4" fill="#141417"/><polygon class="ft tt" points="-1.9,1.8 28.6,19.4 0.0,35.9 -30.5,18.3" fill="#26262b"/><polyline class="glyph" points="-3.8,8.4 7.6,15.0"/><polyline class="glyph" points="-9.9,11.9 9.1,22.9"/><polyline class="glyph" points="-16.0,15.4 3.0,26.4"/></g><g class="file dead"><polygon class="fl" points="5.7,42.9 36.2,60.5 36.2,56.8 5.7,39.2" fill="#1b1b1f"/><polygon class="fr" points="64.8,44.0 36.2,60.5 36.2,56.8 64.8,40.3" fill="#141417"/><polygon class="ft tt" points="34.3,22.7 64.8,40.3 36.2,56.8 5.7,39.2" fill="#26262b"/><polyline class="glyph" points="32.4,29.3 43.8,35.9"/><polyline class="glyph" points="26.3,32.8 45.3,43.8"/><polyline class="glyph" points="20.2,36.3 39.2,47.3"/></g><g class="file broken"><polygon class="fl" points="-64.8,41.8 -34.3,59.4 -34.3,55.7 -64.8,38.1" fill="#1b1b1f"/><polygon class="fr" points="-5.7,42.9 -34.3,59.4 -34.3,55.7 -5.7,39.2" fill="#141417"/><polygon class="ft tt" points="-36.2,21.6 -5.7,39.2 -34.3,55.7 -64.8,38.1" fill="#26262b"/><polyline class="glyph" points="-38.1,28.2 -26.7,34.8"/><polyline class="glyph" points="-44.2,31.7 -25.1,42.7"/><polyline class="glyph" points="-50.3,35.2 -31.2,46.2"/></g><g class="file ok2"><polygon class="fl" points="-28.6,62.7 1.9,80.3 1.9,76.6 -28.6,59.0" fill="#1b1b1f"/><polygon class="fr" points="30.5,63.8 1.9,80.3 1.9,76.6 30.5,60.1" fill="#141417"/><polygon class="ft tt" points="0.0,42.5 30.5,60.1 1.9,76.6 -28.6,59.0" fill="#26262b"/><polyline class="glyph" points="-1.9,49.1 9.5,55.7"/><polyline class="glyph" points="-8.0,52.6 11.1,63.6"/><polyline class="glyph" points="-14.1,56.1 5.0,67.1"/></g><g class="mv agent-cube" transform="translate(-85.7,-12.1)" data-arc="-85.7,-12.1 -60.5,-58.1 -35.2,32.0"><g class="in"><g><polygon class="fl" points="-11.4,6.6 0.0,13.2 0.0,-0.0 -11.4,-6.6" fill="#dcd7ca"/><polygon class="fr" points="11.4,6.6 0.0,13.2 0.0,-0.0 11.4,-6.6" fill="#c9c3b4"/><polygon class="ft" points="0.0,-13.2 11.4,-6.6 0.0,-0.0 -11.4,-6.6" fill="#f2efe7"/></g></g></g><g class="glass"><polygon class="fl" points="-76.2,39.6 19.1,94.6 19.1,67.1 -76.2,12.1" fill="rgba(44,102,201,0.07)"/><polygon class="fr" points="95.3,50.6 19.1,94.6 19.1,67.1 95.3,23.1" fill="rgba(44,102,201,0.1)"/><polygon class="ft" points="0.0,-31.9 95.3,23.1 19.1,67.1 -76.2,12.1" fill="rgba(44,102,201,0.04)"/></g><g class="bb dead-bb"><rect x="4.9" y="-46.9" width="60.7" height="34.4" rx="8"/><line class="stem" x1="35.2" y1="-12.5" x2="35.2" y2="39.7"/><text class="s0" x="35.2" y="-32.5" font-size="8" text-anchor="middle"><tspan x="35.2" dy="0.0">unused</tspan><tspan x="35.2" dy="11.2">skipped</tspan></text></g><g class="bb edit-bb"><rect x="-61.4" y="-19.9" width="52.4" height="23.9" rx="8"/><line class="stem" x1="-35.2" y1="4.0" x2="-35.2" y2="38.6"/><text class="s0" x="-35.2" y="-5.0" font-size="8.5" text-anchor="middle"><tspan x="-35.2" dy="0.0">+1 −1</tspan></text></g><g class="slab"><polygon class="fl" points="38.1,116.6 62.9,130.9 62.9,122.1 38.1,107.8" fill="#1b1b1f"/><polygon class="fr" points="139.1,86.9 62.9,130.9 62.9,122.1 139.1,78.1" fill="#141417"/><polygon class="ft" points="114.3,63.8 139.1,78.1 62.9,122.1 38.1,107.8" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,-0.5000,0.0000,1.0000,68.6,125.0)" font-size="7" text-anchor="start">TESTS</text><g class="test t0"><polygon class="fl" points="104.8,77.0 115.3,83.0 115.3,70.9 104.8,64.9" fill="#1b1b1f"/><polygon class="fr" points="125.7,77.0 115.3,83.0 115.3,70.9 125.7,64.9" fill="#141417"/><polygon class="ft tt" points="115.3,58.8 125.7,64.9 115.3,70.9 104.8,64.9" fill="#26262b"/></g><g class="test t1"><polygon class="fl" points="91.1,84.9 101.6,91.0 101.6,78.9 91.1,72.8" fill="#1b1b1f"/><polygon class="fr" points="112.0,84.9 101.6,91.0 101.6,78.9 112.0,72.8" fill="#141417"/><polygon class="ft tt" points="101.6,66.8 112.0,72.8 101.6,78.9 91.1,72.8" fill="#26262b"/></g><g class="test t2"><polygon class="fl" points="77.4,92.8 87.8,98.9 87.8,86.8 77.4,80.7" fill="#1b1b1f"/><polygon class="fr" points="98.3,92.8 87.8,98.9 87.8,86.8 98.3,80.7" fill="#141417"/><polygon class="ft tt" points="87.8,74.7 98.3,80.7 87.8,86.8 77.4,80.7" fill="#26262b"/></g><g class="test t3"><polygon class="fl" points="63.6,100.8 74.1,106.8 74.1,94.7 63.6,88.7" fill="#1b1b1f"/><polygon class="fr" points="84.6,100.8 74.1,106.8 74.1,94.7 84.6,88.7" fill="#141417"/><polygon class="ft tt" points="74.1,82.6 84.6,88.7 74.1,94.7 63.6,88.7" fill="#26262b"/></g><g class="test t4"><polygon class="fl" points="49.9,108.7 60.4,114.7 60.4,102.6 49.9,96.6" fill="#1b1b1f"/><polygon class="fr" points="70.9,108.7 60.4,114.7 60.4,102.6 70.9,96.6" fill="#141417"/><polygon class="ft tt" points="60.4,90.5 70.9,96.6 60.4,102.6 49.9,96.6" fill="#26262b"/></g><g class="slab"><polygon class="fl" points="102.9,156.2 186.7,204.6 186.7,193.6 102.9,145.2" fill="#1b1b1f"/><polygon class="fr" points="270.5,156.2 186.7,204.6 186.7,193.6 270.5,145.2" fill="#141417"/><polygon class="ft" points="186.7,96.8 270.5,145.2 186.7,193.6 102.9,145.2" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,109.6,157.0)" font-size="7.5" text-anchor="start">PULL REQUEST</text><g class="pr-desk"><polygon class="fl" points="125.7,145.2 186.7,180.4 186.7,174.9 125.7,139.7" fill="#1b1b1f"/><polygon class="fr" points="247.7,145.2 186.7,180.4 186.7,174.9 247.7,139.7" fill="#141417"/><polygon class="ft" points="186.7,104.5 247.7,139.7 186.7,174.9 125.7,139.7" fill="#26262b"/></g><g class="mv pr-card" transform="translate(186.7,132.0)" data-arc="9.5,-7.7 98.1,-47.7 186.7,132.0"><g class="in"><g class="bb multi card"><rect x="-60.4" y="-41.8" width="120.9" height="35.8" rx="8"/><text class="s0" x="0.0" y="-26.9" font-size="8.5" text-anchor="middle"><tspan x="0.0" dy="0.0">fix: retired model</tspan><tspan x="0.0" dy="11.9">PR · opened</tspan></text><text class="s1" x="0.0" y="-26.9" font-size="8.5" text-anchor="middle"><tspan x="0.0" dy="0.0">fix: retired model</tspan><tspan x="0.0" dy="11.9">PR · merged</tspan></text></g></g></g></svg><!-- iso:fix:end --></div></figure>
-        </article>
-      </div>
-      <div class="runs" data-reveal>
-        <div class="runs-text">
-          <p class="way-k">Bring your own agent</p>
-          <h3>Fixes run on the subscription you already have.</h3>
-          <p>Point <code>tiltmeter fix</code> at your Claude Code or Codex login and it runs there, with no API key to create. Claude Code gets file tools only; Codex stays inside its OS sandbox.</p>
-        </div>
-        <ul class="runs-list" aria-label="Agents that can run the fix">
-          <li>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg>
-            <b>Claude Code</b>
-            <span>Your Claude plan</span>
-            <code>--agent claude-code</code>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/></svg>
-            <b>Codex</b>
-            <span>Your ChatGPT plan</span>
-            <code>--agent codex</code>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.3041 3.541h-3.6718l6.696 16.918H24Zm-10.6082 0L0 20.459h3.7442l1.3693-3.5527h7.0052l1.3693 3.5528h3.7442L10.5363 3.5409Zm-.3712 10.2232 2.2914-5.9456 2.2914 5.9456Z"/></svg>
-            <b>Anthropic API</b>
-            <span>Your key, on LangChain Deep Agents</span>
-            <code>ANTHROPIC_API_KEY</code>
-          </li>
-          <li class="runs-soon">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
-            <b>More labs coming soon</b>
-            <a class="arrow" href="mailto:hello@tiltmeter.dev?subject=Tiltmeter%20agent%20request">Tell us which one</a>
-          </li>
-        </ul>
-      </div>
       <div class="langs" data-reveal>
         <div class="runs-text">
           <p class="way-k">Any language</p>
-          <h3>Whatever language the code is in.</h3>
+          <h3>Whatever language your customers write.</h3>
           <p>Tiltmeter finds the call in the code as text, so the language doesn't matter, and it recognizes provider SDKs in eight package ecosystems.</p>
         </div>
         <div>
@@ -286,97 +280,248 @@
       </div>
     </section>
 
-    <section id="compare" class="wrap section co-compare">
-      <div class="co-proof-head">
-        <h2 data-reveal>How Tiltmeter <br>compares.</h2>
-        <p class="side" data-reveal>Each of these tools is good at its job. None of them connects what the provider knows about a change to the code its customers wrote.</p>
+    <section id="dashboard" class="wrap section pv-dash">
+      <div class="pv-head">
+        <div>
+          <p class="eyebrow">What you see</p>
+          <h2 data-reveal>Who still uses the old version, and who breaks first.</h2>
+        </div>
+        <p class="side" data-reveal>One page per notice: every repository that used the change, the state of its pull request, and a burn-down to your shutdown date. Design partners get it first, and shape what it becomes.</p>
       </div>
-      <div class="cmp-wrap" data-reveal>
-        <table class="cmp">
+      <figure class="pv-shot" data-reveal>
+        <div class="pv-shot-frame">
+          <div class="pv-shot-bar">
+            <span class="pv-shot-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="pv-shot-title">Provider dashboard</span>
+            <span class="pv-sample">Prototype · sample data</span>
+          </div>
+          <img src="img/dashboard-notice.webp" width="1160" height="725" loading="lazy" decoding="async" alt="Prototype dashboard with sample data for a made-up provider: the signed notice “Move /v1/completions to /v1/responses” takes effect in 32 days. 289 repositories used it and 132 still do; a burn-down projects 48 left on the date, and a funnel runs from detected to pull request opened, merged and migrated.">
+        </div>
+        <img class="pv-shot-float" src="img/dashboard-attention.webp" width="703" height="303" loading="lazy" decoding="async" alt="Sample data: the overview's Needs attention list, most urgent first, with two broken repositories and two that declined the pull request.">
+        <figcaption>The provider dashboard is a prototype. Every customer, repository and number in it is sample data for a made-up provider, Nimbus AI.</figcaption>
+      </figure>
+      <ul class="pv-features">
+        <li data-reveal><b>Who still uses it</b><span>Every repository that called the change, by customer, with the files and lines that use it.</span></li>
+        <li data-reveal><b>Who breaks first</b><span>Repositories past or close to the date come first, with the state of their pull request.</span></li>
+        <li data-reveal><b>Whether you'll make the date</b><span>A burn-down at the current pace, projected to your shutdown date.</span></li>
+      </ul>
+    </section>
+
+    <section id="outcomes" class="wrap section pv-outcomes">
+      <div class="pv-head">
+        <div>
+          <p class="eyebrow">Outcomes</p>
+          <h2 data-reveal>A deprecation that ends on the day you planned.</h2>
+        </div>
+        <p class="side" data-reveal>The work moves from your support team and your customers' backlogs into pull requests, reviewed and merged before anything breaks.</p>
+      </div>
+      <div class="pv-cards">
+        <article class="pv-card" data-reveal>
+          <span class="pv-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7.5A1.5 1.5 0 0 1 5.5 6h13A1.5 1.5 0 0 1 20 7.5V10a2 2 0 0 0 0 4v2.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 16.5V14a2 2 0 0 0 0-4Z"/><path d="M9 12h6"/></svg></span>
+          <h3>Fewer tickets at the shutdown date</h3>
+          <p>The fix is merged in your customers' code before the date, so the breakage that fills your support queue doesn't happen.</p>
+        </article>
+        <article class="pv-card" data-reveal>
+          <span class="pv-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5v8"/><path d="M6.6 7a7.5 7.5 0 1 0 10.8 0"/></svg></span>
+          <h3>Old versions off on schedule</h3>
+          <p>When every affected repository has a pull request and you can see who is left, you can turn the old version off on the date you announced instead of extending it.</p>
+        </article>
+        <article class="pv-card" data-reveal>
+          <span class="pv-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5a5.5 5.5 0 0 1 11 0"/><path d="m15.5 11.5 2 2 4-4"/></svg></span>
+          <h3>No customer left behind</h3>
+          <p>Every repository Tiltmeter finds gets its own pull request, including the customers who never open your emails.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="trust" class="wrap section pv-trust">
+      <div class="pv-head">
+        <div>
+          <p class="eyebrow">Trust and security</p>
+          <h2 data-reveal>Only you speak for your API. Only maintainers merge.</h2>
+        </div>
+        <p class="side" data-reveal>A pull request in someone else's code has to earn its review. Each one carries your signature, comes from an isolated sandbox, and waits for a person.</p>
+      </div>
+      <div class="pv-trust-grid">
+        <ul class="pv-trust-list">
+          <li data-reveal>
+            <span class="pv-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="15.5" r="4"/><path d="m11 12.5 8.5-8.5"/><path d="m16.5 7 2.5 2.5"/><path d="m14.5 9 2 2"/></svg></span>
+            <div><h3>Signed on your own domain</h3><p>Each notice is signed with your key and verifies only against the public key at <code>/.well-known/api-change-key</code> on your domain. Every endpoint in it must be on your domain too.</p></div>
+          </li>
+          <li data-reveal>
+            <span class="pv-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5 5 6.2v5.3c0 4.2 2.9 7.5 7 9 4.1-1.5 7-4.8 7-9V6.2Z"/><path d="m9 12 2 2 4-4"/></svg></span>
+            <div><h3>An isolated copy, with no network or shell</h3><p>The agent edits a fresh copy of each repository with file tools only, never anyone's own checkout. Your notice's text reaches it as data, never as instructions.</p></div>
+          </li>
+          <li data-reveal>
+            <span class="pv-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.4"/><circle cx="6" cy="18" r="2.4"/><circle cx="18" cy="18" r="2.4"/><path d="M6 8.4v7.2"/><path d="M18 15.6V11a3 3 0 0 0-3-3h-4"/><path d="m13 5.8-2.2 2.2 2.2 2.2"/></svg></span>
+            <div><h3>Nothing lands without review</h3><p>Every fix is an ordinary pull request that the maintainer reviews, merges or closes. What the agent can't know, like a new number format, is listed for the reviewer with your note quoted.</p></div>
+          </li>
+        </ul>
+        <figure class="iso pv-trust-scene" data-scene="fix" data-reveal>
+          <div class="iso-stage"><!-- iso:fix:start --><svg class="iso-svg" viewBox="-146 -76 434 299" role="img" aria-label="An agent edits the affected file in a sandboxed worktree, skips a file nothing imports, runs the tests, and the pull request travels out and is merged."><g class="floor"><polyline class="grid" points="-57.2,-55.0 -190.5,22.0"/><polyline class="grid" points="-38.1,-44.0 -171.5,33.0"/><polyline class="grid" points="-19.1,-33.0 -152.4,44.0"/><polyline class="grid" points="0.0,-22.0 -133.4,55.0"/><polyline class="grid" points="19.1,-11.0 -114.3,66.0"/><polyline class="grid" points="38.1,0.0 -95.3,77.0"/><polyline class="grid" points="57.2,11.0 -76.2,88.0"/><polyline class="grid" points="76.2,22.0 -57.2,99.0"/><polyline class="grid" points="95.3,33.0 -38.1,110.0"/><polyline class="grid" points="114.3,44.0 -19.1,121.0"/><polyline class="grid" points="133.4,55.0 0.0,132.0"/><polyline class="grid" points="152.4,66.0 19.1,143.0"/><polyline class="grid" points="171.5,77.0 38.1,154.0"/><polyline class="grid" points="190.5,88.0 57.2,165.0"/><polyline class="grid" points="209.6,99.0 76.2,176.0"/><polyline class="grid" points="228.6,110.0 95.3,187.0"/><polyline class="grid" points="247.7,121.0 114.3,198.0"/><polyline class="grid" points="266.7,132.0 133.4,209.0"/><polyline class="grid" points="285.8,143.0 152.4,220.0"/><polyline class="grid" points="304.8,154.0 171.5,231.0"/><polyline class="grid" points="-57.2,-55.0 304.8,154.0"/><polyline class="grid" points="-76.2,-44.0 285.8,165.0"/><polyline class="grid" points="-95.3,-33.0 266.7,176.0"/><polyline class="grid" points="-114.3,-22.0 247.7,187.0"/><polyline class="grid" points="-133.4,-11.0 228.6,198.0"/><polyline class="grid" points="-152.4,0.0 209.6,209.0"/><polyline class="grid" points="-171.5,11.0 190.5,220.0"/><polyline class="grid" points="-190.5,22.0 171.5,231.0"/></g><g class="slab"><polygon class="fl" points="-127.7,3.3 -85.7,27.5 -85.7,18.7 -127.7,-5.5" fill="#1b1b1f"/><polygon class="fr" points="-43.8,3.3 -85.7,27.5 -85.7,18.7 -43.8,-5.5" fill="#141417"/><polygon class="ft" points="-85.7,-29.7 -43.8,-5.5 -85.7,18.7 -127.7,-5.5" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,-121.0,4.1)" font-size="7.5" text-anchor="start">AGENT</text><g class="slab"><polygon class="fl" points="-87.6,50.6 19.1,112.2 19.1,101.2 -87.6,39.6" fill="#1b1b1f"/><polygon class="fr" points="106.7,61.6 19.1,112.2 19.1,101.2 106.7,50.6" fill="#141417"/><polygon class="ft" points="0.0,-11.0 106.7,50.6 19.1,101.2 -87.6,39.6" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,-81.0,51.4)" font-size="7.5" text-anchor="start">FRESH WORKTREE</text><g class="file ok1"><polygon class="fl" points="-30.5,22.0 0.0,39.6 0.0,35.9 -30.5,18.3" fill="#1b1b1f"/><polygon class="fr" points="28.6,23.1 0.0,39.6 0.0,35.9 28.6,19.4" fill="#141417"/><polygon class="ft tt" points="-1.9,1.8 28.6,19.4 0.0,35.9 -30.5,18.3" fill="#26262b"/><polyline class="glyph" points="-3.8,8.4 7.6,15.0"/><polyline class="glyph" points="-9.9,11.9 9.1,22.9"/><polyline class="glyph" points="-16.0,15.4 3.0,26.4"/></g><g class="file dead"><polygon class="fl" points="5.7,42.9 36.2,60.5 36.2,56.8 5.7,39.2" fill="#1b1b1f"/><polygon class="fr" points="64.8,44.0 36.2,60.5 36.2,56.8 64.8,40.3" fill="#141417"/><polygon class="ft tt" points="34.3,22.7 64.8,40.3 36.2,56.8 5.7,39.2" fill="#26262b"/><polyline class="glyph" points="32.4,29.3 43.8,35.9"/><polyline class="glyph" points="26.3,32.8 45.3,43.8"/><polyline class="glyph" points="20.2,36.3 39.2,47.3"/></g><g class="file broken"><polygon class="fl" points="-64.8,41.8 -34.3,59.4 -34.3,55.7 -64.8,38.1" fill="#1b1b1f"/><polygon class="fr" points="-5.7,42.9 -34.3,59.4 -34.3,55.7 -5.7,39.2" fill="#141417"/><polygon class="ft tt" points="-36.2,21.6 -5.7,39.2 -34.3,55.7 -64.8,38.1" fill="#26262b"/><polyline class="glyph" points="-38.1,28.2 -26.7,34.8"/><polyline class="glyph" points="-44.2,31.7 -25.1,42.7"/><polyline class="glyph" points="-50.3,35.2 -31.2,46.2"/></g><g class="file ok2"><polygon class="fl" points="-28.6,62.7 1.9,80.3 1.9,76.6 -28.6,59.0" fill="#1b1b1f"/><polygon class="fr" points="30.5,63.8 1.9,80.3 1.9,76.6 30.5,60.1" fill="#141417"/><polygon class="ft tt" points="0.0,42.5 30.5,60.1 1.9,76.6 -28.6,59.0" fill="#26262b"/><polyline class="glyph" points="-1.9,49.1 9.5,55.7"/><polyline class="glyph" points="-8.0,52.6 11.1,63.6"/><polyline class="glyph" points="-14.1,56.1 5.0,67.1"/></g><g class="mv agent-cube" transform="translate(-85.7,-12.1)" data-arc="-85.7,-12.1 -60.5,-58.1 -35.2,32.0"><g class="in"><g><polygon class="fl" points="-11.4,6.6 0.0,13.2 0.0,-0.0 -11.4,-6.6" fill="#dcd7ca"/><polygon class="fr" points="11.4,6.6 0.0,13.2 0.0,-0.0 11.4,-6.6" fill="#c9c3b4"/><polygon class="ft" points="0.0,-13.2 11.4,-6.6 0.0,-0.0 -11.4,-6.6" fill="#f2efe7"/></g></g></g><g class="glass"><polygon class="fl" points="-76.2,39.6 19.1,94.6 19.1,67.1 -76.2,12.1" fill="rgba(44,102,201,0.07)"/><polygon class="fr" points="95.3,50.6 19.1,94.6 19.1,67.1 95.3,23.1" fill="rgba(44,102,201,0.1)"/><polygon class="ft" points="0.0,-31.9 95.3,23.1 19.1,67.1 -76.2,12.1" fill="rgba(44,102,201,0.04)"/></g><g class="bb dead-bb"><rect x="4.9" y="-46.9" width="60.7" height="34.4" rx="8"/><line class="stem" x1="35.2" y1="-12.5" x2="35.2" y2="39.7"/><text class="s0" x="35.2" y="-32.5" font-size="8" text-anchor="middle"><tspan x="35.2" dy="0.0">unused</tspan><tspan x="35.2" dy="11.2">skipped</tspan></text></g><g class="bb edit-bb"><rect x="-61.4" y="-19.9" width="52.4" height="23.9" rx="8"/><line class="stem" x1="-35.2" y1="4.0" x2="-35.2" y2="38.6"/><text class="s0" x="-35.2" y="-5.0" font-size="8.5" text-anchor="middle"><tspan x="-35.2" dy="0.0">+1 −1</tspan></text></g><g class="slab"><polygon class="fl" points="38.1,116.6 62.9,130.9 62.9,122.1 38.1,107.8" fill="#1b1b1f"/><polygon class="fr" points="139.1,86.9 62.9,130.9 62.9,122.1 139.1,78.1" fill="#141417"/><polygon class="ft" points="114.3,63.8 139.1,78.1 62.9,122.1 38.1,107.8" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,-0.5000,0.0000,1.0000,68.6,125.0)" font-size="7" text-anchor="start">TESTS</text><g class="test t0"><polygon class="fl" points="104.8,77.0 115.3,83.0 115.3,70.9 104.8,64.9" fill="#1b1b1f"/><polygon class="fr" points="125.7,77.0 115.3,83.0 115.3,70.9 125.7,64.9" fill="#141417"/><polygon class="ft tt" points="115.3,58.8 125.7,64.9 115.3,70.9 104.8,64.9" fill="#26262b"/></g><g class="test t1"><polygon class="fl" points="91.1,84.9 101.6,91.0 101.6,78.9 91.1,72.8" fill="#1b1b1f"/><polygon class="fr" points="112.0,84.9 101.6,91.0 101.6,78.9 112.0,72.8" fill="#141417"/><polygon class="ft tt" points="101.6,66.8 112.0,72.8 101.6,78.9 91.1,72.8" fill="#26262b"/></g><g class="test t2"><polygon class="fl" points="77.4,92.8 87.8,98.9 87.8,86.8 77.4,80.7" fill="#1b1b1f"/><polygon class="fr" points="98.3,92.8 87.8,98.9 87.8,86.8 98.3,80.7" fill="#141417"/><polygon class="ft tt" points="87.8,74.7 98.3,80.7 87.8,86.8 77.4,80.7" fill="#26262b"/></g><g class="test t3"><polygon class="fl" points="63.6,100.8 74.1,106.8 74.1,94.7 63.6,88.7" fill="#1b1b1f"/><polygon class="fr" points="84.6,100.8 74.1,106.8 74.1,94.7 84.6,88.7" fill="#141417"/><polygon class="ft tt" points="74.1,82.6 84.6,88.7 74.1,94.7 63.6,88.7" fill="#26262b"/></g><g class="test t4"><polygon class="fl" points="49.9,108.7 60.4,114.7 60.4,102.6 49.9,96.6" fill="#1b1b1f"/><polygon class="fr" points="70.9,108.7 60.4,114.7 60.4,102.6 70.9,96.6" fill="#141417"/><polygon class="ft tt" points="60.4,90.5 70.9,96.6 60.4,102.6 49.9,96.6" fill="#26262b"/></g><g class="slab"><polygon class="fl" points="102.9,156.2 186.7,204.6 186.7,193.6 102.9,145.2" fill="#1b1b1f"/><polygon class="fr" points="270.5,156.2 186.7,204.6 186.7,193.6 270.5,145.2" fill="#141417"/><polygon class="ft" points="186.7,96.8 270.5,145.2 186.7,193.6 102.9,145.2" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,109.6,157.0)" font-size="7.5" text-anchor="start">PULL REQUEST</text><g class="pr-desk"><polygon class="fl" points="125.7,145.2 186.7,180.4 186.7,174.9 125.7,139.7" fill="#1b1b1f"/><polygon class="fr" points="247.7,145.2 186.7,180.4 186.7,174.9 247.7,139.7" fill="#141417"/><polygon class="ft" points="186.7,104.5 247.7,139.7 186.7,174.9 125.7,139.7" fill="#26262b"/></g><g class="mv pr-card" transform="translate(186.7,132.0)" data-arc="9.5,-7.7 98.1,-47.7 186.7,132.0"><g class="in"><g class="bb multi card"><rect x="-60.4" y="-41.8" width="120.9" height="35.8" rx="8"/><text class="s0" x="0.0" y="-26.9" font-size="8.5" text-anchor="middle"><tspan x="0.0" dy="0.0">fix: retired model</tspan><tspan x="0.0" dy="11.9">PR · opened</tspan></text><text class="s1" x="0.0" y="-26.9" font-size="8.5" text-anchor="middle"><tspan x="0.0" dy="0.0">fix: retired model</tspan><tspan x="0.0" dy="11.9">PR · merged</tspan></text></g></g></g></svg><!-- iso:fix:end --></div>
+        </figure>
+      </div>
+      <div class="pv-quotes">
+        <blockquote data-reveal>
+          <p>“Independently checked Anthropic's model overview, retirement table and Sonnet 5.5 migration guide. […] This conclusion does not rely on the unsigned Tiltmeter notice.”</p>
+          <footer><a href="https://github.com/shareAI-lab/learn-claude-code/pull/602#pullrequestreview-5662105865">@CrazyBoyM, maintainer of learn-claude-code</a>. A notice signed by the provider is what saves maintainers that check.</footer>
+        </blockquote>
+        <blockquote data-reveal>
+          <p>“Thanks — Cloud-only switch, token paging and the early-end guard look right. Merging.”</p>
+          <footer><a href="https://github.com/deeplethe/utopia/pull/1453#pullrequestreview-5696328354">@WaylandYang, maintainer of utopia</a>, approving its fix for Jira Cloud's removed search. Jira Server and Data Center keep the old endpoint, so the fix switches only on Cloud.</footer>
+        </blockquote>
+      </div>
+    </section>
+
+    <section id="compare" class="wrap section pv-compare">
+      <div class="pv-head">
+        <div>
+          <p class="eyebrow">Compared</p>
+          <h2 data-reveal>Changelogs announce. Pull requests migrate.</h2>
+        </div>
+        <p class="side" data-reveal>Keep your changelog, your emails and your deprecation headers. Tiltmeter turns what they announce into a change in each customer's code.</p>
+      </div>
+      <div class="pv-cmp-wrap" data-reveal>
+        <table class="pv-cmp">
+          <caption class="vh">Tiltmeter compared with changelogs, deprecation emails and deprecation headers</caption>
           <thead>
             <tr>
               <th scope="col"><span class="vh">What it does</span></th>
-              <th scope="col">Dependency bots<small>Dependabot, Renovate</small></th>
-              <th scope="col">Breaking-change detectors<small>oasdiff, Optic</small></th>
-              <th scope="col">Codemods<small>OpenRewrite, Codemod</small></th>
-              <th scope="col">Coding agents<small>Copilot, Devin</small></th>
+              <th scope="col">Changelog</th>
+              <th scope="col">Deprecation emails</th>
+              <th scope="col">Deprecation headers<small>Deprecation, Sunset</small></th>
               <th scope="col" class="us"><span class="cmp-brand"><svg viewBox="0 0 1024 1024" aria-hidden="true"><rect width="1024" height="1024" rx="224" fill="#f2efe7"/><path d="M487 230V651Q487 776 612 776H674" fill="none" stroke="#141416" stroke-width="100" stroke-linecap="round" stroke-linejoin="round"/><path d="M323 425H682" stroke="#e2552d" stroke-width="100" stroke-linecap="round" transform="rotate(-13 487 425)"/></svg>tiltmeter</span></th>
             </tr>
           </thead>
           <tbody>
-            <tr><th scope="row">Knows what changed in the API's behavior</th><td><i class="no" aria-label="No"></i></td><td><i class="yes" aria-label="Yes"></i></td><td><i class="part" aria-label="Only if someone writes the migration"></i></td><td><i class="part" aria-label="Only if someone tells it"></i></td><td class="us"><i class="yes" aria-label="Yes"></i></td></tr>
-            <tr><th scope="row">Finds the code that calls what changed</th><td><i class="part" aria-label="It finds the dependency, not the calls"></i></td><td><i class="no" aria-label="No"></i></td><td><i class="yes" aria-label="Yes"></i></td><td><i class="part" aria-label="When asked"></i></td><td class="us"><i class="yes" aria-label="Yes"></i></td></tr>
-            <tr><th scope="row">Edits that code, not just a version number</th><td><i class="no" aria-label="No"></i></td><td><i class="no" aria-label="No"></i></td><td><i class="yes" aria-label="Yes"></i></td><td><i class="yes" aria-label="Yes"></i></td><td class="us"><i class="yes" aria-label="Yes"></i></td></tr>
-            <tr><th scope="row">Opens a reviewable pull request</th><td><i class="yes" aria-label="Yes"></i></td><td><i class="no" aria-label="No"></i></td><td><i class="yes" aria-label="Yes"></i></td><td><i class="yes" aria-label="Yes"></i></td><td class="us"><i class="yes" aria-label="Yes"></i></td></tr>
-            <tr><th scope="row">Reaches customers' code from the provider's side</th><td><i class="part" aria-label="Only as a new SDK version"></i></td><td><i class="no" aria-label="No"></i></td><td><i class="no" aria-label="No"></i></td><td><i class="no" aria-label="No"></i></td><td class="us"><i class="yes" aria-label="Yes"></i></td></tr>
-            <tr><th scope="row">Signed by the API provider</th><td><i class="no" aria-label="No"></i></td><td><i class="no" aria-label="No"></i></td><td><i class="no" aria-label="No"></i></td><td><i class="no" aria-label="No"></i></td><td class="us"><i class="yes" aria-label="Yes"></i></td></tr>
-            <tr><th scope="row">Shows the provider who migrated before the date</th><td><i class="no" aria-label="No"></i></td><td><i class="no" aria-label="No"></i></td><td><i class="no" aria-label="No"></i></td><td><i class="no" aria-label="No"></i></td><td class="us"><i class="yes" aria-label="Yes"></i></td></tr>
+            <tr>
+              <th scope="row">Arrives before anything breaks</th>
+              <td data-label="Changelog"><i class="yes" aria-hidden="true"></i><span>Yes</span></td>
+              <td data-label="Emails"><i class="yes" aria-hidden="true"></i><span>Yes</span></td>
+              <td data-label="Headers"><i class="part" aria-hidden="true"></i><span>Once the code runs</span></td>
+              <td data-label="Tiltmeter" class="us"><i class="yes" aria-hidden="true"></i><span>Before the date</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Reaches the people who own the code</th>
+              <td data-label="Changelog"><i class="part" aria-hidden="true"></i><span>If they come looking</span></td>
+              <td data-label="Emails"><i class="part" aria-hidden="true"></i><span>If the inbox is read</span></td>
+              <td data-label="Headers"><i class="part" aria-hidden="true"></i><span>If someone reads the logs</span></td>
+              <td data-label="Tiltmeter" class="us"><i class="yes" aria-hidden="true"></i><span>In their repository</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Points to the lines that use the change</th>
+              <td data-label="Changelog"><i class="no" aria-hidden="true"></i><span>No</span></td>
+              <td data-label="Emails"><i class="no" aria-hidden="true"></i><span>No</span></td>
+              <td data-label="Headers"><i class="part" aria-hidden="true"></i><span>The request, not the line</span></td>
+              <td data-label="Tiltmeter" class="us"><i class="yes" aria-hidden="true"></i><span>File and line</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Writes the change</th>
+              <td data-label="Changelog"><i class="no" aria-hidden="true"></i><span>No</span></td>
+              <td data-label="Emails"><i class="no" aria-hidden="true"></i><span>No</span></td>
+              <td data-label="Headers"><i class="no" aria-hidden="true"></i><span>No</span></td>
+              <td data-label="Tiltmeter" class="us"><i class="yes" aria-hidden="true"></i><span>A reviewable pull request</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Shows you who still uses it</th>
+              <td data-label="Changelog"><i class="no" aria-hidden="true"></i><span>No</span></td>
+              <td data-label="Emails"><i class="no" aria-hidden="true"></i><span>Who opened it, not who migrated</span></td>
+              <td data-label="Headers"><i class="no" aria-hidden="true"></i><span>No</span></td>
+              <td data-label="Tiltmeter" class="us"><i class="yes" aria-hidden="true"></i><span>By repository and customer</span></td>
+            </tr>
           </tbody>
         </table>
       </div>
-      <p class="cmp-key"><i class="yes" aria-hidden="true"></i> yes &nbsp; <i class="part" aria-hidden="true"></i> partly, or only when someone asks &nbsp; <i class="no" aria-hidden="true"></i> no</p>
     </section>
 
-    <section id="proof" class="wrap section co-proof">
-      <div class="co-proof-head">
-        <h2 data-reveal><span data-count="84">84</span> pull requests <br>in one week.</h2>
-        <p class="side">No provider asked us to. We drafted notices from ten public deprecation pages and let Tiltmeter fix the most-starred active repositories still affected. Maintainers merged 13 as written, in repositories with 1.31M GitHub stars between them.</p>
-      </div>
-      <div class="ledger" data-reveal role="table" aria-label="Pull requests by provider">
-        <div class="lr th" role="row"><span role="columnheader">Provider</span><span role="columnheader">Change</span><span role="columnheader">Opened</span><span role="columnheader">Merged</span></div>
-        <a class="lr" role="row" href="/migrations/anthropic/"><span role="cell">Anthropic</span><span role="cell">Claude model retirements</span><span role="cell">16</span><span role="cell"><b>5</b></span></a>
-        <a class="lr" role="row" href="/migrations/groq/"><span role="cell">Groq</span><span role="cell">Llama, Mixtral and Gemma models retired</span><span role="cell">15</span><span role="cell"><b>2</b> <small>+1 adopted</small></span></a>
-        <a class="lr" role="row" href="/migrations/stripe/"><span role="cell">Stripe</span><span role="cell">API 2025-03-31: subscription periods moved</span><span role="cell">15</span><span role="cell"><b>1</b></span></a>
-        <a class="lr" role="row" href="/migrations/jira/"><span role="cell">Atlassian</span><span role="cell">Jira Cloud search endpoints removed</span><span role="cell">11</span><span role="cell"><b>3</b></span></a>
-        <a class="lr" role="row" href="/migrations/huggingface/"><span role="cell">Hugging Face</span><span role="cell">Serverless Inference API retired</span><span role="cell">11</span><span role="cell"><b>2</b></span></a>
-        <a class="lr" role="row" href="/migrations/openweathermap/"><span role="cell">OpenWeather</span><span role="cell">One Call API 2.5 closed</span><span role="cell">5</span><span role="cell">0</span></a>
-        <a class="lr" role="row" href="/migrations/openai/"><span role="cell">OpenAI</span><span role="cell">Model shutdowns</span><span role="cell">4</span><span role="cell">0</span></a>
-        <a class="lr" role="row" href="/migrations/spotify/"><span role="cell">Spotify</span><span role="cell">Web API changes, February 2026</span><span role="cell">3</span><span role="cell">0</span></a>
-        <a class="lr" role="row" href="/migrations/slack/"><span role="cell">Slack</span><span role="cell"><code>files.upload</code> sunset</span><span role="cell">3</span><span role="cell">0</span></a>
-        <a class="lr" role="row" href="/migrations/hubspot/"><span role="cell">HubSpot</span><span role="cell">Pipelines API v1, sunsets December 4</span><span role="cell">1</span><span role="cell">0</span></a>
-        <div class="lr total" role="row"><span role="cell">Total</span><span role="cell">October 20 to 27, 2026</span><span role="cell" data-count="84">84</span><span role="cell"><b data-count="13">13</b> <small>+1 adopted</small></span></div>
-      </div>
-      <div class="pull" data-reveal>
-        <blockquote>
-          <p>“Thanks — Cloud-only switch, token paging and the early-end guard look right. Merging.”</p>
-          <footer><a href="https://github.com/deeplethe/utopia/pull/1453#pullrequestreview-5696328354">@WaylandYang, maintainer of utopia</a>, approving its fix for Jira Cloud's removed search. Jira Server and Data Center keep the old endpoint, so the fix switches only on Cloud.</footer>
-        </blockquote>
-        <blockquote>
-          <p>“Independently checked Anthropic's model overview, retirement table and Sonnet 5.5 migration guide. […] This conclusion does not rely on the unsigned Tiltmeter notice.”</p>
-          <footer><a href="https://github.com/shareAI-lab/learn-claude-code/pull/602#pullrequestreview-5662105865">@CrazyBoyM, maintainer of learn-claude-code</a>. A notice signed by the provider is what saves maintainers that check.</footer>
-        </blockquote>
-      </div>
-    </section>
-
-    <section id="pricing" class="wrap section co-pricing">
-      <h2 data-reveal>Free for developers. <br>Paid by teams and API providers.</h2>
-      <div class="price-cols" data-reveal>
+    <section id="pricing" class="wrap section pv-pricing">
+      <div class="pv-head">
         <div>
-          <p class="price-who">Developers</p>
-          <p class="price-what">Free and open source, MIT.</p>
-          <p class="price-body">Run it on any repository to find API changes that already shipped, catch drift in CI and over MCP, and get each fix as a pull request. Every install is code a provider's notice can reach.</p>
-          <button class="install" type="button" data-copy="uvx tiltmeter scan"><span class="ps">$</span><code>uvx tiltmeter scan</code><span class="hint">copy</span></button>
+          <p class="eyebrow">Pricing</p>
+          <h2 data-reveal>Pricing that starts with a free migration.</h2>
         </div>
-        <div>
-          <p class="price-who">Teams</p>
+        <p class="side" data-reveal>API providers and teams pay. Developers use Tiltmeter free, and every install is code a provider's notice can reach.</p>
+      </div>
+      <div class="pv-prices">
+        <article class="pv-price featured" data-reveal>
+          <p class="pv-price-tag">Design partners</p>
+          <h3 class="price-who">API providers</h3>
+          <p class="price-what">Priced by the size of your customer base. Your first migration is free as a design partner.</p>
+          <p class="price-body">We run your next deprecation with you, end to end: the signed notice, the pull requests in your users' public repositories under your name, and a tracker of every merge. Next on the roadmap: private repositories through a GitHub App your customers install, and a dashboard of who still calls the old version.</p>
+          <a class="btn lg" href="mailto:hello@tiltmeter.dev?subject=Tiltmeter%20design%20partner">Run your next deprecation with us</a>
+        </article>
+        <article class="pv-price" data-reveal>
+          <p class="pv-price-tag">Early access</p>
+          <h3 class="price-who">Teams</h3>
           <p class="price-what">Per repository. Early access.</p>
           <p class="price-body">For companies that depend on many third-party APIs. We're building it with the first teams: a GitHub App across your organization that covers private repositories with no CI to set up, a view of every API your services call and what changed, alerts the day a provider announces a change, and fixes included, run on our model keys.</p>
           <a class="btn lg ghost" href="mailto:hello@tiltmeter.dev?subject=Tiltmeter%20Teams%20early%20access">Join early access</a>
+        </article>
+        <article class="pv-price" data-reveal>
+          <p class="pv-price-tag">Open source</p>
+          <h3 class="price-who">Developers</h3>
+          <p class="price-what">Free and open source, MIT.</p>
+          <p class="price-body">Run it on any repository to find API changes that already shipped, catch drift in CI and over MCP, and get each fix as a pull request. Every install is code a provider's notice can reach.</p>
+          <button class="install" type="button" data-copy="uvx tiltmeter scan"><span class="ps">$</span><code>uvx tiltmeter scan</code><span class="hint">copy</span></button>
+          <a class="arrow" href="/developers/">Tiltmeter for developers</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="faq" class="wrap section pv-faq">
+      <div class="pv-faq-grid">
+        <div class="pv-faq-head">
+          <p class="eyebrow">FAQ</p>
+          <h2 data-reveal>Questions providers ask.</h2>
+          <p class="side">Something else? Write to <a class="u" href="mailto:hello@tiltmeter.dev">hello@tiltmeter.dev</a>.</p>
         </div>
-        <div>
-          <p class="price-who">API providers</p>
-          <p class="price-what">Priced by the size of your customer base. Your first migration is free as a design partner.</p>
-          <p class="price-body">We run your next deprecation with you, end to end: the signed notice, the pull requests in your users' public repositories under your name, and a tracker of every merge. Next on the roadmap: private repositories through a GitHub App your customers install, and a dashboard of who still calls the old version.</p>
-          <a class="btn lg" href="mailto:hello@tiltmeter.dev?subject=Tiltmeter%20design%20partner">Become a design partner</a>
+        <div class="pv-faq-list">
+          <details open>
+            <summary>Did the providers in your numbers work with you?</summary>
+            <p>No. We drafted those notices ourselves from each provider's public deprecation page, to test the idea in the open. No provider signed, endorsed or uses Tiltmeter. Yours could be the first deprecation signed by the provider itself.</p>
+          </details>
+          <details>
+            <summary>What do our customers have to install?</summary>
+            <p>Nothing, for public repositories: the pull request arrives like any other contribution. Private repositories are covered when a customer adds the free GitHub Action, which reads your signed feed on a schedule and runs the fix in their own CI, so their code never leaves it.</p>
+          </details>
+          <details>
+            <summary>We don't have an OpenAPI spec. Can we still publish?</summary>
+            <p>Yes. Point Tiltmeter at your staging API and the check that sees the change becomes the draft. A retired model or value takes a few lines of JSON written by hand.</p>
+          </details>
+          <details>
+            <summary>Which changes can a notice describe?</summary>
+            <p>Retired models and values, endpoints that moved or were removed, renamed fields, new types and new nulls. A <code>note</code> explains what the code can't infer, such as a new number format.</p>
+          </details>
+          <details>
+            <summary>What if a fix is wrong?</summary>
+            <p>The maintainer reviews it like any other pull request, and can change it or close it. Nothing merges itself. Tiltmeter holds back edits to code that nothing uses, and lists what it couldn't know for the reviewer.</p>
+          </details>
+          <details>
+            <summary>Is it open source? What does it cost?</summary>
+            <p>The core is open source under MIT, and the notice format is open: anyone can implement a reader. For API providers, pricing follows the size of your customer base, and your first migration is free as a design partner.</p>
+          </details>
         </div>
       </div>
     </section>
 
-    <section class="wrap end co-end">
-      <h2>Your next deprecation, <br>minus the support tickets<span class="needle">.</span></h2>
-      <div class="cta">
-        <a class="btn lg" href="mailto:hello@tiltmeter.dev?subject=Tiltmeter%20design%20partner">Become a design partner</a>
-        <a class="arrow" href="/providers/">How it works for providers</a>
+    <section class="wrap pv-end">
+      <div class="pv-end-card">
+        <div class="pv-end-main">
+          <h2>Your next deprecation, minus the support tickets<span class="needle">.</span></h2>
+          <p class="lede">Bring the change you're planning. Your first migration is free as a design partner.</p>
+          <div class="co-actions">
+            <a class="btn lg" href="mailto:hello@tiltmeter.dev?subject=Tiltmeter%20design%20partner">Run your next deprecation with us</a>
+            <a class="arrow" href="/developers/">Tiltmeter for developers</a>
+          </div>
+        </div>
+        <div class="pv-end-side">
+          <p class="pv-end-k">We run it with you, end to end</p>
+          <ul class="pv-end-list">
+            <li>The signed notice, drafted with you from your spec or your docs</li>
+            <li>Pull requests in your users' public repositories, under your name</li>
+            <li>A tracker of every merge, and of who still calls the old version</li>
+          </ul>
+        </div>
       </div>
     </section>
   </main>
