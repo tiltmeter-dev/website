@@ -656,11 +656,6 @@ a.lr:hover { background: var(--card); }
 .pr.s3 .pr-state { animation: pop 0.5s ease; }
 .pr.s2:not(.s3) .ty::after { content: ""; display: inline-block; width: 1px; height: 1em; margin-left: 1px; vertical-align: -2px; background: currentColor; animation: blink 1s steps(1) infinite; }
 
-  position: relative; height: 210px; overflow: hidden; border-radius: 16px; border: 1px solid var(--line);
-  background-color: var(--card);
-  background-image: linear-gradient(rgba(236, 233, 224, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 233, 224, 0.05) 1px, transparent 1px);
-  background-size: 24px 24px;
-}
 
 .code.play .tl { opacity: 0; transition: opacity 0.3s ease; }
 .code.play .tl.on { opacity: 1; }
