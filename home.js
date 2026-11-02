@@ -447,52 +447,6 @@ const scenes = {
     await wait(2800);
   },
 
-  // No provider: responses flow in, one has a new shape, CI and the agent hear about it, the fix merges.
-  async drift(k, root) {
-    const normal = k.qa(".mv.resp:not(.odd)");
-    normal.forEach((packet, i) => setTimeout(() => k.move(packet, 1500), i * 520));
-    await wait(normal.length * 520 + 300);
-    await k.move(k.q(".mv.resp.odd"), 1600);
-    k.on(root, "think", "quake");
-    k.on(k.q(".bb.diff-bb"), "show");
-    await wait(700);
-    k.on(root, "alarm");
-    await k.move(k.qa(".mv.ping"), 900);
-    k.on(k.q(".bb.ci-bb"), "show");
-    k.on(k.q(".bb.agent-bb"), "show");
-    await wait(1300);
-    k.on(k.q(".bb.fix-bb"), "show");
-    await wait(1200);
-    k.on(k.q(".bb.fix-bb"), "done");
-    k.on(k.q(".bb.ci-bb"), "done");
-    k.off(root, "alarm", "quake", "think");
-    k.on(root, "calm");
-    k.off(k.q(".bb.agent-bb"), "show");
-    await wait(2800);
-  },
-
-  // tiltmeter scan: the beam crosses the repository and tags what already broke.
-  async scan(k, root) {
-    const files = k.qa(".file");
-    k.on(root, "think");
-    await wait(600);
-    await k.sweep(k.q(".beam"), 2800, (f) => {
-      for (const file of files) {
-        if (f < Number(file.dataset.at) || file.classList.contains("scanned")) continue;
-        k.on(file, "scanned");
-        if (file.classList.contains("hit")) {
-          k.on(file, "found");
-          const id = [...file.classList].find((name) => /^f\d\d$/.test(name)).slice(1);
-          k.on(k.q(`.bb.t${id}`), "show");
-        }
-      }
-    });
-    k.off(root, "think");
-    await wait(300);
-    k.on(k.q(".bb.result"), "show");
-    await wait(3200);
-  },
-
   // The pull request: the agent fixes the file, skips dead code, the tests pass, the PR merges.
   async fix(k) {
     const card = k.q(".mv.pr-card");
