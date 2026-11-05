@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
   <title>Tiltmeter · Ship API changes without breaking your customers</title>
-  <meta name="description" content="When you retire a model, move an endpoint or rename a field, Tiltmeter opens the pull request that fixes each customer's code, before your shutdown date. 84 opened in a week, 13 merged as written.">
+  <meta name="description" content="When you retire a model, move an endpoint or rename a field, Tiltmeter opens the pull request that fixes each customer's code, before your shutdown date. 84 opened in a week, 18 landed: 15 merged as written and 3 adopted by their maintainers.">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="canonical" href="https://tiltmeter.dev/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://tiltmeter.dev/">
   <meta property="og:title" content="Tiltmeter: ship API changes without breaking your customers">
-  <meta property="og:description" content="Every deprecation becomes pull requests in your customers' code. 84 opened in a week, 13 merged as written, in repositories with 1.31M GitHub stars.">
+  <meta property="og:description" content="Every deprecation becomes pull requests in your customers' code. 84 opened in a week, 18 landed (15 merged as written, 3 adopted by their maintainers), in repositories with 1.32M GitHub stars.">
   <meta property="og:image" content="https://tiltmeter.dev/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -54,7 +54,7 @@
           <a class="btn lg" href="mailto:hello@tiltmeter.dev?subject=Tiltmeter%20design%20partner">Become a design partner</a>
           <a class="arrow" href="/migrations/">See all 84 pull requests</a>
         </div>
-        <p class="co-merged">Already merged at <a href="https://github.com/harvard-edge/cs249r_book/pull/2163">Harvard CS249r</a>, Tencent's <a href="https://github.com/Tencent/AI-Infra-Guard/pull/728">AI-Infra-Guard</a>, ByteDance's <a href="https://github.com/bytedance/deer-flow/pull/7585">deer-flow</a>, <a href="https://github.com/radareorg/r2ai/pull/249">radare2</a>, <a href="https://github.com/ruvnet/ruflo/pull/4512">ruflo</a>, <a href="https://github.com/serenity-bdd/serenity-core/pull/3756">Serenity BDD</a>, <a href="https://github.com/beenuar/AiSOC/pull/1524">AiSOC</a> and <a href="https://github.com/cdhigh/KindleEar/pull/747">KindleEar</a>.</p>
+        <p class="co-merged">Already merged at <a href="https://github.com/harvard-edge/cs249r_book/pull/2163">Harvard CS249r</a>, Tencent's <a href="https://github.com/Tencent/AI-Infra-Guard/pull/728">AI-Infra-Guard</a>, ByteDance's <a href="https://github.com/bytedance/deer-flow/pull/7585">deer-flow</a>, <a href="https://github.com/radareorg/r2ai/pull/249">radare2</a>, <a href="https://github.com/ruvnet/ruflo/pull/4512">ruflo</a>, <a href="https://github.com/serenity-bdd/serenity-core/pull/3756">Serenity BDD</a>, KodeRover's <a href="https://github.com/koderover/zadig/pull/5049">zadig</a>, <a href="https://github.com/beenuar/AiSOC/pull/1524">AiSOC</a> and <a href="https://github.com/cdhigh/KindleEar/pull/747">KindleEar</a>, and adopted by <a href="https://github.com/elie222/inbox-zero/pull/4406">inbox-zero</a> and <a href="https://github.com/pbek/QOwnNotes/commit/03e9ed23e3976d67a5728fd8ea8ba65ebed92499">QOwnNotes</a>.</p>
       </div>
 
       <div class="pr-deck" data-deck>
@@ -320,21 +320,21 @@
     <section id="proof" class="wrap section co-proof">
       <div class="co-proof-head">
         <h2 data-reveal><span data-count="84">84</span> pull requests <br>in one week.</h2>
-        <p class="side">No provider asked us to. We drafted notices from ten public deprecation pages and let Tiltmeter fix the most-starred active repositories still affected. Maintainers merged 13 as written, in repositories with 1.31M GitHub stars between them.</p>
+        <p class="side">No provider asked us to. We drafted notices from ten public deprecation pages and let Tiltmeter fix the most-starred active repositories still affected. Maintainers merged 15 as written and adopted 3 more, landing the fix themselves, in repositories with 1.32M GitHub stars between them.</p>
       </div>
       <div class="ledger" data-reveal role="table" aria-label="Pull requests by provider">
         <div class="lr th" role="row"><span role="columnheader">Provider</span><span role="columnheader">Change</span><span role="columnheader">Opened</span><span role="columnheader">Merged</span></div>
         <a class="lr" role="row" href="/migrations/anthropic/"><span role="cell">Anthropic</span><span role="cell">Claude model retirements</span><span role="cell">16</span><span role="cell"><b>5</b></span></a>
-        <a class="lr" role="row" href="/migrations/groq/"><span role="cell">Groq</span><span role="cell">Llama, Mixtral and Gemma models retired</span><span role="cell">15</span><span role="cell"><b>2</b> <small>+1 adopted</small></span></a>
-        <a class="lr" role="row" href="/migrations/stripe/"><span role="cell">Stripe</span><span role="cell">API 2025-03-31: subscription periods moved</span><span role="cell">15</span><span role="cell"><b>1</b></span></a>
-        <a class="lr" role="row" href="/migrations/jira/"><span role="cell">Atlassian</span><span role="cell">Jira Cloud search endpoints removed</span><span role="cell">11</span><span role="cell"><b>3</b></span></a>
+        <a class="lr" role="row" href="/migrations/groq/"><span role="cell">Groq</span><span role="cell">Llama, Mixtral and Gemma models retired</span><span role="cell">15</span><span role="cell"><b>2</b> <small>+3 adopted</small></span></a>
+        <a class="lr" role="row" href="/migrations/stripe/"><span role="cell">Stripe</span><span role="cell">API 2025-03-31: subscription periods moved</span><span role="cell">15</span><span role="cell"><b>2</b></span></a>
+        <a class="lr" role="row" href="/migrations/jira/"><span role="cell">Atlassian</span><span role="cell">Jira Cloud search endpoints removed</span><span role="cell">11</span><span role="cell"><b>4</b></span></a>
         <a class="lr" role="row" href="/migrations/huggingface/"><span role="cell">Hugging Face</span><span role="cell">Serverless Inference API retired</span><span role="cell">11</span><span role="cell"><b>2</b></span></a>
         <a class="lr" role="row" href="/migrations/openweathermap/"><span role="cell">OpenWeather</span><span role="cell">One Call API 2.5 closed</span><span role="cell">5</span><span role="cell">0</span></a>
         <a class="lr" role="row" href="/migrations/openai/"><span role="cell">OpenAI</span><span role="cell">Model shutdowns</span><span role="cell">4</span><span role="cell">0</span></a>
         <a class="lr" role="row" href="/migrations/spotify/"><span role="cell">Spotify</span><span role="cell">Web API changes, February 2026</span><span role="cell">3</span><span role="cell">0</span></a>
         <a class="lr" role="row" href="/migrations/slack/"><span role="cell">Slack</span><span role="cell"><code>files.upload</code> sunset</span><span role="cell">3</span><span role="cell">0</span></a>
         <a class="lr" role="row" href="/migrations/hubspot/"><span role="cell">HubSpot</span><span role="cell">Pipelines API v1, sunsets December 4</span><span role="cell">1</span><span role="cell">0</span></a>
-        <div class="lr total" role="row"><span role="cell">Total</span><span role="cell">October 20 to 27, 2026</span><span role="cell" data-count="84">84</span><span role="cell"><b data-count="13">13</b> <small>+1 adopted</small></span></div>
+        <div class="lr total" role="row"><span role="cell">Total</span><span role="cell">October 20 to 27, 2026</span><span role="cell" data-count="84">84</span><span role="cell"><b data-count="15">15</b> <small>+3 adopted</small></span></div>
       </div>
       <div class="pull" data-reveal>
         <blockquote>
