@@ -22,7 +22,10 @@ optional fields:
 The script asks GitHub for each pull request's state, dates and repository through
 `gh api graphql` (no shell), writes migrations/status.json with a UTC timestamp, renders
 migrations/index.html and migrations/<key>/index.html, and refreshes the migration
-entries of sitemap.xml. Rerun it whenever you want fresh numbers.
+entries of sitemap.xml. It also brings the numbers on the home page, on /developers/ and
+in llms.txt up to the snapshot: the text of every element marked data-tracker="key" is
+written from it (see site_values for the keys). Rerun it whenever you want fresh numbers;
+.github/workflows/tracker.yml does every day.
 
 A repository that is not public, or whose "owner/name" is in a top-level "hidden" list,
 appears as "Private repository": it counts in opened, merged, open and closed, but its
@@ -570,6 +573,120 @@ def update_sitemap(out: Path, keys: list[str], date: str) -> None:
     write(path, text)
 
 
+MONTHS = ("January", "February", "March", "April", "May", "June", "July", "August",
+          "September", "October", "November", "December")
+# An element whose text this script writes: <dd data-tracker="merged">17</dd>.
+TRACKED = re.compile(
+    r'(<(?P<tag>[a-z0-9]+)\b[^>]*\bdata-tracker="(?P<key>[a-z0-9-]+)"[^>]*>)(?P<body>.*?)(</(?P=tag)>)', re.S
+)
+OG_DESCRIPTION = re.compile(r'(<meta property="og:description" content=")[^"]*(")')
+MARKS = ("merged", "adopted", "open", "closed")
+
+
+def took(seconds: float) -> str:
+    """How long a merge took, in words: 33 minutes, 58 hours, 13 days."""
+    minutes = round(seconds / 60)
+    if minutes < 90:
+        return f"{minutes} minutes"
+    if seconds < 72 * 3600:
+        return f"{round(seconds / 3600)} hours"
+    return f"{round(seconds / 86400)} days"
+
+
+def units(s: dict[str, int]) -> str:
+    """One square per pull request, in the order of the legend."""
+    counts = (s["merged"], s["adopted"], s["open"], s["closed_not_landed"])
+    return "".join(f'<i class="mark mark--{mark}"></i>' * count for mark, count in zip(MARKS, counts))
+
+
+def site_values(snapshot: dict[str, Any]) -> dict[str, str]:
+    """What the hand-written pages say about the tracker, by data-tracker key."""
+    t = snapshot["totals"]
+    when = datetime.strptime(snapshot["generated_at"], "%Y-%m-%dT%H:%M:%SZ")
+    month = MONTHS[when.month - 1]
+    stamp = lambda text: datetime.strptime(text, "%Y-%m-%dT%H:%M:%SZ")  # noqa: E731
+    merges = sorted(
+        ((stamp(r["merged_at"]) - stamp(r["created_at"])).total_seconds(), r)
+        for p in snapshot["providers"].values() for r in p["pull_requests"]
+        if r.get("state") == "merged" and r.get("merged_at") and r.get("created_at")
+    )
+    times = [seconds for seconds, _ in merges]
+    middle = (times[(len(times) - 1) // 2] + times[len(times) // 2]) / 2 if times else 0
+    in_hours = middle < 72 * 3600
+    values = {
+        "opened": num(t["opened"]),
+        "merged": num(t["merged"]),
+        "adopted": num(t["adopted"]),
+        "open": num(t["open"]),
+        "closed": num(t["closed_not_landed"]),
+        "closed-all": num(t["closed"]),
+        "landed": num(t["landed"]),
+        "stars-short": f"{t['stars'] / 1e6:.2f}M",
+        "as-of": f"{when.day} {month}",
+        "as-of-long": f"{when.day} {month[:3]} {when.year} at {when:%H:%M} UTC",
+        "median": str(int(middle // 3600) if in_hours else round(middle / 86400)),
+        "median-unit": "h" if in_hours else "d",
+        "median-long": f"{int(middle // 3600)} h {int(middle % 3600 // 60)} m",
+        "fastest": took(times[0]) if times else "",
+        "slowest": took(times[-1]) if times else "",
+        "fastest-pr": e(f"{merges[0][1]['repository']}#{merges[0][1]['number']}") if merges else "",
+        "units": units(t),
+    }
+    for key, p in snapshot["providers"].items():
+        s = p["stats"]
+        values |= {
+            f"{key}-opened": num(s["opened"]),
+            f"{key}-merged": num(s["merged"]),
+            f"{key}-adopted": num(s["adopted"]),
+            f"{key}-open": num(s["open"]),
+            f"{key}-closed": num(s["closed_not_landed"]),
+            f"{key}-units": units(s),
+        }
+    return values
+
+
+def update_site(out: Path, snapshot: dict[str, Any]) -> None:
+    """Bring the pages outside /migrations/ up to the snapshot: the text of every element
+    marked data-tracker="key", the home page's social description, and the sentence in
+    llms.txt and llms-full.txt. The words around the numbers stay hand-written."""
+    values = site_values(snapshot)
+    t = snapshot["totals"]
+
+    def put(path: Path) -> Any:
+        def replace(match: re.Match[str]) -> str:
+            if match["key"] not in values:
+                fail(f"{path}: no tracker value is called {match['key']!r}")
+            return match[1] + values[match["key"]] + match[5]
+        return replace
+
+    for name in ("index.html", "developers/index.html"):
+        path = out / name
+        if not path.exists():
+            continue
+        text = TRACKED.sub(put(path), path.read_text(encoding="utf-8"))
+        if name == "index.html":
+            social = (
+                f"Every deprecation becomes pull requests in your customers' code. {values['opened']} "
+                f"opened in a week, {values['landed']} landed ({values['merged']} merged as written, "
+                f"{values['adopted']} adopted by their maintainers), in repositories with "
+                f"{values['stars-short']} GitHub stars."
+            )
+            text = OG_DESCRIPTION.sub(lambda m: m[1] + html.escape(social, quote=False) + m[2], text)
+        write(path, text)
+    said = re.compile(
+        r"As of [A-Z][a-z]+ \d+, \d+ had landed: \d+ were merged as Tiltmeter wrote them(.*?)and \d+ were adopted", re.S
+    )
+    now = (
+        f"As of {MONTHS[int(snapshot['generated_at'][5:7]) - 1]} {int(snapshot['generated_at'][8:10])}, "
+        f"{t['landed']} had landed: {t['merged']} were merged as Tiltmeter wrote them"
+    )
+    for name in ("llms.txt", "llms-full.txt"):
+        path = out / name
+        if path.exists():
+            text = path.read_text(encoding="utf-8")
+            write(path, said.sub(lambda m: f"{now}{m[1]}and {t['adopted']} were adopted", text))
+
+
 def remove_stale(out: Path, keys: list[str]) -> None:
     """Delete pages of providers no longer in the input, if this script wrote them."""
     for folder in (out / "migrations").iterdir():
@@ -671,6 +788,7 @@ def build(args: argparse.Namespace) -> dict[str, Any]:
         write(out / "migrations" / key / "index.html", provider_page(key, p, generated_at))
     remove_stale(out, list(providers))
     update_sitemap(out, list(providers), generated_at[:10])
+    update_site(out, snapshot)
     return snapshot
 
 

@@ -11,7 +11,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://tiltmeter.dev/">
   <meta property="og:title" content="Tiltmeter: ship API changes without breaking your customers">
-  <meta property="og:description" content="Every deprecation becomes pull requests in your customers' code. 84 opened in a week, 13 merged as written, in repositories with 1.31M GitHub stars.">
+  <meta property="og:description" content="Every deprecation becomes pull requests in your customers' code. 84 opened in a week, 21 landed (17 merged as written, 4 adopted by their maintainers), in repositories with 1.32M GitHub stars.">
   <meta property="og:image" content="https://tiltmeter.dev/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -67,13 +67,13 @@
       </div>
 
       <div class="lead__evidence cases" data-cases>
-        <h2 class="cases__title" id="cases-title">Two of the 13 merged pull requests</h2>
+        <h2 class="cases__title" id="cases-title">Two of the <span data-tracker="merged">17</span> merged pull requests</h2>
         <div class="cases__tabs" role="tablist" aria-labelledby="cases-title" hidden>
           <button type="button" role="tab" id="tab-harvard" aria-controls="case-harvard" aria-selected="true">Harvard CS249r</button>
           <button type="button" role="tab" id="tab-tencent" aria-controls="case-tencent" aria-selected="false" tabindex="-1">Tencent AI-Infra-Guard</button>
         </div>
 
-        <article class="record paper" id="case-harvard" aria-labelledby="case-harvard-title">
+        <section class="record paper" id="case-harvard" aria-labelledby="case-harvard-title">
           <div class="record__head">
             <p class="record__repo"><span><code>harvard-edge/cs249r_book</code> <a class="link" href="https://github.com/harvard-edge/cs249r_book/pull/2163">#2163</a></span><span>29.7k stars</span></p>
             <h3 class="record__title" id="case-harvard-title">fix: replace the models api.groq.com retired</h3>
@@ -89,8 +89,8 @@
           <p class="record__file"><code>socratiq/<wbr>src_shadow/<wbr>configs/<wbr>env_configs.js</code><span>1 of 9 files</span></p>
           <div class="diff-scroll" role="region" aria-label="Diff of env_configs.js in pull request 2163" tabindex="0">
             <table class="diff">
+              <caption class="d-hunk">@@ -32,7 +32,7 @@</caption>
               <tbody>
-                <tr class="d-hunk"><td colspan="2">@@ -32,7 +32,7 @@</td></tr>
                 <tr class="d-ctx"><td class="d-ln">32</td><td class="d-code"><span class="d-mark" aria-hidden="true"> </span>// ─── AI Provider Models ───────────────────────────────────────────────────────</td></tr>
                 <tr class="d-ctx"><td class="d-ln">33</td><td class="d-code"><span class="d-mark" aria-hidden="true"> </span>// Controls which model each provider uses — edit here to swap models globally</td></tr>
                 <tr class="d-ctx"><td class="d-ln">34</td><td class="d-code"><span class="d-mark" aria-hidden="true"> </span>export const PROVIDER_MODELS = {</td></tr>
@@ -109,9 +109,9 @@
             </blockquote>
           </div>
           <p class="record__foot"><a class="link" href="https://github.com/harvard-edge/cs249r_book/pull/2163">Open #2163 on GitHub</a><span>Times in UTC</span></p>
-        </article>
+        </section>
 
-        <article class="record paper" id="case-tencent" aria-labelledby="case-tencent-title">
+        <section class="record paper" id="case-tencent" aria-labelledby="case-tencent-title">
           <div class="record__head">
             <p class="record__repo"><span><code>Tencent/AI-Infra-Guard</code> <a class="link" href="https://github.com/Tencent/AI-Infra-Guard/pull/728">#728</a></span><span>7.2k stars</span></p>
             <h3 class="record__title" id="case-tencent-title">fix(agent-scan): move Hugging Face preset to router.huggingface.co/hf-inference</h3>
@@ -127,8 +127,8 @@
           <p class="record__file"><code>agent-scan/<wbr>providers.yaml</code><span>1 of 2 files</span></p>
           <div class="diff-scroll" role="region" aria-label="Diff of providers.yaml in pull request 728" tabindex="0">
             <table class="diff">
+              <caption class="d-hunk">@@ -254,7 +254,7 @@</caption>
               <tbody>
-                <tr class="d-hunk"><td colspan="2">@@ -254,7 +254,7 @@</td></tr>
                 <tr class="d-ctx"><td class="d-ln">254</td><td class="d-code"><span class="d-mark" aria-hidden="true"> </span>    providers:</td></tr>
                 <tr class="d-ctx"><td class="d-ln">255</td><td class="d-code"><span class="d-mark" aria-hidden="true"> </span>      huggingface:</td></tr>
                 <tr class="d-ctx"><td class="d-ln">256</td><td class="d-code"><span class="d-mark" aria-hidden="true"> </span>        env_keys: [&quot;HF_API_TOKEN&quot;, &quot;HUGGINGFACE_API_KEY&quot;]</td></tr>
@@ -148,7 +148,7 @@
             </blockquote>
           </div>
           <p class="record__foot"><a class="link" href="https://github.com/Tencent/AI-Infra-Guard/pull/728">Open #728 on GitHub</a><span>Times in UTC</span></p>
-        </article>
+        </section>
       </div>
     </section>
 
@@ -156,22 +156,22 @@
       <div class="ledger__rule">
         <div class="ledger__head grid-12">
           <h2 id="ledger-title">Every pull request from the public test</h2>
-          <p>Tiltmeter opened 84 pull requests on 26 and 27 October 2026, against public deprecations from ten providers. This is where each one stood on 30 October.</p>
+          <p>Tiltmeter opened 84 pull requests on 26 and 27 October 2026, against public deprecations from ten providers. This is where each one stood on <span data-tracker="as-of">10 November</span>.</p>
         </div>
         <dl class="ledger__figures grid-12">
-          <div class="ledger__total"><dt>Opened</dt><dd>84</dd></div>
-          <div><dt><span class="mark mark--merged" aria-hidden="true"></span>Merged</dt><dd>13</dd></div>
-          <div><dt><span class="mark mark--adopted" aria-hidden="true"></span>Adopted</dt><dd>1</dd></div>
-          <div><dt><span class="mark mark--open" aria-hidden="true"></span>Open</dt><dd>65</dd></div>
-          <div><dt><span class="mark mark--closed" aria-hidden="true"></span>Closed</dt><dd>5</dd></div>
-          <div class="ledger__median"><dt>Median time to merge</dt><dd>11<span class="unit">h</span></dd></div>
+          <div class="ledger__total"><dt>Opened</dt><dd data-tracker="opened">84</dd></div>
+          <div><dt><span class="mark mark--merged" aria-hidden="true"></span>Merged</dt><dd data-tracker="merged">17</dd></div>
+          <div><dt><span class="mark mark--adopted" aria-hidden="true"></span>Adopted</dt><dd data-tracker="adopted">4</dd></div>
+          <div><dt><span class="mark mark--open" aria-hidden="true"></span>Open</dt><dd data-tracker="open">55</dd></div>
+          <div><dt><span class="mark mark--closed" aria-hidden="true"></span>Closed</dt><dd data-tracker="closed">8</dd></div>
+          <div class="ledger__median"><dt>Median time to merge</dt><dd><span data-tracker="median">12</span><span class="unit" data-tracker="median-unit">h</span></dd></div>
         </dl>
-        <div class="units" aria-hidden="true"><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--adopted"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--closed"></i><i class="mark mark--closed"></i><i class="mark mark--closed"></i><i class="mark mark--closed"></i><i class="mark mark--closed"></i></div>
+        <div class="units" aria-hidden="true" data-tracker="units"><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--adopted"></i><i class="mark mark--adopted"></i><i class="mark mark--adopted"></i><i class="mark mark--adopted"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--closed"></i><i class="mark mark--closed"></i><i class="mark mark--closed"></i><i class="mark mark--closed"></i><i class="mark mark--closed"></i><i class="mark mark--closed"></i><i class="mark mark--closed"></i><i class="mark mark--closed"></i></div>
         <div class="ledger__notes grid-12">
           <p class="ledger__disclosure">A public test, not a customer list. We drafted every notice ourselves from the provider’s public deprecation page. No provider signed, endorsed or uses Tiltmeter.</p>
           <div class="ledger__fine">
-            <p>Adopted means the maintainer closed the pull request and shipped the same fix in their own commit; GitHub counts it among 6 closed. The 13 merges took from 33 minutes (<code>ruvnet/ruflo#4512</code>) to 58 hours; the median is 11 h 1 m.</p>
-            <p><a class="link" href="/migrations/">Read all 84 pull requests</a>. Data: <a class="link" href="/migrations/status.json">status.json</a>, from the GitHub API on 30 Oct 2026 at 03:27 UTC.</p>
+            <p>Adopted means the maintainer closed the pull request and shipped the same fix in their own commit; GitHub counts it among <span data-tracker="closed-all">12</span> closed. The <span data-tracker="merged">17</span> merges took from <span data-tracker="fastest">33 minutes</span> (<code data-tracker="fastest-pr">ruvnet/ruflo#4512</code>) to <span data-tracker="slowest">13 days</span>; the median is <span data-tracker="median-long">12 h 31 m</span>.</p>
+            <p><a class="link" href="/migrations/">Read all <span data-tracker="opened">84</span> pull requests</a>. Data: <a class="link" href="/migrations/status.json">status.json</a>, from the GitHub API on <span data-tracker="as-of-long">10 Nov 2026 at 03:03 UTC</span>.</p>
           </div>
         </div>
       </div>
@@ -247,7 +247,7 @@
             <h3><span class="step__n" aria-hidden="true">3</span>Each repository gets one pull request</h3>
             <p>One reviewable pull request per repository, made in a fresh copy, with your notice quoted and anything the code can’t tell us listed for the reviewer. Public repositories get theirs from Tiltmeter. Private ones are covered when your customers run the free GitHub Action in their own CI.</p>
             <div class="step__exhibit">
-              <p class="tally"><b>15</b><span>pull requests for Groq’s retirement, one per repository, all opened on 26 October 2026.</span></p>
+              <p class="tally"><b data-tracker="groq-opened">15</b><span>pull requests for Groq’s retirement, one per repository, all opened on 26 October 2026.</span></p>
             </div>
           </li>
           <li class="step" data-step="4">
@@ -255,13 +255,13 @@
             <p>Each notice gets a ledger: who merged, who made the change their own way, who still has it open. You turn the old version off on the day you announced, knowing exactly who is left.</p>
             <div class="step__exhibit">
               <ul class="mini-ledger">
-                <li><span class="mark mark--merged" aria-hidden="true"></span><b>2</b> merged</li>
-                <li><span class="mark mark--adopted" aria-hidden="true"></span><b>1</b> adopted</li>
-                <li><span class="mark mark--open" aria-hidden="true"></span><b>11</b> open</li>
-                <li><span class="mark mark--closed" aria-hidden="true"></span><b>1</b> closed</li>
+                <li><span class="mark mark--merged" aria-hidden="true"></span><b data-tracker="groq-merged">2</b> merged</li>
+                <li><span class="mark mark--adopted" aria-hidden="true"></span><b data-tracker="groq-adopted">3</b> adopted</li>
+                <li><span class="mark mark--open" aria-hidden="true"></span><b data-tracker="groq-open">8</b> open</li>
+                <li><span class="mark mark--closed" aria-hidden="true"></span><b data-tracker="groq-closed">2</b> closed</li>
               </ul>
-              <div class="units" aria-hidden="true"><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--adopted"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--closed"></i></div>
-              <p class="fine">Groq’s 15, as of 30 October. In this test our notices came after Groq’s 16 August shutdown, so these pull requests fixed code that was already failing. A notice you sign arrives before the date. <a class="link" href="/migrations/groq/">Groq’s ledger</a></p>
+              <div class="units" aria-hidden="true" data-tracker="groq-units"><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--adopted"></i><i class="mark mark--adopted"></i><i class="mark mark--adopted"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--closed"></i><i class="mark mark--closed"></i></div>
+              <p class="fine">Groq’s <span data-tracker="groq-opened">15</span>, as of <span data-tracker="as-of">10 November</span>. In this test our notices came after Groq’s 16 August shutdown, so these pull requests fixed code that was already failing. A notice you sign arrives before the date. <a class="link" href="/migrations/groq/">Groq’s ledger</a></p>
             </div>
           </li>
         </ol>
