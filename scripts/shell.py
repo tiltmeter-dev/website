@@ -52,6 +52,7 @@ PAGES = {
     # path: (current nav item, extra stylesheets after the shell's)
     "index.html": ("", ["/home.css"]),
     "developers/index.html": ("", []),
+    "404.html": ("", []),
 }
 
 

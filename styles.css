@@ -36,7 +36,8 @@ code { font-size: 0.9em; }
 :focus-visible { outline: 2px solid var(--red); outline-offset: 3px; border-radius: 4px; }
 ::selection { background: rgba(226, 85, 45, 0.25); }
 
-.wrap { width: min(1160px, 100% - 40px); margin: 0 auto; }
+/* The same measure as .page in site.css, so old and new sections share their edges. */
+.wrap { width: min(var(--grid-max), 100% - 2 * var(--page-margin)); margin: 0 auto; }
 .muted { color: var(--soft); }
 .needle { color: var(--red); }
 .bad { color: var(--red-ink); }
@@ -94,7 +95,7 @@ h1 {
 .install:hover { transform: translateY(-1px); }
 .install .ps { color: var(--red); }
 .install code { font-size: 1rem; }
-.hint { font: 500 0.72rem var(--sans); color: var(--night-mute); padding: 4px 10px; border-radius: 999px; background: rgba(255, 255, 255, 0.08); }
+.hint { font: 500 0.72rem var(--sans); color: var(--fg-3, #a19b8e); padding: 4px 10px; border-radius: 999px; background: rgba(255, 255, 255, 0.08); }
 .more { font-size: 0.92rem; color: var(--soft); border-bottom: 1px solid var(--line); }
 .more:hover { color: var(--ink); border-color: var(--ink); }
 .agent-note { font-size: 0.85rem; color: var(--soft); }
