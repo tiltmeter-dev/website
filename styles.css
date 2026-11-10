@@ -404,10 +404,11 @@ blockquote { margin-top: 28px; max-width: 520px; padding: 4px 0 4px 18px; border
 }
 .stat dd { font-size: clamp(1.7rem, 3vw, 2.3rem); line-height: 1; font-weight: 600; letter-spacing: -0.045em; font-variant-numeric: tabular-nums; }
 .stat dt { font-size: 0.85rem; line-height: 1.35; color: var(--soft); }
-.stat.merged dt::before, .stat.open dt::before, .stat.closed dt::before {
+.stat.merged dt::before, .stat.adopted dt::before, .stat.open dt::before, .stat.closed dt::before {
   content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 7px; border-radius: 50%; vertical-align: 1px;
 }
 .stat.merged dt::before { background: var(--green); }
+.stat.adopted dt::before { box-shadow: inset 0 0 0 2px var(--green); }
 .stat.open dt::before { background: var(--blue); }
 .stat.closed dt::before { background: var(--red); }
 .mig-note {

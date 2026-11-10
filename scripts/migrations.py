@@ -7,9 +7,18 @@ Usage, from anywhere (paths default to this repository):
     python3 scripts/migrations.py --offline   # re-render the pages from the last snapshot
 
 The input, migrations/sources.json, maps a provider key (the page's URL slug) to
-{"provider": name, "title": ..., "source": changelog URL, "prs": [pull request URLs]}, plus an
-optional "adopted" object from a closed pull request's URL to the commit in which its maintainer
-landed the same fix. Such a pull request still counts as closed and shows as "Adopted".
+{"provider": name, "title": ..., "source": changelog URL, "prs": [pull request URLs]}, plus two
+optional fields:
+
+- "adopted" maps a closed pull request's URL to where its maintainer landed the same fix: a
+  commit, or a pull request of their own, in the same repository. A commit, or a merged pull
+  request, shows as "Adopted" and counts as landed. A pull request still open shows as
+  "Picked up" and counts as closed until it merges.
+- "gone" lists pull requests whose repository was deleted or made private after Tiltmeter
+  opened them. GitHub returns nothing for them, so they are not fetched: they count as opened
+  and closed, without a name, link or stars.
+
+"Landed" is merged plus adopted.
 The script asks GitHub for each pull request's state, dates and repository through
 `gh api graphql` (no shell), writes migrations/status.json with a UTC timestamp, renders
 migrations/index.html and migrations/<key>/index.html, and refreshes the migration
@@ -82,7 +91,9 @@ def load_inputs(paths: list[Path]) -> tuple[dict[str, dict[str, Any]], set[str]]
                 continue
             if not KEY.fullmatch(key) or not isinstance(entry, dict):
                 fail(f"{path}: {key!r} must be a lowercase slug mapping to an object")
-            merged = providers.setdefault(key, {"provider": "", "title": "", "source": "", "prs": [], "adopted": {}})
+            merged = providers.setdefault(
+                key, {"provider": "", "title": "", "source": "", "prs": [], "adopted": {}, "gone": []}
+            )
             for field in ("provider", "title", "source"):
                 value = entry.get(field)
                 if value is not None and not isinstance(value, str):
@@ -100,16 +111,25 @@ def load_inputs(paths: list[Path]) -> tuple[dict[str, dict[str, Any]], set[str]]
                     merged["prs"].append(url)
             adopted = entry.get("adopted", {})
             if not isinstance(adopted, dict):
-                fail(f"{path}: {key}.adopted must map pull request URLs to commit URLs")
-            for url, commit in adopted.items():
-                pr, sha = PR_URL.fullmatch(url), COMMIT_URL.fullmatch(commit) if isinstance(commit, str) else None
-                if not pr or not sha or (pr[1], pr[2]) != (sha[1], sha[2]):
-                    fail(f"{path}: {key}.adopted needs a pull request URL and a commit URL in the same repository")
-                merged["adopted"][url] = commit
+                fail(f"{path}: {key}.adopted must map pull request URLs to commit or pull request URLs")
+            for url, target in adopted.items():
+                pr = PR_URL.fullmatch(url)
+                where = (COMMIT_URL.fullmatch(target) or PR_URL.fullmatch(target)) if isinstance(target, str) else None
+                if not pr or not where or (pr[1], pr[2]) != (where[1], where[2]) or target == url:
+                    fail(f"{path}: {key}.adopted needs a pull request URL and, in the same repository, "
+                         "a commit URL or another pull request URL")
+                merged["adopted"][url] = target
+            gone = entry.get("gone", [])
+            if not isinstance(gone, list) or not all(isinstance(u, str) and PR_URL.fullmatch(u) for u in gone):
+                fail(f"{path}: {key}.gone must be a list of pull request URLs")
+            merged["gone"].extend(u for u in gone if u not in merged["gone"])
     for key, provider in providers.items():
-        stray = set(provider["adopted"]) - set(provider["prs"])
-        if stray:
-            fail(f"{key}.adopted names pull requests missing from its prs: {', '.join(sorted(stray))}")
+        for field in ("adopted", "gone"):
+            stray = set(provider[field]) - set(provider["prs"])
+            if stray:
+                fail(f"{key}.{field} names pull requests missing from its prs: {', '.join(sorted(stray))}")
+        if set(provider["adopted"]) & set(provider["gone"]):
+            fail(f"{key}: a pull request cannot be both adopted and gone")
         if not provider["title"]:
             fail(f"{key} has no title")
         if not provider["source"].startswith("https://"):
@@ -189,6 +209,8 @@ def requested_repo(record: Record) -> str:
 
 def hide(record: Record, hidden: set[str]) -> Record:
     """Keep only state and dates of a private or hidden repository's pull request."""
+    if record.get("gone"):
+        return record
     private = (
         record.get("private")
         or record.get("visibility") != "public"
@@ -209,19 +231,26 @@ def stats(records: list[Record]) -> dict[str, int]:
         if key not in seen:
             seen.add(key)
             unique.append(record)
-    stars = {r["repository"].lower(): r["stars"] for r in unique if not r.get("private")}
+    stars = {r["repository"].lower(): r["stars"] for r in unique if not r.get("private") and not r.get("gone")}
     opened = len(unique)
     merged = sum(r["state"] == "merged" for r in unique)
+    closed = sum(r["state"] == "closed" for r in unique)
+    adopted = sum(r["state"] == "closed" and r.get("adoption") == "landed" for r in unique)
     return {
         "opened": opened,
         "merged": merged,
         "open": sum(r["state"] == "open" for r in unique),
-        "closed": sum(r["state"] == "closed" for r in unique),
-        "adopted": sum(r["state"] == "closed" and bool(r.get("adopted_in")) for r in unique),
+        "closed": closed,
+        "adopted": adopted,
+        "picked_up": sum(r["state"] == "closed" and r.get("adoption") == "pending" for r in unique),
+        "closed_not_landed": closed - adopted,
+        "landed": merged + adopted,
         "merged_percent": percent(merged, opened),
+        "landed_percent": percent(merged + adopted, opened),
         "stars": sum(stars.values()),
         "repositories": len(stars),
         "private": sum(1 for r in unique if r.get("private")),
+        "gone": sum(1 for r in unique if r.get("gone")),
     }
 
 
@@ -231,6 +260,8 @@ def percent(part: int, whole: int) -> int:
 
 
 def by_stars(record: Record) -> tuple[int, int, str, int]:
+    if record.get("gone"):
+        return (2, 0, "", 0)
     if record.get("private"):
         return (1, 0, "", 0)
     return (0, -record["stars"], record["repository"].lower(), record["number"])
@@ -335,11 +366,11 @@ def since_first(records: list[Record], generated_at: str) -> str:
 def tiles(s: dict[str, int]) -> str:
     items = [
         ("", "Pull requests opened", num(s["opened"])),
-        ("merged", "Merged", num(s["merged"])),
+        ("merged", "Merged as Tiltmeter wrote them", num(s["merged"])),
+        ("adopted", "Adopted by the maintainer", num(s["adopted"])),
         ("open", "Open", num(s["open"])),
-        ("closed", "Closed without merging", num(s["closed"])),
-        ("", "Merged, of those opened", f'{s["merged_percent"]}%' if s["opened"] else "—"),
-        ("", "Stars of the repositories", num(s["stars"])),
+        ("closed", "Closed without landing", num(s["closed_not_landed"])),
+        ("", "Landed: merged or adopted", f'{s["landed_percent"]}%' if s["opened"] else "—"),
     ]
     cells = "".join(
         f'\n        <div class="stat{" " + c if c else ""}"><dt>{label}</dt><dd>{value}</dd></div>' for c, label, value in items
@@ -352,31 +383,49 @@ def footnote(s: dict[str, int]) -> str:
         tail = plural(s["private"], "pull request is in a private repository.", "pull requests are in private repositories.")
     else:
         tail = "There are none in this snapshot."
-    adopted = ""
+    notes = ""
     if s.get("adopted"):
-        adopted = (
+        notes += (
             f'{plural(s["adopted"], "pull request was", "pull requests were")} closed because the maintainer landed '
-            "the same fix in their own commit: it shows as Adopted, links to that commit and counts as closed, not merged. "
+            "the fix in a commit or pull request of their own, often with Tiltmeter's commit inside: it shows as "
+            "Adopted, links to where the fix landed and counts as landed, not merged. "
+        )
+    if s.get("picked_up"):
+        notes += (
+            f'{plural(s["picked_up"], "pull request was", "pull requests were")} closed in favour of the '
+            "maintainer's own pull request, still open: it shows as Picked up and counts as closed until that merges. "
+        )
+    if s.get("gone"):
+        notes += (
+            f'{plural(s["gone"], "repository was", "repositories were")} deleted or made private after the pull '
+            "request opened: it counts as opened and closed, without a name. "
         )
     return (
         '      <p class="footnote">Stars come from GitHub at the time of the snapshot, counted once per repository. '
-        f"{adopted}Private repositories are counted but not named: their pull requests add to the counts above, "
+        f"{notes}Private repositories are counted but not named: their pull requests add to the counts above, "
         f"while their names, links and stars are left out. {tail}</p>\n"
     )
 
 
 def badge(record: Record) -> str:
     state = record["state"]
-    if state == "closed" and record.get("adopted_in"):
-        note = f"Closed on {day(record['closed_at'])}: the maintainer landed this fix in their own commit"
+    if record.get("gone"):
+        return '<span class="badge closed" title="The repository was deleted or made private">Repository gone</span>'
+    if state == "closed" and record.get("adoption") == "landed":
+        note = f"Closed on {day(record['closed_at'])}: the maintainer landed this fix themselves"
         return f'<a class="badge adopted" href="{e(record["adopted_in"])}" title="{e(note)}">Adopted</a>'
+    if state == "closed" and record.get("adoption") == "pending":
+        note = f"Closed on {day(record['closed_at'])} in favour of the maintainer's own pull request, still open"
+        return f'<a class="badge open" href="{e(record["adopted_in"])}" title="{e(note)}">Picked up</a>'
     label = {"merged": "Merged", "open": "Open", "closed": "Closed"}[state]
     note = f' title="Closed without merging on {day(record["closed_at"])}"' if state == "closed" else ""
     return f'<span class="badge {state}"{note}>{label}</span>'
 
 
 def pr_row(record: Record) -> str:
-    if record.get("private"):
+    if record.get("gone"):
+        repo, stars, link = '<span class="anon">Repository no longer on GitHub</span>', "—", "—"
+    elif record.get("private"):
         repo, stars, link = '<span class="anon">Private repository</span>', "—", "—"
     else:
         repo = f'<a href="{e(record["repository_url"])}">{e(record["repository"])}</a>'
@@ -394,7 +443,7 @@ def provider_page(key: str, p: dict[str, Any], generated_at: str) -> str:
     source_label = re.sub(r"^https://", "", p["source"])
     description = (
         f"{title}: {plural(s['opened'], 'pull request', 'pull requests')} Tiltmeter opened in code that still "
-        f"used what changed, {num(s['merged'])} merged so far. Drafted from {name}'s public documentation, "
+        f"used what changed, {num(s['landed'])} landed so far. Drafted from {name}'s public documentation, "
         f"not signed or endorsed by {name}."
     )
     rows = "".join(pr_row(r) for r in p["pull_requests"])
@@ -404,7 +453,7 @@ def provider_page(key: str, p: dict[str, Any], generated_at: str) -> str:
       <p class="crumbs"><a href="/migrations/">Migration tracker</a> / {e(name)}</p>
       <p class="eyebrow">{e(name)}</p>
       <h1>{e(title)}<span class="needle">.</span></h1>
-      <p class="lede">{opened_on(p['pull_requests']).capitalize()}, Tiltmeter opened {plural(s['opened'], 'pull request', 'pull requests')} that adapt code still relying on what changed. Here is where each one stands on GitHub, and how many its maintainers have merged.</p>
+      <p class="lede">{opened_on(p['pull_requests']).capitalize()}, Tiltmeter opened {plural(s['opened'], 'pull request', 'pull requests')} that adapt code still relying on what changed. Here is where each one stands on GitHub, and how many its maintainers have merged or adopted.</p>
       <p class="asof">The change: <a href="{e(p['source'])}">{e(source_label)}</a><br>{as_of(generated_at)}, {since_first(p['pull_requests'], generated_at)}</p>
     </section>
 
@@ -421,7 +470,7 @@ def provider_page(key: str, p: dict[str, Any], generated_at: str) -> str:
           <p class="eyebrow">Pull requests</p>
           <h2>Who got<br>the fix.</h2>
         </div>
-        <p class="side">Sorted by the repository's GitHub stars{', private repositories last' if s['private'] else ''}. Open a pull request to read the change and the discussion.</p>
+        <p class="side">Sorted by the repository's GitHub stars{', private repositories last' if s['private'] or s['gone'] else ''}. Open a pull request to read the change and the discussion.</p>
       </div>
       <div class="scroll" role="region" aria-label="Pull requests for {e(title)}" tabindex="0">
         <table class="data">
@@ -446,22 +495,25 @@ def index_page(snapshot: dict[str, Any]) -> str:
     rows = "".join(
         f"""
             <tr><td class="prov"><a href="/migrations/{e(key)}/"><b>{e(p['provider'])}</b><span>{e(p['title'])}</span></a></td>"""
-        + "".join(f'<td class="num">{num(p["stats"][k])}</td>' for k in ("opened", "merged", "open", "closed"))
-        + f'<td class="num">{p["stats"]["merged_percent"]}%</td><td class="num">{num(p["stats"]["stars"])}</td></tr>'
+        + "".join(
+            f'<td class="num">{num(p["stats"][k])}</td>' for k in ("opened", "merged", "adopted", "open", "closed_not_landed")
+        )
+        + f'<td class="num">{p["stats"]["landed_percent"]}%</td><td class="num">{num(p["stats"]["stars"])}</td></tr>'
         for key, p in providers.items()
     )
     description = (
         f"{plural(totals['opened'], 'pull request', 'pull requests')} Tiltmeter opened to fix code using API changes at "
-        f"{len(providers)} providers, with live status from GitHub: {num(totals['merged'])} merged so far. "
+        f"{len(providers)} providers, with live status from GitHub: {num(totals['merged'])} merged and "
+        f"{num(totals['adopted'])} adopted by their maintainers so far. "
         "Notices drafted from public documentation; no provider signed or endorsed them."
     )
     return (
         head("/migrations/", "Tiltmeter migration tracker · API changes fixed as pull requests", description,
              "Tiltmeter migration tracker: API changes, fixed as pull requests")
         + f"""    <section class="hero wrap mig-hero">
-      <p class="kicker">Migration tracker · {plural(totals['opened'], 'pull request', 'pull requests')} · {plural(len(providers), 'provider', 'providers')}</p>
+      <p class="kicker">Migration tracker · {plural(totals['opened'], 'pull request', 'pull requests')} · {plural(len(providers), 'provider', 'providers')} · {num(totals['stars'])} stars</p>
       <h1>API changes, fixed<br>where they're used<span class="needle">.</span></h1>
-      <p class="lede">When a provider retires a model or removes a field, Tiltmeter can open a pull request that adapts the code still using it. These are the {plural(totals['opened'], 'pull request', 'pull requests')} it opened {opened_on(records)} in other people's repositories, grouped by the change they fix. It is the view a hosted version would give a provider: which of its users' repositories got a fix, and how many merged it.</p>
+      <p class="lede">When a provider retires a model or removes a field, Tiltmeter can open a pull request that adapts the code still using it. These are the {plural(totals['opened'], 'pull request', 'pull requests')} it opened {opened_on(records)} in other people's repositories, grouped by the change they fix. So far {num(totals['landed'])} have landed: {num(totals['merged'])} merged as written and {num(totals['adopted'])} adopted by maintainers who landed the fix themselves. It is the view a hosted version would give a provider: which of its users' repositories got a fix, and how many took it.</p>
     </section>
 
     <section class="wrap">
@@ -479,7 +531,7 @@ def index_page(snapshot: dict[str, Any]) -> str:
       <div class="scroll" role="region" aria-label="Pull requests by provider" tabindex="0">
         <table class="data">
           <thead>
-            <tr><th scope="col">Provider and change</th><th scope="col" class="num">Opened</th><th scope="col" class="num">Merged</th><th scope="col" class="num">Open</th><th scope="col" class="num">Closed</th><th scope="col" class="num">% merged</th><th scope="col" class="num">Stars</th></tr>
+            <tr><th scope="col">Provider and change</th><th scope="col" class="num">Opened</th><th scope="col" class="num">Merged</th><th scope="col" class="num">Adopted</th><th scope="col" class="num">Open</th><th scope="col" class="num">Closed</th><th scope="col" class="num">% landed</th><th scope="col" class="num">Stars</th></tr>
           </thead>
           <tbody>{rows}
           </tbody>
@@ -527,6 +579,20 @@ def remove_stale(out: Path, keys: list[str]) -> None:
                 shutil.rmtree(folder)
 
 
+def previous_dates(status: Path) -> dict[str, str | None]:
+    """When each pull request in the last snapshot opened, so a gone one keeps its date."""
+    try:
+        old = json.loads(status.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    return {r["url"]: r.get("created_at") for p in old.get("providers", {}).values()
+            for r in p.get("pull_requests", []) if r.get("url")}
+
+
+def gone_record(url: str, created_at: str | None) -> Record:
+    return {"gone": True, "state": "closed", "created_at": created_at, "merged_at": None, "closed_at": None, "_id": url}
+
+
 def build(args: argparse.Namespace) -> dict[str, Any]:
     out: Path = args.out.resolve()
     status = out / "migrations" / "status.json"
@@ -543,21 +609,43 @@ def build(args: argparse.Namespace) -> dict[str, Any]:
             for key, p in old["providers"].items()
         }
     else:
-        urls = list(dict.fromkeys(url for p in providers_in.values() for url in p["prs"]))
-        found = fetch(urls)
+        gone = {url for p in providers_in.values() for url in p["gone"]}
+        targets = [t for p in providers_in.values() for t in p["adopted"].values() if PR_URL.fullmatch(t)]
+        urls = list(dict.fromkeys(url for p in providers_in.values() for url in p["prs"] if url not in gone))
+        found = fetch(list(dict.fromkeys(urls + targets)))
         generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        before = previous_dates(status)
         providers = {
             key: {k: p[k] for k in ("provider", "title", "source")}
-            | {"pull_requests": [hide({**found[url], "_id": url}, hidden) for url in p["prs"]]}
+            | {"pull_requests": [
+                gone_record(url, before.get(url)) if url in gone else hide({**found[url], "_id": url}, hidden)
+                for url in p["prs"]
+            ]}
             for key, p in providers_in.items()
         }
+        for key, p in providers.items():
+            adopted = providers_in[key]["adopted"]
+            for record in p["pull_requests"]:
+                target = adopted.get(record.get("_id") or "")
+                if target and PR_URL.fullmatch(target):
+                    record["_adoption"] = {"merged": "landed", "open": "pending"}.get(found[target]["state"])
     for key, p in providers.items():
         adopted = providers_in.get(key, {}).get("adopted", {})
         for record in p["pull_requests"]:
-            record.pop("adopted_in", None)
             url = record.get("_id") or record.get("url")
-            if not record.get("private") and url in adopted:
-                record["adopted_in"] = adopted[url]
+            was = (record.pop("adopted_in", None), record.pop("adoption", None))
+            fresh = record.pop("_adoption", None)
+            target = adopted.get(url)
+            if record.get("private") or record.get("gone") or not target:
+                continue
+            if COMMIT_URL.fullmatch(target):
+                adoption = "landed"
+            elif fresh is not None or not args.offline:
+                adoption = fresh
+            else:  # offline: keep what the last fetch saw for this target, else assume it has not merged
+                adoption = was[1] if was[0] == target else "pending"
+            if adoption:
+                record["adopted_in"], record["adoption"] = target, adoption
     everything: list[Record] = []
     for p in providers.values():
         p["pull_requests"].sort(key=by_stars)
@@ -594,11 +682,11 @@ def main() -> None:
     snapshot = build(parser.parse_args())
     for key, p in snapshot["providers"].items():
         s = p["stats"]
-        print(f"{key:<10} {s['opened']:>3} opened  {s['merged']:>3} merged  {s['open']:>3} open  "
-              f"{s['closed']:>3} closed  {s['merged_percent']:>3}%  {s['stars']:>8,} stars", file=sys.stderr)
+        print(f"{key:<14} {s['opened']:>3} opened  {s['merged']:>3} merged  {s['adopted']:>2} adopted  {s['open']:>3} open  "
+              f"{s['closed_not_landed']:>3} closed  {s['landed_percent']:>3}% landed  {s['stars']:>9,} stars", file=sys.stderr)
     t = snapshot["totals"]
-    print(f"{'total':<10} {t['opened']:>3} opened  {t['merged']:>3} merged  {t['open']:>3} open  "
-          f"{t['closed']:>3} closed  {t['merged_percent']:>3}%  {t['stars']:>8,} stars  ({snapshot['generated_at']})",
+    print(f"{'total':<14} {t['opened']:>3} opened  {t['merged']:>3} merged  {t['adopted']:>2} adopted  {t['open']:>3} open  "
+          f"{t['closed_not_landed']:>3} closed  {t['landed_percent']:>3}% landed  {t['stars']:>9,} stars  ({snapshot['generated_at']})",
           file=sys.stderr)
 
 

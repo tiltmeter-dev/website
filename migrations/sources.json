@@ -21,7 +21,9 @@
    "https://github.com/tegnike/aituber-kit/pull/625"
   ],
   "adopted": {
-   "https://github.com/Nutlope/aicommits/pull/379": "https://github.com/Nutlope/aicommits/commit/98e9c4e4ea025053d4ede2ed4ee08aed9b7e0419"
+   "https://github.com/Nutlope/aicommits/pull/379": "https://github.com/Nutlope/aicommits/commit/98e9c4e4ea025053d4ede2ed4ee08aed9b7e0419",
+   "https://github.com/elie222/inbox-zero/pull/4356": "https://github.com/elie222/inbox-zero/pull/4406",
+   "https://github.com/pbek/QOwnNotes/pull/3813": "https://github.com/pbek/QOwnNotes/commit/03e9ed23e3976d67a5728fd8ea8ba65ebed92499"
   }
  },
  "anthropic": {
@@ -78,6 +80,9 @@
    "https://github.com/siberlink/energyriskiq-ops/pull/1",
    "https://github.com/stripe-samples/subscription-use-cases/pull/1229",
    "https://github.com/talivia-group/talivia/pull/6"
+  ],
+  "gone": [
+   "https://github.com/createdbymax/Loopletter-Open-source-email-marketing-platform/pull/2"
   ]
  },
  "jira": {
@@ -146,7 +151,10 @@
    "https://github.com/open-metadata/OpenMetadata/pull/36296",
    "https://github.com/refly-ai/refly/pull/2304",
    "https://github.com/tmc/langchaingo/pull/1564"
-  ]
+  ],
+  "adopted": {
+   "https://github.com/open-metadata/OpenMetadata/pull/36296": "https://github.com/open-metadata/OpenMetadata/pull/37039"
+  }
  },
  "hubspot": {
   "title": "HubSpot Pipelines API v1 sunset (December 4, 2026)",
