@@ -1,0 +1,42 @@
+# Keeps the migration tracker current. Once a day it asks GitHub for the state of every
+# pull request in migrations/sources.json and rewrites the tracker's pages, status.json
+# and the numbers on the home page, on /developers/ and in llms.txt. A push to main is a
+# deployment: GitHub Pages serves this branch.
+name: Refresh the migration tracker
+
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tracker
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Ask GitHub and rewrite the pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/migrations.py
+      - name: Publish what changed
+        run: |
+          # The snapshot's timestamp and the star counts change on every run. A commit is
+          # worth it only when a pull request changed state.
+          changed="$(git diff --unified=0 -- migrations/status.json | grep -cE '^[+-] +"(state|merged_at|closed_at|adoption|adopted_in)"' || true)"
+          if [ "$changed" = "0" ]; then
+            echo "No pull request changed state."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A migrations index.html developers/index.html llms.txt llms-full.txt sitemap.xml
+          git commit -m "Refresh the migration tracker"
+          git push

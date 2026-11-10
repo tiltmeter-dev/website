@@ -1,154 +1,213 @@
-// Motion for the home page. Without JavaScript, or with reduced motion, every element
-// shows its final state, so nothing here carries content.
+// The home page. Without JavaScript, or with reduced motion, every element shows its final
+// state and every case is readable, so nothing here carries content.
 const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const wait = (ms) => new Promise((done) => setTimeout(done, ms));
 
-// Run fn once, the first time el is on screen.
-const whenSeen = (el, fn, threshold = 0.35) => {
-  const seen = new IntersectionObserver((entries) => {
-    if (entries.some((entry) => entry.isIntersecting)) {
-      seen.disconnect();
-      fn();
-    }
-  }, { threshold });
-  seen.observe(el);
-};
-
-// The hero: merged pull requests take turns at the front of a deck. Each one opens, the
-// retired value is struck, the replacement is typed, and it is merged. The deck waits
-// while it is off screen or under the pointer, and the buttons under it pick a card.
-const deck = document.querySelector("[data-deck]");
-if (deck) {
-  const cards = [...deck.querySelectorAll("[data-pr]")];
-  const picker = deck.querySelector(".pr-picks");
-  const picks = [...picker.querySelectorAll("button")];
-  const texts = cards.map((card) => card.querySelector("[data-type]").textContent);
-  const HOLD = 9000;
-  let current = 0;
-  let run = 0;
-  let timer = 0;
-  let left = HOLD;
-  let since = 0;
-  let running = false;
-  let started = false;
-  let visible = false;
-  let hovering = false;
-
-  // The card as merged, which is also what a visitor without JavaScript sees.
-  const finish = (i) => {
-    const card = cards[i];
-    card.classList.remove("play");
-    card.classList.add("s1", "s2", "s3", "s4");
-    const state = card.querySelector("[data-state]");
-    state.textContent = "Merged";
-    state.classList.remove("open");
-    card.querySelector("[data-type]").textContent = texts[i];
-  };
-
-  const rewind = (i) => {
-    const card = cards[i];
-    card.classList.remove("s1", "s2", "s3", "s4");
-    card.classList.add("play");
-    const state = card.querySelector("[data-state]");
-    state.textContent = "Open";
-    state.classList.add("open");
-    card.querySelector("[data-type]").textContent = "";
-  };
-
-  const play = async (i) => {
-    const mine = ++run;
-    const card = cards[i];
-    const state = card.querySelector("[data-state]");
-    const typed = card.querySelector("[data-type]");
-    const live = async (ms) => {
-      await wait(ms);
-      return mine === run;
-    };
-    rewind(i);
-    if (!(await live(450))) return;
-    card.classList.add("s1");
-    if (!(await live(750))) return;
-    card.classList.add("s2");
-    for (const char of texts[i]) {
-      typed.textContent += char;
-      if (!(await live(42))) return;
-    }
-    if (!(await live(550))) return;
-    state.textContent = "Merged";
-    state.classList.remove("open");
-    card.classList.add("s3");
-    if (!(await live(450))) return;
-    card.classList.add("s4");
-  };
-
-  // Count down on the front card only while someone can see the deck.
-  const sync = () => {
-    const go = started && visible && !hovering && !still;
-    deck.classList.toggle("paused", !go);
-    if (go && !running) {
-      running = true;
-      since = performance.now();
-      timer = setTimeout(() => {
-        running = false;
-        show((current + 1) % cards.length);
-      }, Math.max(0, left));
-    } else if (!go && running) {
-      running = false;
-      clearTimeout(timer);
-      left -= performance.now() - since;
-    }
-  };
-
-  const show = (i) => {
-    if (i !== current) finish(current);
-    current = i;
-    cards.forEach((card, n) => {
-      card.classList.toggle("front", n === i);
-      card.classList.toggle("back", n !== i);
-      card.inert = n !== i;
+// -- The cases: two merged pull requests as an ARIA tablist (arrow keys, Home, End). ---------
+// Without JavaScript both records show, one after the other.
+const cases = document.querySelector("[data-cases]");
+if (cases) {
+  const list = cases.querySelector('[role="tablist"]');
+  const tabs = [...list.querySelectorAll('[role="tab"]')];
+  const panels = tabs.map((tab) => document.getElementById(tab.getAttribute("aria-controls")));
+  const select = (i, { focus = false } = {}) => {
+    tabs.forEach((tab, n) => {
+      tab.setAttribute("aria-selected", String(n === i));
+      tab.tabIndex = n === i ? 0 : -1;
+      panels[n].hidden = n !== i;
     });
-    for (const pick of picks) pick.setAttribute("aria-pressed", "false");
-    void picker.offsetWidth; // restarts the progress bar under the button
-    picks[i].setAttribute("aria-pressed", "true");
-    if (still) finish(i);
-    else play(i);
-    clearTimeout(timer);
-    running = false;
-    left = HOLD;
-    sync();
+    if (focus) tabs[i].focus();
   };
-
-  picker.hidden = false;
-  deck.style.setProperty("--hold", `${HOLD}ms`);
-  cards.forEach((card, n) => {
-    if (n !== current) card.inert = true;
+  panels.forEach((panel, n) => {
+    panel.setAttribute("role", "tabpanel");
+    panel.setAttribute("aria-labelledby", tabs[n].id);
   });
-  picks.forEach((pick, i) => pick.addEventListener("click", () => {
-    started = true;
-    show(i);
-  }));
-  deck.addEventListener("pointerenter", () => {
-    hovering = true;
-    sync();
+  list.hidden = false;
+  select(0);
+  tabs.forEach((tab, i) => tab.addEventListener("click", () => select(i)));
+  list.addEventListener("keydown", (event) => {
+    const at = tabs.indexOf(document.activeElement);
+    const to = { ArrowRight: at + 1, ArrowLeft: at - 1, Home: 0, End: tabs.length - 1 }[event.key];
+    if (to === undefined || at < 0) return;
+    event.preventDefault();
+    select((to + tabs.length) % tabs.length, { focus: true });
   });
-  deck.addEventListener("pointerleave", () => {
-    hovering = false;
-    sync();
-  });
-  if (!still) rewind(0);
-  new IntersectionObserver(([entry]) => {
-    visible = entry.isIntersecting;
-    if (visible && !started) {
-      started = true;
-      show(0);
-    } else sync();
-  }, { threshold: 0.2 }).observe(deck);
 }
 
-// The seismograph: one deprecation recorded twice. Without Tiltmeter the line stays calm
-// until the shutdown date and then breaks; with it, the notice, the pull requests and the
-// merges come first and the shutdown passes without a tremor. The traces are drawn at the
-// plot's own size, and a playhead reveals them while the stages on the rail light up.
+// -- Fig. 1: the drawing follows the step at the reading line. ------------------------------
+// Each step has an end state (apply). Moving forward by one step plays the motion that leads
+// there (animate); any other move, or a scroll that interrupts, jumps straight to the state.
+const sequence = document.querySelector("[data-sequence]");
+if (sequence && !still) {
+  const svgs = [...sequence.querySelectorAll(".iso-svg")];
+  const steps = [...sequence.querySelectorAll(".step[data-step]")];
+  const narrow = matchMedia("(max-width: 760px)");
+  const homes = new Map();
+  for (const svg of svgs) for (const mv of svg.querySelectorAll(".mv")) homes.set(mv, mv.getAttribute("transform"));
+
+  const place = (el, x, y) => el.setAttribute("transform", `translate(${x.toFixed(1)},${y.toFixed(1)})`);
+  const points = (attr) => attr.trim().split(/\s+/).map((pair) => pair.split(",").map(Number));
+  const ease = (f) => (f < 0.5 ? 2 * f * f : 1 - (-2 * f + 2) ** 2 / 2);
+
+  // Run onFrame(0 → 1) over ms, unless the run it belongs to is overtaken.
+  const tween = (ms, onFrame, alive) => new Promise((done) => {
+    const t0 = performance.now();
+    const frame = (now) => {
+      if (!alive()) return done(false);
+      const f = Math.min(1, (now - t0) / ms);
+      onFrame(f);
+      if (f < 1) requestAnimationFrame(frame);
+      else done(true);
+    };
+    requestAnimationFrame(frame);
+  });
+  const along = (el) => {
+    if (el.dataset.arc) {
+      const [a, c, b] = points(el.dataset.arc);
+      return (t) => [0, 1].map((k) => (1 - t) ** 2 * a[k] + 2 * (1 - t) * t * c[k] + t ** 2 * b[k]);
+    }
+    const pts = points(el.dataset.path);
+    const lengths = pts.slice(1).map(([x, y], i) => Math.hypot(x - pts[i][0], y - pts[i][1]));
+    const total = lengths.reduce((sum, n) => sum + n, 0);
+    return (t) => {
+      let left = t * total;
+      for (let i = 0; i < lengths.length; i++) {
+        if (left <= lengths[i] || i === lengths.length - 1) {
+          const f = lengths[i] ? Math.min(1, left / lengths[i]) : 1;
+          return [0, 1].map((k) => pts[i][k] + (pts[i + 1][k] - pts[i][k]) * f);
+        }
+        left -= lengths[i];
+      }
+      return pts.at(-1);
+    };
+  };
+
+  const apply = (svg, n) => {
+    const q = (sel) => svg.querySelector(sel);
+    const qa = (sel) => [...svg.querySelectorAll(sel)];
+    svg.classList.remove("flying", "ping");
+    svg.classList.toggle("sent", n >= 2);
+    svg.classList.toggle("quaking", n === 2);
+    q(".needle").classList.toggle("tilt", n === 2 || n === 3);
+    for (const mv of qa(".mv")) {
+      mv.setAttribute("transform", homes.get(mv));
+      mv.style.opacity = "";
+    }
+    const beam = q(".beam");
+    beam.setAttribute("transform", "");
+    beam.style.opacity = "";
+    for (const tile of qa(".tile.hit")) {
+      tile.classList.toggle("found", n >= 2 && n < 4);
+      tile.classList.toggle("fixed", n >= 4);
+    }
+    for (const card of qa(".bb.prb")) {
+      card.classList.toggle("show", n >= 3);
+      card.classList.toggle("done", n >= 4);
+    }
+  };
+
+  const animate = async (svg, to, alive) => {
+    const q = (sel) => svg.querySelector(sel);
+    const qa = (sel) => [...svg.querySelectorAll(sel)];
+    if (to === 2) {
+      const notice = q(".mv.notice");
+      const route = along(notice);
+      svg.classList.add("flying");
+      if (!(await tween(1100, (f) => place(notice, ...route(ease(f))), alive))) return false;
+      svg.classList.remove("flying");
+      svg.classList.add("sent", "ping", "quaking");
+      q(".needle").classList.add("tilt");
+      await wait(250);
+      if (!alive()) return false;
+      const beam = q(".beam");
+      const dx = Number(beam.dataset.dx);
+      const dy = Number(beam.dataset.dy);
+      const tiles = qa(".tile.hit");
+      beam.style.opacity = "1";
+      const swept = await tween(1300, (f) => {
+        beam.setAttribute("transform", `translate(${(dx * f).toFixed(1)},${(dy * f).toFixed(1)})`);
+        for (const tile of tiles) if (f >= Number(tile.dataset.at)) tile.classList.add("found");
+      }, alive);
+      beam.style.opacity = "";
+      return swept;
+    }
+    if (to === 3) {
+      const fixers = qa(".mv.fixer");
+      const routes = fixers.map(along);
+      fixers.forEach((el) => (el.style.opacity = "1"));
+      const flown = await tween(1100, (f) => fixers.forEach((el, i) => {
+        const g = Math.max(0, Math.min(1, (f * 1.3 - i * 0.15)));
+        place(el, ...routes[i](ease(g)));
+      }), alive);
+      fixers.forEach((el) => (el.style.opacity = ""));
+      if (!flown) return false;
+      for (const card of qa(".bb.prb")) {
+        card.classList.add("show");
+        await wait(120);
+        if (!alive()) return false;
+      }
+      return true;
+    }
+    if (to === 4) {
+      for (const name of ["a", "b", "c"]) {
+        q(`.tile.h-${name}`).classList.add("fixed");
+        q(`.tile.h-${name}`).classList.remove("found");
+        q(`.bb.prb-${name}`).classList.add("done");
+        await wait(260);
+        if (!alive()) return false;
+      }
+      q(".needle").classList.remove("tilt");
+      return true;
+    }
+    return true;
+  };
+
+  let shown = 1;
+  let run = 0;
+  const shownSvg = () => svgs.find((svg) => svg.getClientRects().length > 0);
+  const go = async (n) => {
+    const mine = ++run;
+    const alive = () => mine === run;
+    const svg = shownSvg();
+    for (const other of svgs) if (other !== svg) apply(other, n);
+    if (svg && n === shown + 1) {
+      apply(svg, shown);
+      const finished = await animate(svg, n, alive);
+      if (!finished) return;
+    }
+    if (svg) apply(svg, n);
+    shown = n;
+  };
+
+  // The reading line: halfway down a desktop screen, and below the pinned figure on a phone.
+  let active = 0;
+  let queued = 0;
+  const read = () => {
+    queued = 0;
+    const line = innerHeight * (narrow.matches ? 0.66 : 0.55);
+    let n = 1;
+    for (const step of steps) if (step.getBoundingClientRect().top <= line) n = Number(step.dataset.step);
+    if (n === active) return;
+    active = n;
+    steps.forEach((step) => step.classList.toggle("is-active", Number(step.dataset.step) === n));
+    go(n);
+  };
+  const schedule = () => {
+    if (!queued) queued = requestAnimationFrame(read);
+  };
+
+  sequence.setAttribute("data-live", "");
+  for (const svg of svgs) apply(svg, 1);
+  addEventListener("scroll", schedule, { passive: true });
+  addEventListener("resize", schedule);
+  narrow.addEventListener("change", () => {
+    for (const svg of svgs) apply(svg, shown);
+    schedule();
+  });
+  read();
+}
+
+// -- The seismograph (problem section, until that section is rebuilt) ----------------------
 const plot = document.querySelector("[data-seis]");
 if (plot) {
   const seis = plot.closest(".seis");
@@ -161,7 +220,7 @@ if (plot) {
   let traces = null;
   let progress = 1;
 
-  const path = (points) => points.map(([x, y], i) => `${i ? "L" : "M"}${x.toFixed(1)} ${y.toFixed(1)}`).join("");
+  const path = (pts) => pts.map(([x, y], i) => `${i ? "L" : "M"}${x.toFixed(1)} ${y.toFixed(1)}`).join("");
   const draw = () => {
     const w = svg.clientWidth;
     const h = svg.clientHeight;
@@ -224,336 +283,75 @@ if (plot) {
   if (!still) {
     seis.classList.add("play");
     show(0);
-    whenSeen(plot, () => {
-      const DURATION = 6400;
+    const seen = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      seen.disconnect();
       const t0 = performance.now();
       const frame = (now) => {
-        show(Math.max(0, Math.min(1, (now - t0) / DURATION)));
+        show(Math.max(0, Math.min(1, (now - t0) / 6400)));
         if (progress < 1) requestAnimationFrame(frame);
         else seis.classList.add("done");
       };
       requestAnimationFrame(frame);
-    }, 0.45);
+    }, { threshold: 0.45 });
+    seen.observe(plot);
   }
 }
 
-// Step 2: the terminal prints line by line.
-const term = document.querySelector("[data-typed]");
-if (term && !still) {
-  term.innerHTML = term.innerHTML.split("\n").map((row) => `<span class="tl">${row}</span>`).join("\n");
-  term.classList.add("play");
-  whenSeen(term, async () => {
-    for (const row of term.querySelectorAll(".tl")) {
-      row.classList.add("on");
-      await wait(330);
-    }
-  });
-}
-
-// Step 3: the tracker starts with every pull request open, then the merges land.
-const tracker = document.querySelector("[data-tracker]");
-if (tracker && !still) {
-  const flips = [...tracker.querySelectorAll("[data-flip]")];
-  for (const badge of flips) {
-    badge.className = "badge open";
-    badge.textContent = "Open";
-  }
-  whenSeen(tracker, async () => {
-    await wait(500);
-    for (const badge of flips) {
-      const final = badge.dataset.flip;
-      badge.className = `badge ${final} flipped`;
-      badge.textContent = final[0].toUpperCase() + final.slice(1);
-      await wait(480);
-    }
-  });
-}
-
-// Numbers count up the first time they are seen.
-if (!still) {
-  for (const el of document.querySelectorAll("[data-count]")) {
-    const end = Number(el.dataset.count);
-    el.textContent = "0";
-    whenSeen(el, () => {
-      const t0 = performance.now();
-      const frame = (now) => {
-        const f = Math.max(0, Math.min(1, (now - t0) / 1100));
-        el.textContent = String(Math.round(end * (1 - (1 - f) ** 3)));
-        if (f < 1) requestAnimationFrame(frame);
-      };
-      requestAnimationFrame(frame);
-    }, 0.6);
-  }
-}
-
-// Sections rise into place as they scroll in.
-if (!still) {
-  const reveals = document.querySelectorAll("[data-reveal]");
-  const shown = new IntersectionObserver((entries) => {
-    for (const entry of entries) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("in");
-        shown.unobserve(entry.target);
-      }
-    }
-  }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
-  for (const el of reveals) {
-    el.classList.add("rv");
-    shown.observe(el);
-  }
-}
-
-// -- Isometric scenes ---------------------------------------------------------------
-// Each [data-scene] tells one story in a loop while it is on screen. The SVG comes from
-// scripts/iso_scene.py and shows the final state on its own; .play rewinds it.
-
-const sceneKit = (root) => {
+// -- The sandbox drawing (security section, until that section is rebuilt) -----------------
+const fixScene = document.querySelector('[data-scene="fix"]');
+if (fixScene && !still) {
+  const q = (sel) => fixScene.querySelector(sel);
+  const qa = (sel) => [...fixScene.querySelectorAll(sel)];
   const added = [];
-  const movers = [...root.querySelectorAll(".mv")];
+  const on = (el, ...names) => names.forEach((name) => { el.classList.add(name); added.push([el, name]); });
+  const movers = qa(".mv");
   for (const mv of movers) mv.dataset.home = mv.getAttribute("transform");
-  const kit = {
-    q: (sel) => root.querySelector(sel),
-    qa: (sel) => [...root.querySelectorAll(sel)],
-    on(el, ...names) {
-      for (const name of names) {
-        el.classList.add(name);
-        added.push([el, name]);
-      }
-    },
-    off(el, ...names) {
-      for (const name of names) el.classList.remove(name);
-    },
-    reset() {
-      for (const [el, name] of added) el.classList.remove(name);
-      added.length = 0;
-      for (const mv of movers) {
-        mv.setAttribute("transform", mv.dataset.home);
-        mv.style.opacity = "";
-      }
-      for (const beam of root.querySelectorAll(".beam")) {
-        beam.setAttribute("transform", "");
-        beam.style.opacity = "";
-      }
-    },
-    place(el, x, y) {
-      el.setAttribute("transform", `translate(${x.toFixed(1)},${y.toFixed(1)})`);
-    },
-    // Move a .mv group along its data-path (a polyline) or its data-arc (a quadratic curve).
-    move(els, ms, { hide = true } = {}) {
-      const list = Array.isArray(els) ? els : [els];
-      const routes = list.map((el) => {
-        const points = (el.dataset.arc || el.dataset.path).trim().split(/\s+/).map((pair) => pair.split(",").map(Number));
-        if (el.dataset.arc) {
-          const [a, c, b] = points;
-          return (t) => [0, 1].map((i) => (1 - t) ** 2 * a[i] + 2 * (1 - t) * t * c[i] + t ** 2 * b[i]);
-        }
-        const lengths = points.slice(1).map(([x, y], i) => Math.hypot(x - points[i][0], y - points[i][1]));
-        const total = lengths.reduce((sum, n) => sum + n, 0);
-        return (t) => {
-          let left = t * total;
-          for (let i = 0; i < lengths.length; i++) {
-            if (left <= lengths[i] || i === lengths.length - 1) {
-              const f = lengths[i] ? Math.min(1, left / lengths[i]) : 1;
-              return [0, 1].map((k) => points[i][k] + (points[i + 1][k] - points[i][k]) * f);
-            }
-            left -= lengths[i];
-          }
-          return points.at(-1);
-        };
-      });
-      return new Promise((done) => {
-        for (const el of list) el.style.opacity = "1";
-        const t0 = performance.now();
-        const frame = (now) => {
-          const f = Math.max(0, Math.min(1, (now - t0) / ms));
-          const eased = f < 0.5 ? 2 * f * f : 1 - (-2 * f + 2) ** 2 / 2;
-          list.forEach((el, i) => {
-            const at = routes[i](eased);
-            if (at) kit.place(el, ...at);
-          });
-          if (f < 1) requestAnimationFrame(frame);
-          else {
-            if (hide) for (const el of list) el.style.opacity = "0";
-            done();
-          }
-        };
-        requestAnimationFrame(frame);
-      });
-    },
-    // Sweep a .beam across its data-dx/data-dy; onStep(f) runs every frame with 0 → 1.
-    sweep(beam, ms, onStep) {
-      const dx = Number(beam.dataset.dx);
-      const dy = Number(beam.dataset.dy);
-      beam.style.opacity = "1";
-      return new Promise((done) => {
-        const t0 = performance.now();
-        const frame = (now) => {
-          const f = Math.max(0, Math.min(1, (now - t0) / ms));
-          beam.setAttribute("transform", `translate(${(dx * f).toFixed(1)},${(dy * f).toFixed(1)})`);
-          onStep(f);
-          if (f < 1) requestAnimationFrame(frame);
-          else {
-            beam.style.opacity = "0";
-            done();
-          }
-        };
-        requestAnimationFrame(frame);
-      });
-    },
-  };
-  return kit;
-};
-
-const scenes = {
-  // A signed notice flies to Tiltmeter, the beam finds the code, the fixes go out, all merge.
-  async provider(k, root) {
-    const steps = k.qa(".iso-steps li");
-    const step = (n) => steps.forEach((li, i) => {
-      if (i < n - 1) k.on(li, "done");
-      if (i === n - 1) k.on(li, "on");
-    });
-    const tiles = k.qa(".tile.hit");
-    step(1);
-    await wait(700);
-    k.on(root, "fly");
-    await k.move(k.q(".mv.notice"), 1500);
-    k.off(root, "fly");
-    k.on(root, "sent");
-    k.on(root, "think", "quake");
-    step(2);
-    await wait(350);
-    await k.sweep(k.q(".beam"), 2100, (f) => {
-      for (const tile of tiles) if (f >= Number(tile.dataset.at)) k.on(tile, "found");
-    });
-    k.off(root, "quake");
-    step(3);
-    const fixers = k.qa(".mv.fixer");
-    fixers.forEach((cube, i) => setTimeout(() => k.move(cube, 1300), i * 200));
-    await wait(1300 + (fixers.length - 1) * 200);
-    for (const card of k.qa(".bb.prb")) {
-      k.on(card, "show");
-      await wait(140);
-    }
-    await wait(900);
-    const order = ["a", "b", "c"];
-    for (const name of order) {
-      k.on(k.q(`.tile.h-${name}`), "fixed");
-      k.on(k.q(`.bb.prb-${name}`), "done");
-      await wait(320);
-    }
-    step(4);
-    steps.forEach((li) => k.on(li, "done"));
-    k.off(root, "think");
-    await wait(2800);
-  },
-
-  // No provider: responses flow in, one has a new shape, CI and the agent hear about it, the fix merges.
-  async drift(k, root) {
-    const normal = k.qa(".mv.resp:not(.odd)");
-    normal.forEach((packet, i) => setTimeout(() => k.move(packet, 1500), i * 520));
-    await wait(normal.length * 520 + 300);
-    await k.move(k.q(".mv.resp.odd"), 1600);
-    k.on(root, "think", "quake");
-    k.on(k.q(".bb.diff-bb"), "show");
-    await wait(700);
-    k.on(root, "alarm");
-    await k.move(k.qa(".mv.ping"), 900);
-    k.on(k.q(".bb.ci-bb"), "show");
-    k.on(k.q(".bb.agent-bb"), "show");
-    await wait(1300);
-    k.on(k.q(".bb.fix-bb"), "show");
-    await wait(1200);
-    k.on(k.q(".bb.fix-bb"), "done");
-    k.on(k.q(".bb.ci-bb"), "done");
-    k.off(root, "alarm", "quake", "think");
-    k.on(root, "calm");
-    k.off(k.q(".bb.agent-bb"), "show");
-    await wait(2800);
-  },
-
-  // tiltmeter scan: the beam crosses the repository and tags what already broke.
-  async scan(k, root) {
-    const files = k.qa(".file");
-    k.on(root, "think");
-    await wait(600);
-    await k.sweep(k.q(".beam"), 2800, (f) => {
-      for (const file of files) {
-        if (f < Number(file.dataset.at) || file.classList.contains("scanned")) continue;
-        k.on(file, "scanned");
-        if (file.classList.contains("hit")) {
-          k.on(file, "found");
-          const id = [...file.classList].find((name) => /^f\d\d$/.test(name)).slice(1);
-          k.on(k.q(`.bb.t${id}`), "show");
-        }
-      }
-    });
-    k.off(root, "think");
-    await wait(300);
-    k.on(k.q(".bb.result"), "show");
-    await wait(3200);
-  },
-
-  // The pull request: the agent fixes the file, skips dead code, the tests pass, the PR merges.
-  async fix(k) {
-    const card = k.q(".mv.pr-card");
+  const fly = (el, ms) => new Promise((done) => {
+    const [a, c, b] = el.dataset.arc.trim().split(/\s+/).map((pair) => pair.split(",").map(Number));
+    el.style.opacity = "1";
+    const t0 = performance.now();
+    const frame = (now) => {
+      const f = Math.min(1, (now - t0) / ms);
+      const t = f < 0.5 ? 2 * f * f : 1 - (-2 * f + 2) ** 2 / 2;
+      const at = [0, 1].map((k) => (1 - t) ** 2 * a[k] + 2 * (1 - t) * t * c[k] + t ** 2 * b[k]);
+      el.setAttribute("transform", `translate(${at[0].toFixed(1)},${at[1].toFixed(1)})`);
+      if (f < 1) requestAnimationFrame(frame);
+      else done();
+    };
+    requestAnimationFrame(frame);
+  });
+  const story = async () => {
+    for (const [el, name] of added) el.classList.remove(name);
+    added.length = 0;
+    for (const mv of movers) mv.setAttribute("transform", mv.dataset.home);
+    const card = q(".mv.pr-card");
     const [takeoff] = card.dataset.arc.split(/\s+/).map((pair) => pair.split(",").map(Number));
-    k.place(card, ...takeoff);
+    card.setAttribute("transform", `translate(${takeoff[0]},${takeoff[1]})`);
     card.style.opacity = "0";
     await wait(600);
-    await k.move(k.q(".mv.agent-cube"), 1000, { hide: false });
-    k.on(k.q(".file.broken"), "fixed");
-    k.on(k.q(".bb.edit-bb"), "show");
+    await fly(q(".mv.agent-cube"), 1000);
+    on(q(".file.broken"), "fixed");
+    on(q(".bb.edit-bb"), "show");
     await wait(700);
-    k.on(k.q(".bb.dead-bb"), "show");
+    on(q(".bb.dead-bb"), "show");
     await wait(900);
-    k.q(".mv.agent-cube").style.opacity = "0";
-    for (const test of k.qa(".test")) {
-      k.on(test, "pass");
+    q(".mv.agent-cube").style.opacity = "0";
+    for (const test of qa(".test")) {
+      on(test, "pass");
       await wait(230);
     }
     await wait(300);
-    k.on(k.q(".bb.card"), "show");
-    await k.move(card, 1400, { hide: false });
+    on(q(".bb.card"), "show");
+    await fly(card, 1400);
     await wait(500);
-    k.on(k.q(".bb.card"), "done");
-    await wait(2800);
-  },
-};
-
-if (!still) {
-  for (const root of document.querySelectorAll("[data-scene]")) {
-    const play = scenes[root.dataset.scene];
-    if (!play) continue;
-    const kit = sceneKit(root);
-    let visible = false;
-    new IntersectionObserver((entries) => {
-      visible = entries.some((entry) => entry.isIntersecting);
-    }, { threshold: 0.35 }).observe(root);
-    root.classList.add("play");
-    (async () => {
-      for (;;) {
-        while (!visible) await wait(250);
-        kit.reset();
-        await play(kit, root);
-      }
-    })();
-  }
-}
-
-// The scenes lean toward the pointer, a few degrees, on devices with a fine pointer.
-if (!still && matchMedia("(hover: hover) and (pointer: fine)").matches) {
-  for (const stage of document.querySelectorAll(".iso-stage")) {
-    const box = stage.closest(".iso") || stage;
-    box.addEventListener("pointermove", (event) => {
-      const rect = box.getBoundingClientRect();
-      const x = (event.clientX - rect.left) / rect.width - 0.5;
-      const y = (event.clientY - rect.top) / rect.height - 0.5;
-      stage.style.setProperty("--ry", `${(x * 6).toFixed(2)}deg`);
-      stage.style.setProperty("--rx", `${(-y * 5).toFixed(2)}deg`);
-    });
-    box.addEventListener("pointerleave", () => {
-      stage.style.setProperty("--ry", "0deg");
-      stage.style.setProperty("--rx", "0deg");
-    });
-  }
+    on(q(".bb.card"), "done");
+  };
+  fixScene.classList.add("play");
+  const seen = new IntersectionObserver((entries) => {
+    if (!entries.some((entry) => entry.isIntersecting)) return;
+    seen.disconnect();
+    story();
+  }, { threshold: 0.35 });
+  seen.observe(fixScene);
 }
