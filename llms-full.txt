@@ -2,7 +2,7 @@
 
 > API changes, shipped as pull requests. When a provider retires a model, moves an endpoint or renames a field, Tiltmeter opens the pull request that fixes the code still using it. The core is open source under the MIT license. https://tiltmeter.dev
 
-API providers publish a signed change notice and their customers' code gets the fix (see "Provider notices" below and https://tiltmeter.dev/providers/). Developers can use the same engine alone, for free:
+API providers publish a signed change notice and their customers' code gets the fix (see "Provider notices" below and https://tiltmeter.dev/). Developers can use the same engine alone, for free:
 
 Tiltmeter learns the shape of JSON responses from real traffic, notices when a vendor renames a field, starts sending `null` or turns a number into a string, and tells you, your CI and your agents before anything breaks. Then `tiltmeter fix` hands the change to an agent that adapts the code reading that API and opens the pull request, leaving what it cannot know for a human.
 

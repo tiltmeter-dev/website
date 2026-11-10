@@ -20,138 +20,275 @@
   <meta name="twitter:title" content="Tiltmeter: ship API changes without breaking your customers">
   <meta name="twitter:description" content="Every deprecation becomes pull requests in your customers' code, before your shutdown date.">
   <meta name="twitter:image" content="https://tiltmeter.dev/og.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="styles.css">
+  <!-- shell:head:start -->
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="preload" href="/fonts/schibsted-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/ibm-plex-mono-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/tokens.css">
+  <link rel="stylesheet" href="/site.css">
+  <link rel="stylesheet" href="/home.css">
+  <script src="/site.js" defer></script>
+  <!-- shell:head:end -->
   <link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Tiltmeter", "url": "https://tiltmeter.dev/", "logo": "https://tiltmeter.dev/favicon.svg", "description": "Tiltmeter turns API deprecations into pull requests in the code that still uses what changed.", "sameAs": ["https://github.com/tiltmeter-dev/tiltmeter"]}</script>
 </head>
-<body class="co">
-  <header class="nav">
-    <div class="nav-in">
-      <a class="brand" href="/" aria-label="Tiltmeter home">
-        <svg viewBox="0 0 1024 1024" aria-hidden="true"><rect width="1024" height="1024" rx="224" fill="#f2efe7"/><path d="M487 230V651Q487 776 612 776H674" fill="none" stroke="#141416" stroke-width="100" stroke-linecap="round" stroke-linejoin="round"/><path d="M323 425H682" stroke="#e2552d" stroke-width="100" stroke-linecap="round" transform="rotate(-13 487 425)"/></svg>
-        tiltmeter
-      </a>
-      <nav class="links" aria-label="Sections">
-        <a href="#how">How it works</a>
-        <a href="#dashboard">Dashboard</a>
-        <a href="#trust">Security</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#faq">FAQ</a>
-        <a href="/developers/">Developers</a>
+<body>
+  <!-- shell:nav:start -->
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-nav">
+    <div class="site-nav__in page">
+      <a class="site-brand" href="/" aria-label="Tiltmeter, home"><svg viewBox="0 0 1024 1024" aria-hidden="true"><rect width="1024" height="1024" rx="224" fill="#f2efe7"/><path d="M487 230V651Q487 776 612 776H674" fill="none" stroke="#141416" stroke-width="100" stroke-linecap="round" stroke-linejoin="round"/><path d="M323 425H682" stroke="#e2552d" stroke-width="100" stroke-linecap="round" transform="rotate(-13 487 425)"/></svg><span aria-hidden="true">tiltmeter</span></a>
+      <button class="site-nav__toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
+      <nav class="site-nav__menu" id="site-menu" aria-label="Main">
+        <ul class="site-nav__links">
+          <li><a href="/#how">How it works</a></li>
+          <li><a href="/migrations/">Evidence</a></li>
+          <li><a href="/#security">Security</a></li>
+          <li><a href="/#pricing">Pricing</a></li>
+          <li><a href="https://github.com/tiltmeter-dev/tiltmeter/blob/main/docs/getting-started.md">Docs</a></li>
+        </ul>
+        <a class="button button--line site-nav__cta" href="mailto:hello@tiltmeter.dev?subject=Our%20next%20deprecation&amp;body=What%20is%20changing%20(endpoint%2C%20model%20or%20field)%3A%0D%0A%0D%0AWhen%20it%20takes%20effect%3A%0D%0A%0D%0ALink%20to%20the%20announcement%20or%20docs%3A%0D%0A">Send a deprecation</a>
       </nav>
-      <a class="btn" href="mailto:hello@tiltmeter.dev?subject=Tiltmeter%20design%20partner">Talk to us</a>
     </div>
   </header>
+  <!-- shell:nav:end -->
 
-  <main class="pv">
-    <div class="pv-backdrop" aria-hidden="true"></div>
-
-    <section class="pv-hero wrap">
-      <div class="pv-hero-text">
-        <p class="pv-pill"><i aria-hidden="true"></i>For teams that publish APIs</p>
-        <h1>Shut down the old version on the date you announced<span class="needle">.</span></h1>
-        <p class="lede">When you retire a model, move an endpoint or rename a field, publish one signed notice. Tiltmeter opens a pull request that fixes each customer's code before the date, and shows you who is still on the old version.</p>
-        <div class="co-actions">
-          <a class="btn lg" href="mailto:hello@tiltmeter.dev?subject=Tiltmeter%20design%20partner">Run your next deprecation with us</a>
-          <a class="arrow" href="#how">See how it works</a>
+  <main id="main">
+    <section class="lead page grid-12" aria-labelledby="lead-title">
+      <div class="lead__text">
+        <h1 id="lead-title">Shut down the old version on the date you announced</h1>
+        <p class="lead__lede">When you retire a model, move an endpoint or rename a field, publish one signed notice. Tiltmeter opens a pull request that fixes each customer’s code before the date, and shows you who is still on the old version.</p>
+        <div class="lead__actions">
+          <a class="button button--solid" href="mailto:hello@tiltmeter.dev?subject=Our%20next%20deprecation&amp;body=What%20is%20changing%20(endpoint%2C%20model%20or%20field)%3A%0D%0A%0D%0AWhen%20it%20takes%20effect%3A%0D%0A%0D%0ALink%20to%20the%20announcement%20or%20docs%3A%0D%0A">Send us your next deprecation</a>
+          <a class="link" href="https://github.com/tiltmeter-dev/tiltmeter/blob/main/docs/notice-spec.md">Read the notice format</a>
         </div>
-        <p class="pv-dev">Building on someone else's API? <a href="/developers/">Tiltmeter is free for developers</a></p>
+        <p class="lead__aside">Building on someone else’s API? <a class="link" href="/developers/">Tiltmeter is free for developers</a>.</p>
       </div>
-      <div class="pv-hero-visual">
-        <p class="pv-visual-label">Real pull requests, merged by maintainers</p>
-        <div class="pr-deck" data-deck>
-          <a class="pr front" data-pr href="https://github.com/harvard-edge/cs249r_book/pull/2163" aria-label="Pull request 2163 in harvard-edge/cs249r_book, merged">
-            <div class="pr-head">
-              <span class="pr-state" data-state>Merged</span>
-              <span class="pr-repo">harvard-edge/cs249r_book <b>#2163</b></span>
-              <span class="pr-stars" aria-label="29.7k GitHub stars">★ 29.7k</span>
-            </div>
-            <p class="pr-title">fix: replace the models api.groq.com retired</p>
-            <p class="pr-meta">Opened by Tiltmeter<span class="pr-by"> · merged by profvjreddi, who wrote the book</span></p>
-            <div class="pr-diff" aria-label="The change">
-              <p class="pr-file">socratiq/src_shadow/configs/env_configs.js</p>
-              <pre class="pr-code"><span class="l"><span class="ln">34</span> export const PROVIDER_MODELS = {</span><span class="l del"><span class="ln">35</span>-  GROQ:   { model: 'llama-3.1-8b-instant', stream: true },</span><span class="l add"><span class="ln">35</span>+  GROQ:   { model: '<span class="ty" data-type>openai/gpt-oss-20b</span>',   stream: true },</span><span class="l"><span class="ln">36</span>   GEMINI: { model: 'gemini-2.5-flash',     stream: true },</span></pre>
-            </div>
-            <div class="pr-comment">
-              <p class="pr-who"><b>profvjreddi</b> commented</p>
-              <p>“Fixes like this keep StaffML and SocratiQ working for everyone, so thank you for jumping in and contributing.”</p>
-            </div>
-          </a>
-          <a class="pr back" data-pr href="https://github.com/Tencent/AI-Infra-Guard/pull/728" aria-label="Pull request 728 in Tencent/AI-Infra-Guard, merged">
-            <div class="pr-head">
-              <span class="pr-state" data-state>Merged</span>
-              <span class="pr-repo">Tencent/AI-Infra-Guard <b>#728</b></span>
-              <span class="pr-stars" aria-label="7.2k GitHub stars">★ 7.2k</span>
-            </div>
-            <p class="pr-title">fix(agent-scan): move Hugging Face preset to router.huggingface.co/hf-inference</p>
-            <p class="pr-meta">Opened by Tiltmeter<span class="pr-by"> · approved and merged by boy-hack</span></p>
-            <div class="pr-diff" aria-label="The change">
-              <p class="pr-file">agent-scan/providers.yaml</p>
-              <pre class="pr-code"><span class="l"><span class="ln">256</span>   env_keys: ["HF_API_TOKEN", "HUGGINGFACE_API_KEY"]</span><span class="l del"><span class="ln">257</span>-  base_url: "https://api-inference.huggingface.co"</span><span class="l add"><span class="ln">257</span>+  base_url: "<span class="ty" data-type>https://router.huggingface.co/hf-inference</span>"</span><span class="l"><span class="ln">258</span>   endpoint: "/models/{{model}}"</span></pre>
-            </div>
-            <div class="pr-comment">
-              <p class="pr-who"><b>boy-hack</b> approved these changes</p>
-              <p>“Only two references to the old URL exist in the repo, and both files are covered by this PR. […] Thanks for the fix!”</p>
-            </div>
-          </a>
-          <div class="pr-picks" hidden>
-            <button type="button" aria-pressed="true">Harvard CS249r</button>
-            <button type="button" aria-pressed="false">Tencent AI-Infra-Guard</button>
+
+      <div class="lead__evidence cases" data-cases>
+        <h2 class="cases__title" id="cases-title">Two of the 13 merged pull requests</h2>
+        <div class="cases__tabs" role="tablist" aria-labelledby="cases-title" hidden>
+          <button type="button" role="tab" id="tab-harvard" aria-controls="case-harvard" aria-selected="true">Harvard CS249r</button>
+          <button type="button" role="tab" id="tab-tencent" aria-controls="case-tencent" aria-selected="false" tabindex="-1">Tencent AI-Infra-Guard</button>
+        </div>
+
+        <article class="record paper" id="case-harvard" aria-labelledby="case-harvard-title">
+          <div class="record__head">
+            <p class="record__repo"><span><code>harvard-edge/cs249r_book</code> <a class="link" href="https://github.com/harvard-edge/cs249r_book/pull/2163">#2163</a></span><span>29.7k stars</span></p>
+            <h3 class="record__title" id="case-harvard-title">fix: replace the models api.groq.com retired</h3>
+            <dl class="record__facts">
+              <dt>Opened</dt>
+              <dd><time datetime="2026-10-26T20:49:13Z">26 Oct, 20:49</time> by @torrresagus, with Tiltmeter</dd>
+              <dt>Merged</dt>
+              <dd><span class="merged"><span class="mark mark--merged" aria-hidden="true"></span><time datetime="2026-10-27T06:23:46Z">27 Oct, 06:23</time></span> by @profvjreddi, the book’s author, <span class="elapsed">9 h 34 m later</span></dd>
+              <dt>Change</dt>
+              <dd>13 lines in 9 files. Groq retired <code>llama-3.1-8b-instant</code> and <code>llama-3.3-70b-versatile</code>.</dd>
+            </dl>
+          </div>
+          <p class="record__file"><code>socratiq/<wbr>src_shadow/<wbr>configs/<wbr>env_configs.js</code><span>1 of 9 files</span></p>
+          <div class="diff-scroll" role="region" aria-label="Diff of env_configs.js in pull request 2163" tabindex="0">
+            <table class="diff">
+              <tbody>
+                <tr class="d-hunk"><td colspan="2">@@ -32,7 +32,7 @@</td></tr>
+                <tr class="d-ctx"><td class="d-ln">32</td><td class="d-code"><span class="d-mark" aria-hidden="true"> </span>// ─── AI Provider Models ───────────────────────────────────────────────────────</td></tr>
+                <tr class="d-ctx"><td class="d-ln">33</td><td class="d-code"><span class="d-mark" aria-hidden="true"> </span>// Controls which model each provider uses — edit here to swap models globally</td></tr>
+                <tr class="d-ctx"><td class="d-ln">34</td><td class="d-code"><span class="d-mark" aria-hidden="true"> </span>export const PROVIDER_MODELS = {</td></tr>
+                <tr class="d-del"><td class="d-ln">35</td><td class="d-code"><span class="vh">Removed: </span><span class="d-mark" aria-hidden="true">−</span>  GROQ:        { model: &#x27;llama-3.1-8b-instant&#x27;,                              stream: true  },</td></tr>
+                <tr class="d-add"><td class="d-ln">35</td><td class="d-code"><span class="vh">Added: </span><span class="d-mark" aria-hidden="true">+</span>  GROQ:        { model: &#x27;openai/gpt-oss-20b&#x27;,                                stream: true  },</td></tr>
+                <tr class="d-ctx"><td class="d-ln">36</td><td class="d-code"><span class="d-mark" aria-hidden="true"> </span>  GEMINI:      { model: &#x27;gemini-2.5-flash&#x27;,                                  stream: true  },</td></tr>
+                <tr class="d-ctx"><td class="d-ln">37</td><td class="d-code"><span class="d-mark" aria-hidden="true"> </span>  CEREBRAS:    { model: &#x27;gpt-oss-120b&#x27;,                                      stream: true  },</td></tr>
+                <tr class="d-ctx"><td class="d-ln">38</td><td class="d-code"><span class="d-mark" aria-hidden="true"> </span>  SAMBANOVA:   { model: &#x27;gpt-oss-120b&#x27;,                                      stream: true  },</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="record__comment">
+            <p class="record__who"><b>@profvjreddi</b> commented, <time datetime="2026-10-27T08:18:39Z">27 Oct, 08:18</time></p>
+            <blockquote class="record__quote" cite="https://github.com/harvard-edge/cs249r_book/pull/2163#issuecomment-6437003343">
+              <p>Nice catch @torrresagus, thanks! I added a small follow-up so the new models don’t run out of room mid-reply. Fixes like this keep StaffML and SocratiQ working for everyone, so thank you for jumping in and contributing.</p>
+            </blockquote>
+          </div>
+          <p class="record__foot"><a class="link" href="https://github.com/harvard-edge/cs249r_book/pull/2163">Open #2163 on GitHub</a><span>Times in UTC</span></p>
+        </article>
+
+        <article class="record paper" id="case-tencent" aria-labelledby="case-tencent-title">
+          <div class="record__head">
+            <p class="record__repo"><span><code>Tencent/AI-Infra-Guard</code> <a class="link" href="https://github.com/Tencent/AI-Infra-Guard/pull/728">#728</a></span><span>7.2k stars</span></p>
+            <h3 class="record__title" id="case-tencent-title">fix(agent-scan): move Hugging Face preset to router.huggingface.co/hf-inference</h3>
+            <dl class="record__facts">
+              <dt>Opened</dt>
+              <dd><time datetime="2026-10-27T05:20:21Z">27 Oct, 05:20</time> by @torrresagus, with Tiltmeter</dd>
+              <dt>Merged</dt>
+              <dd><span class="merged"><span class="mark mark--merged" aria-hidden="true"></span><time datetime="2026-10-28T01:55:16Z">28 Oct, 01:55</time></span> by @boy-hack, after approving it, <span class="elapsed">20 h 34 m later</span></dd>
+              <dt>Change</dt>
+              <dd>2 lines in 2 files. Hugging Face moved serverless inference to <code>router.huggingface.co</code>.</dd>
+            </dl>
+          </div>
+          <p class="record__file"><code>agent-scan/<wbr>providers.yaml</code><span>1 of 2 files</span></p>
+          <div class="diff-scroll" role="region" aria-label="Diff of providers.yaml in pull request 728" tabindex="0">
+            <table class="diff">
+              <tbody>
+                <tr class="d-hunk"><td colspan="2">@@ -254,7 +254,7 @@</td></tr>
+                <tr class="d-ctx"><td class="d-ln">254</td><td class="d-code"><span class="d-mark" aria-hidden="true"> </span>    providers:</td></tr>
+                <tr class="d-ctx"><td class="d-ln">255</td><td class="d-code"><span class="d-mark" aria-hidden="true"> </span>      huggingface:</td></tr>
+                <tr class="d-ctx"><td class="d-ln">256</td><td class="d-code"><span class="d-mark" aria-hidden="true"> </span>        env_keys: [&quot;HF_API_TOKEN&quot;, &quot;HUGGINGFACE_API_KEY&quot;]</td></tr>
+                <tr class="d-del"><td class="d-ln">257</td><td class="d-code"><span class="vh">Removed: </span><span class="d-mark" aria-hidden="true">−</span>        base_url: &quot;https://api-inference.huggingface.co&quot;</td></tr>
+                <tr class="d-add"><td class="d-ln">257</td><td class="d-code"><span class="vh">Added: </span><span class="d-mark" aria-hidden="true">+</span>        base_url: &quot;https://router.huggingface.co/hf-inference&quot;</td></tr>
+                <tr class="d-ctx"><td class="d-ln">258</td><td class="d-code"><span class="d-mark" aria-hidden="true"> </span>        endpoint: &quot;/models/{{model}}&quot;</td></tr>
+                <tr class="d-ctx"><td class="d-ln">259</td><td class="d-code"><span class="d-mark" aria-hidden="true"> </span>        default_model: &quot;gpt2&quot;</td></tr>
+                <tr class="d-ctx"><td class="d-ln">260</td><td class="d-code"><span class="d-mark" aria-hidden="true"> </span> </td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="record__comment">
+            <p class="record__who"><b>@boy-hack</b> approved these changes, <time datetime="2026-10-28T01:54:33Z">28 Oct, 01:54</time></p>
+            <blockquote class="record__quote" cite="https://github.com/Tencent/AI-Infra-Guard/pull/728#pullrequestreview-5676830654">
+              <p>Verified locally on top of latest main (<code>33768c58</code>) […] Only two references to the old URL exist in the repo, and both files are covered by this PR. Both YAML presets parse cleanly, and the agent-scan suite failure set is identical to the main baseline […]</p>
+              <p>Thanks for the fix!</p>
+            </blockquote>
+          </div>
+          <p class="record__foot"><a class="link" href="https://github.com/Tencent/AI-Infra-Guard/pull/728">Open #728 on GitHub</a><span>Times in UTC</span></p>
+        </article>
+      </div>
+    </section>
+
+    <section class="ledger page" aria-labelledby="ledger-title">
+      <div class="ledger__rule">
+        <div class="ledger__head grid-12">
+          <h2 id="ledger-title">Every pull request from the public test</h2>
+          <p>Tiltmeter opened 84 pull requests on 26 and 27 October 2026, against public deprecations from ten providers. This is where each one stood on 30 October.</p>
+        </div>
+        <dl class="ledger__figures grid-12">
+          <div class="ledger__total"><dt>Opened</dt><dd>84</dd></div>
+          <div><dt><span class="mark mark--merged" aria-hidden="true"></span>Merged</dt><dd>13</dd></div>
+          <div><dt><span class="mark mark--adopted" aria-hidden="true"></span>Adopted</dt><dd>1</dd></div>
+          <div><dt><span class="mark mark--open" aria-hidden="true"></span>Open</dt><dd>65</dd></div>
+          <div><dt><span class="mark mark--closed" aria-hidden="true"></span>Closed</dt><dd>5</dd></div>
+          <div class="ledger__median"><dt>Median time to merge</dt><dd>11<span class="unit">h</span></dd></div>
+        </dl>
+        <div class="units" aria-hidden="true"><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--adopted"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--closed"></i><i class="mark mark--closed"></i><i class="mark mark--closed"></i><i class="mark mark--closed"></i><i class="mark mark--closed"></i></div>
+        <div class="ledger__notes grid-12">
+          <p class="ledger__disclosure">A public test, not a customer list. We drafted every notice ourselves from the provider’s public deprecation page. No provider signed, endorsed or uses Tiltmeter.</p>
+          <div class="ledger__fine">
+            <p>Adopted means the maintainer closed the pull request and shipped the same fix in their own commit; GitHub counts it among 6 closed. The 13 merges took from 33 minutes (<code>ruvnet/ruflo#4512</code>) to 58 hours; the median is 11 h 1 m.</p>
+            <p><a class="link" href="/migrations/">Read all 84 pull requests</a>. Data: <a class="link" href="/migrations/status.json">status.json</a>, from the GitHub API on 30 Oct 2026 at 03:27 UTC.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="pv-proof wrap" aria-labelledby="proof-title">
-      <div class="pv-proof-top">
-        <h2 id="proof-title">One week, ten public deprecations</h2>
-        <a class="arrow" href="/migrations/">See all 84 pull requests</a>
+    <section class="how page" id="how" aria-labelledby="how-title">
+      <header class="section-head grid-12">
+        <p class="section-head__label">How it works</p>
+        <h2 id="how-title">One notice in.<br> A pull request per repository out.</h2>
+        <p class="section-head__intro">You describe the change once. Tiltmeter finds the code that still uses it, fixes it in each repository, and tracks every merge up to your shutdown date. The exhibits are from one real case: Groq’s retirement of two Llama models.</p>
+      </header>
+      <div class="sequence grid-12" data-sequence>
+        <figure class="sequence__fig">
+          <!-- iso:provider-wide:start --><svg class="iso-svg iso-wide" viewBox="-122 -107 556 437" role="img" aria-label="A provider publishes a signed notice. Tiltmeter scans its customers&#x27; repositories, finds the three that still call what changed, and opens a pull request in each; all three are merged."><g class="floor"><polyline class="grid" points="0.0,-24.0 -166.3,72.0"/><polyline class="grid" points="20.8,-12.0 -145.5,84.0"/><polyline class="grid" points="41.6,0.0 -124.7,96.0"/><polyline class="grid" points="62.4,12.0 -103.9,108.0"/><polyline class="grid" points="83.1,24.0 -83.1,120.0"/><polyline class="grid" points="103.9,36.0 -62.4,132.0"/><polyline class="grid" points="124.7,48.0 -41.6,144.0"/><polyline class="grid" points="145.5,60.0 -20.8,156.0"/><polyline class="grid" points="166.3,72.0 0.0,168.0"/><polyline class="grid" points="187.1,84.0 20.8,180.0"/><polyline class="grid" points="207.8,96.0 41.6,192.0"/><polyline class="grid" points="228.6,108.0 62.4,204.0"/><polyline class="grid" points="249.4,120.0 83.1,216.0"/><polyline class="grid" points="270.2,132.0 103.9,228.0"/><polyline class="grid" points="291.0,144.0 124.7,240.0"/><polyline class="grid" points="311.8,156.0 145.5,252.0"/><polyline class="grid" points="332.6,168.0 166.3,264.0"/><polyline class="grid" points="353.3,180.0 187.1,276.0"/><polyline class="grid" points="374.1,192.0 207.8,288.0"/><polyline class="grid" points="394.9,204.0 228.6,300.0"/><polyline class="grid" points="415.7,216.0 249.4,312.0"/><polyline class="grid" points="436.5,228.0 270.2,324.0"/><polyline class="grid" points="457.3,240.0 291.0,336.0"/><polyline class="grid" points="0.0,-24.0 457.3,240.0"/><polyline class="grid" points="-20.8,-12.0 436.5,252.0"/><polyline class="grid" points="-41.6,0.0 415.7,264.0"/><polyline class="grid" points="-62.4,12.0 394.9,276.0"/><polyline class="grid" points="-83.1,24.0 374.1,288.0"/><polyline class="grid" points="-103.9,36.0 353.3,300.0"/><polyline class="grid" points="-124.7,48.0 332.6,312.0"/><polyline class="grid" points="-145.5,60.0 311.8,324.0"/><polyline class="grid" points="-166.3,72.0 291.0,336.0"/></g><polyline class="path" points="52.0,90.0 93.5,114.0"/><polyline class="path" points="187.1,180.0 228.6,204.0"/><g class="slab"><polygon class="fl" points="-103.9,60.0 0.0,120.0 0.0,108.0 -103.9,48.0" fill="#1b1b1f"/><polygon class="fr" points="103.9,60.0 0.0,120.0 0.0,108.0 103.9,48.0" fill="#141417"/><polygon class="ft" points="0.0,-12.0 103.9,48.0 0.0,108.0 -103.9,48.0" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,-96.6,60.8)" font-size="8.5" text-anchor="start">YOUR API</text><g class="server"><polygon class="fl" points="-58.2,48.0 0.0,81.6 0.0,64.8 -58.2,31.2" fill="#1b1b1f"/><polygon class="fr" points="58.2,48.0 0.0,81.6 0.0,64.8 58.2,31.2" fill="#141417"/><polygon class="ft" points="0.0,-2.4 58.2,31.2 0.0,64.8 -58.2,31.2" fill="#26262b"/></g><circle class="led" cx="-49.9" cy="44.2" r="1.7"/><circle class="led" cx="-41.2" cy="49.2" r="1.7"/><circle class="led" cx="-32.4" cy="54.2" r="1.7"/><g class="server"><polygon class="fl" points="-58.2,27.6 0.0,61.2 0.0,44.4 -58.2,10.8" fill="#1b1b1f"/><polygon class="fr" points="58.2,27.6 0.0,61.2 0.0,44.4 58.2,10.8" fill="#141417"/><polygon class="ft" points="0.0,-22.8 58.2,10.8 0.0,44.4 -58.2,10.8" fill="#26262b"/></g><circle class="led" cx="-49.9" cy="23.8" r="1.7"/><circle class="led" cx="-41.2" cy="28.8" r="1.7"/><circle class="led" cx="-32.4" cy="33.8" r="1.7"/><g class="server"><polygon class="fl" points="-58.2,7.2 0.0,40.8 0.0,24.0 -58.2,-9.6" fill="#1b1b1f"/><polygon class="fr" points="58.2,7.2 0.0,40.8 0.0,24.0 58.2,-9.6" fill="#141417"/><polygon class="ft" points="0.0,-43.2 58.2,-9.6 0.0,24.0 -58.2,-9.6" fill="#26262b"/></g><circle class="led" cx="-49.9" cy="3.4" r="1.7"/><circle class="led" cx="-41.2" cy="8.4" r="1.7"/><circle class="led" cx="-32.4" cy="13.4" r="1.7"/><ellipse class="shadow" cx="0.0" cy="-9.6" rx="22.0" ry="12.7"/><path class="trail" d="M0.0,-25.2 Q72.7,-89.2 145.5,94.8"/><g class="slab"><polygon class="fl" points="41.6,144.0 145.5,204.0 145.5,192.0 41.6,132.0" fill="#1b1b1f"/><polygon class="fr" points="249.4,144.0 145.5,204.0 145.5,192.0 249.4,132.0" fill="#141417"/><polygon class="ft" points="145.5,72.0 249.4,132.0 145.5,192.0 41.6,132.0" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,48.8,144.8)" font-size="8.5" text-anchor="start">TILTMETER</text><g class="device"><polygon class="fl" points="83.1,132.0 145.5,168.0 145.5,132.0 83.1,96.0" fill="#dcd7ca"/><polygon class="fr" points="207.8,132.0 145.5,168.0 145.5,132.0 207.8,96.0" fill="#c9c3b4"/><polygon class="ft" points="145.5,60.0 207.8,96.0 145.5,132.0 83.1,96.0" fill="#f2efe7"/></g><polygon class="screen" points="87.7,129.4 140.9,160.1 140.9,134.6 87.7,103.9"/><polyline class="wave calm" points="89.4,117.6 90.4,117.3 91.5,117.6 92.5,118.6 93.5,120.0 94.6,121.5 95.6,122.4 96.6,122.6 97.7,122.3 98.7,122.1 99.8,122.4 100.8,123.4 101.8,124.9 102.9,126.3 103.9,127.2 105.0,127.4 106.0,127.1 107.0,126.9 108.1,127.2 109.1,128.3 110.2,129.8 111.2,131.2 112.2,132.0 113.3,132.1 114.3,131.8 115.4,131.6 116.4,132.0 117.4,133.1 118.5,134.6 119.5,136.0 120.6,136.8 121.6,136.9 122.6,136.6 123.7,136.4 124.7,136.8 125.7,138.0 126.8,139.5 127.8,140.8 128.9,141.6 129.9,141.6 130.9,141.3 132.0,141.2 133.0,141.6 134.1,142.8 135.1,144.3 136.1,145.7 137.2,146.4 138.2,146.4 139.3,146.0"/><polyline class="wave quake" points="89.4,117.6 90.4,117.3 91.5,117.6 92.5,118.6 93.5,120.0 94.6,121.5 95.6,122.4 96.6,122.6 97.7,122.3 98.7,122.1 99.8,122.4 100.8,123.4 101.8,124.9 102.9,126.3 103.9,127.2 105.0,127.4 106.0,127.1 107.0,126.9 108.1,127.2 109.1,128.2 110.2,129.8 111.2,132.0 112.2,134.1 113.3,134.4 114.3,131.0 115.4,125.6 116.4,123.6 117.4,128.2 118.5,135.9 119.5,140.4 120.6,140.1 121.6,137.9 122.6,136.4 123.7,136.1 124.7,136.7 125.7,137.9 126.8,139.5 127.8,140.8 128.9,141.6 129.9,141.6 130.9,141.3 132.0,141.2 133.0,141.6 134.1,142.8 135.1,144.3 136.1,145.7 137.2,146.4 138.2,146.4 139.3,146.0"/><g class="needle"><polyline class="needle-l" points="120.6,91.0 170.4,101.0"/></g><ellipse class="pulse p1" cx="145.5" cy="96.0" rx="37.0" ry="21.4"/><ellipse class="pulse p2" cx="145.5" cy="96.0" rx="37.0" ry="21.4"/><g class="slab"><polygon class="fl" points="166.3,240.0 291.0,312.0 291.0,300.0 166.3,228.0" fill="#1b1b1f"/><polygon class="fr" points="415.7,240.0 291.0,312.0 291.0,300.0 415.7,228.0" fill="#141417"/><polygon class="ft" points="291.0,156.0 415.7,228.0 291.0,300.0 166.3,228.0" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,173.6,240.8)" font-size="8.5" text-anchor="start">YOUR CUSTOMERS&#x27; CODE</text><g class="tile" data-at="0.17"><polygon class="fl" points="262.9,184.2 291.0,200.4 291.0,190.8 262.9,174.6" fill="#1b1b1f"/><polygon class="fr" points="319.0,184.2 291.0,200.4 291.0,190.8 319.0,174.6" fill="#141417"/><polygon class="ft tt" points="291.0,158.4 319.0,174.6 291.0,190.8 262.9,174.6" fill="#26262b"/><polyline class="glyph" points="288.9,165.6 299.3,171.6"/><polyline class="glyph" points="282.7,169.2 300.3,179.4"/><polyline class="glyph" points="276.4,172.8 294.1,183.0"/></g><g class="tile" data-at="0.17"><polygon class="fl" points="226.6,205.2 254.6,221.4 254.6,211.8 226.6,195.6" fill="#1b1b1f"/><polygon class="fr" points="282.7,205.2 254.6,221.4 254.6,211.8 282.7,195.6" fill="#141417"/><polygon class="ft tt" points="254.6,179.4 282.7,195.6 254.6,211.8 226.6,195.6" fill="#26262b"/><polyline class="glyph" points="252.5,186.6 262.9,192.6"/><polyline class="glyph" points="246.3,190.2 264.0,200.4"/><polyline class="glyph" points="240.1,193.8 257.7,204.0"/></g><g class="tile" data-at="0.49"><polygon class="fl" points="299.3,205.2 327.4,221.4 327.4,211.8 299.3,195.6" fill="#1b1b1f"/><polygon class="fr" points="355.4,205.2 327.4,221.4 327.4,211.8 355.4,195.6" fill="#141417"/><polygon class="ft tt" points="327.4,179.4 355.4,195.6 327.4,211.8 299.3,195.6" fill="#26262b"/><polyline class="glyph" points="325.3,186.6 335.7,192.6"/><polyline class="glyph" points="319.0,190.2 336.7,200.4"/><polyline class="glyph" points="312.8,193.8 330.5,204.0"/></g><g class="tile hit h-a" data-at="0.17"><polygon class="fl" points="190.2,226.2 218.2,242.4 218.2,232.8 190.2,216.6" fill="#1b1b1f"/><polygon class="fr" points="246.3,226.2 218.2,242.4 218.2,232.8 246.3,216.6" fill="#141417"/><polygon class="ft tt" points="218.2,200.4 246.3,216.6 218.2,232.8 190.2,216.6" fill="#26262b"/><polyline class="glyph" points="216.2,207.6 226.6,213.6"/><polyline class="glyph" points="209.9,211.2 227.6,221.4"/><polyline class="glyph" points="203.7,214.8 221.4,225.0"/></g><g class="tile hit h-b" data-at="0.49"><polygon class="fl" points="262.9,226.2 291.0,242.4 291.0,232.8 262.9,216.6" fill="#1b1b1f"/><polygon class="fr" points="319.0,226.2 291.0,242.4 291.0,232.8 319.0,216.6" fill="#141417"/><polygon class="ft tt" points="291.0,200.4 319.0,216.6 291.0,232.8 262.9,216.6" fill="#26262b"/><polyline class="glyph" points="288.9,207.6 299.3,213.6"/><polyline class="glyph" points="282.7,211.2 300.3,221.4"/><polyline class="glyph" points="276.4,214.8 294.1,225.0"/></g><g class="tile hit h-c" data-at="0.80"><polygon class="fl" points="335.7,226.2 363.7,242.4 363.7,232.8 335.7,216.6" fill="#1b1b1f"/><polygon class="fr" points="391.8,226.2 363.7,242.4 363.7,232.8 391.8,216.6" fill="#141417"/><polygon class="ft tt" points="363.7,200.4 391.8,216.6 363.7,232.8 335.7,216.6" fill="#26262b"/><polyline class="glyph" points="361.7,207.6 372.0,213.6"/><polyline class="glyph" points="355.4,211.2 373.1,221.4"/><polyline class="glyph" points="349.2,214.8 366.8,225.0"/></g><g class="tile" data-at="0.49"><polygon class="fl" points="226.6,247.2 254.6,263.4 254.6,253.8 226.6,237.6" fill="#1b1b1f"/><polygon class="fr" points="282.7,247.2 254.6,263.4 254.6,253.8 282.7,237.6" fill="#141417"/><polygon class="ft tt" points="254.6,221.4 282.7,237.6 254.6,253.8 226.6,237.6" fill="#26262b"/><polyline class="glyph" points="252.5,228.6 262.9,234.6"/><polyline class="glyph" points="246.3,232.2 264.0,242.4"/><polyline class="glyph" points="240.1,235.8 257.7,246.0"/></g><g class="tile" data-at="0.80"><polygon class="fl" points="299.3,247.2 327.4,263.4 327.4,253.8 299.3,237.6" fill="#1b1b1f"/><polygon class="fr" points="355.4,247.2 327.4,263.4 327.4,253.8 355.4,237.6" fill="#141417"/><polygon class="ft tt" points="327.4,221.4 355.4,237.6 327.4,253.8 299.3,237.6" fill="#26262b"/><polyline class="glyph" points="325.3,228.6 335.7,234.6"/><polyline class="glyph" points="319.0,232.2 336.7,242.4"/><polyline class="glyph" points="312.8,235.8 330.5,246.0"/></g><g class="tile" data-at="0.80"><polygon class="fl" points="262.9,268.2 291.0,284.4 291.0,274.8 262.9,258.6" fill="#1b1b1f"/><polygon class="fr" points="319.0,268.2 291.0,284.4 291.0,274.8 319.0,258.6" fill="#141417"/><polygon class="ft tt" points="291.0,242.4 319.0,258.6 291.0,274.8 262.9,258.6" fill="#26262b"/><polyline class="glyph" points="288.9,249.6 299.3,255.6"/><polyline class="glyph" points="282.7,253.2 300.3,263.4"/><polyline class="glyph" points="276.4,256.8 294.1,267.0"/></g><g class="beam" data-dx="116.4" data-dy="67.2"><polygon class="curtain" points="291.0,160.8 174.6,228.0 174.6,184.8 291.0,117.6"/><polyline class="curtain-edge" points="291.0,117.6 174.6,184.8"/><polygon class="curtain-floor" points="286.8,148.3 295.1,153.1 178.7,220.3 170.4,215.5"/></g><g class="mv fixer f-a" transform="translate(166.3,144.0)" data-path="166.3,144.0 191.2,174.0 228.6,184.8 252.9,191.6 218.2,211.7"><g class="in"><g class="sheet"><polygon class="fl" points="-16.6,-1.2 2.1,9.6 2.1,8.6 -16.6,-2.2" fill="#dcd7ca"/><polygon class="fr" points="16.6,1.2 2.1,9.6 2.1,8.6 16.6,0.2" fill="#c9c3b4"/><polygon class="ft" points="-2.1,-10.6 16.6,0.2 2.1,8.6 -16.6,-2.2" fill="#f2efe7"/></g><polyline class="ink-line" points="-3.1,-7.0 2.5,-3.7"/><polyline class="ink-line" points="-7.1,-4.6 1.1,0.1"/></g></g><g class="mv fixer f-b" transform="translate(166.3,144.0)" data-path="166.3,144.0 191.2,174.0 228.6,184.8 289.3,212.6 291.0,211.7"><g class="in"><g class="sheet"><polygon class="fl" points="-16.6,-1.2 2.1,9.6 2.1,8.6 -16.6,-2.2" fill="#dcd7ca"/><polygon class="fr" points="16.6,1.2 2.1,9.6 2.1,8.6 16.6,0.2" fill="#c9c3b4"/><polygon class="ft" points="-2.1,-10.6 16.6,0.2 2.1,8.6 -16.6,-2.2" fill="#f2efe7"/></g><polyline class="ink-line" points="-3.1,-7.0 2.5,-3.7"/><polyline class="ink-line" points="-7.1,-4.6 1.1,0.1"/></g></g><g class="mv fixer f-c" transform="translate(166.3,144.0)" data-path="166.3,144.0 191.2,174.0 228.6,184.8 325.7,233.6 363.7,211.7"><g class="in"><g class="sheet"><polygon class="fl" points="-16.6,-1.2 2.1,9.6 2.1,8.6 -16.6,-2.2" fill="#dcd7ca"/><polygon class="fr" points="16.6,1.2 2.1,9.6 2.1,8.6 16.6,0.2" fill="#c9c3b4"/><polygon class="ft" points="-2.1,-10.6 16.6,0.2 2.1,8.6 -16.6,-2.2" fill="#f2efe7"/></g><polyline class="ink-line" points="-3.1,-7.0 2.5,-3.7"/><polyline class="ink-line" points="-7.1,-4.6 1.1,0.1"/></g></g><g class="bb multi prb prb-a"><rect class="plate" x="180.8" y="166.3" width="75.0" height="21.4" rx="3"/><line class="stem" x1="218.2" y1="187.7" x2="218.2" y2="216.5"/><g class="s0"><rect class="status open" x="188.8" y="174.3" width="5.9" height="5.9"/><text x="199.5" y="180.1" font-size="9.5"><tspan x="199.5" dy="0.0">PR opened</tspan></text></g><g class="s1"><rect class="status merged" x="195.7" y="174.3" width="5.9" height="5.9"/><text x="206.3" y="180.1" font-size="9.5"><tspan x="206.3" dy="0.0">Merged</tspan></text></g></g><g class="bb multi prb prb-b"><rect class="plate" x="253.5" y="147.1" width="75.0" height="21.4" rx="3"/><line class="stem" x1="291.0" y1="168.5" x2="291.0" y2="216.5"/><g class="s0"><rect class="status open" x="261.6" y="155.1" width="5.9" height="5.9"/><text x="272.2" y="160.9" font-size="9.5"><tspan x="272.2" dy="0.0">PR opened</tspan></text></g><g class="s1"><rect class="status merged" x="268.5" y="155.1" width="5.9" height="5.9"/><text x="279.1" y="160.9" font-size="9.5"><tspan x="279.1" dy="0.0">Merged</tspan></text></g></g><g class="bb multi prb prb-c"><rect class="plate" x="326.2" y="166.3" width="75.0" height="21.4" rx="3"/><line class="stem" x1="363.7" y1="187.7" x2="363.7" y2="216.5"/><g class="s0"><rect class="status open" x="334.3" y="174.3" width="5.9" height="5.9"/><text x="345.0" y="180.1" font-size="9.5"><tspan x="345.0" dy="0.0">PR opened</tspan></text></g><g class="s1"><rect class="status merged" x="341.2" y="174.3" width="5.9" height="5.9"/><text x="351.8" y="180.1" font-size="9.5"><tspan x="351.8" dy="0.0">Merged</tspan></text></g></g><g class="mv notice" transform="translate(0.0,-25.2)" data-arc="0.0,-25.2 72.7,-89.2 145.5,94.8"><g class="in"><g class="sheet"><polygon class="fl" points="-40.5,-3.0 5.2,23.4 5.2,21.0 -40.5,-5.4" fill="#dcd7ca"/><polygon class="fr" points="40.5,3.0 5.2,23.4 5.2,21.0 40.5,0.6" fill="#c9c3b4"/><polygon class="ft" points="-5.2,-25.8 40.5,0.6 5.2,21.0 -40.5,-5.4" fill="#f2efe7"/></g><polyline class="ink-line" points="-7.3,-17.4 12.5,-6.0"/><polyline class="ink-line" points="-13.9,-13.6 5.8,-2.2"/><polyline class="ink-line" points="-20.6,-9.7 -0.8,1.7"/><ellipse class="seal" cx="4.2" cy="8.4" rx="7.6" ry="4.4"/><text class="it seal-t" transform="matrix(0.8660,0.5000,-0.8660,0.5000,-33.9,-3.2)" font-size="4.6" text-anchor="start">SIGNED</text></g></g></svg><!-- iso:provider-wide:end -->
+          <!-- iso:provider-tall:start --><svg class="iso-svg iso-tall" viewBox="-154 -107 422 431" role="img" aria-label="A provider publishes a signed notice. Tiltmeter scans its customers&#x27; repositories, finds the three that still call what changed, and opens a pull request in each; all three are merged."><g class="floor"><polyline class="grid" points="0.0,-24.0 -145.5,60.0"/><polyline class="grid" points="20.8,-12.0 -124.7,72.0"/><polyline class="grid" points="41.6,0.0 -103.9,84.0"/><polyline class="grid" points="62.4,12.0 -83.1,96.0"/><polyline class="grid" points="83.1,24.0 -62.4,108.0"/><polyline class="grid" points="103.9,36.0 -41.6,120.0"/><polyline class="grid" points="124.7,48.0 -20.8,132.0"/><polyline class="grid" points="145.5,60.0 0.0,144.0"/><polyline class="grid" points="166.3,72.0 20.8,156.0"/><polyline class="grid" points="187.1,84.0 41.6,168.0"/><polyline class="grid" points="207.8,96.0 62.4,180.0"/><polyline class="grid" points="228.6,108.0 83.1,192.0"/><polyline class="grid" points="249.4,120.0 103.9,204.0"/><polyline class="grid" points="270.2,132.0 124.7,216.0"/><polyline class="grid" points="291.0,144.0 145.5,228.0"/><polyline class="grid" points="0.0,-24.0 291.0,144.0"/><polyline class="grid" points="-20.8,-12.0 270.2,156.0"/><polyline class="grid" points="-41.6,0.0 249.4,168.0"/><polyline class="grid" points="-62.4,12.0 228.6,180.0"/><polyline class="grid" points="-83.1,24.0 207.8,192.0"/><polyline class="grid" points="-103.9,36.0 187.1,204.0"/><polyline class="grid" points="-124.7,48.0 166.3,216.0"/><polyline class="grid" points="-145.5,60.0 145.5,228.0"/><polyline class="grid" points="-20.8,132.0 -187.1,228.0"/><polyline class="grid" points="0.0,144.0 -166.3,240.0"/><polyline class="grid" points="20.8,156.0 -145.5,252.0"/><polyline class="grid" points="41.6,168.0 -124.7,264.0"/><polyline class="grid" points="62.4,180.0 -103.9,276.0"/><polyline class="grid" points="83.1,192.0 -83.1,288.0"/><polyline class="grid" points="103.9,204.0 -62.4,300.0"/><polyline class="grid" points="124.7,216.0 -41.6,312.0"/><polyline class="grid" points="145.5,228.0 -20.8,324.0"/><polyline class="grid" points="-20.8,132.0 145.5,228.0"/><polyline class="grid" points="-41.6,144.0 124.7,240.0"/><polyline class="grid" points="-62.4,156.0 103.9,252.0"/><polyline class="grid" points="-83.1,168.0 83.1,264.0"/><polyline class="grid" points="-103.9,180.0 62.4,276.0"/><polyline class="grid" points="-124.7,192.0 41.6,288.0"/><polyline class="grid" points="-145.5,204.0 20.8,300.0"/><polyline class="grid" points="-166.3,216.0 0.0,312.0"/><polyline class="grid" points="-187.1,228.0 -20.8,324.0"/></g><polyline class="path" points="52.0,90.0 93.5,114.0"/><polyline class="path" points="108.1,182.4 66.5,206.4"/><g class="slab"><polygon class="fl" points="-103.9,60.0 0.0,120.0 0.0,108.0 -103.9,48.0" fill="#1b1b1f"/><polygon class="fr" points="103.9,60.0 0.0,120.0 0.0,108.0 103.9,48.0" fill="#141417"/><polygon class="ft" points="0.0,-12.0 103.9,48.0 0.0,108.0 -103.9,48.0" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,-96.6,60.8)" font-size="13" text-anchor="start">YOUR API</text><g class="server"><polygon class="fl" points="-58.2,48.0 0.0,81.6 0.0,64.8 -58.2,31.2" fill="#1b1b1f"/><polygon class="fr" points="58.2,48.0 0.0,81.6 0.0,64.8 58.2,31.2" fill="#141417"/><polygon class="ft" points="0.0,-2.4 58.2,31.2 0.0,64.8 -58.2,31.2" fill="#26262b"/></g><circle class="led" cx="-49.9" cy="44.2" r="1.7"/><circle class="led" cx="-41.2" cy="49.2" r="1.7"/><circle class="led" cx="-32.4" cy="54.2" r="1.7"/><g class="server"><polygon class="fl" points="-58.2,27.6 0.0,61.2 0.0,44.4 -58.2,10.8" fill="#1b1b1f"/><polygon class="fr" points="58.2,27.6 0.0,61.2 0.0,44.4 58.2,10.8" fill="#141417"/><polygon class="ft" points="0.0,-22.8 58.2,10.8 0.0,44.4 -58.2,10.8" fill="#26262b"/></g><circle class="led" cx="-49.9" cy="23.8" r="1.7"/><circle class="led" cx="-41.2" cy="28.8" r="1.7"/><circle class="led" cx="-32.4" cy="33.8" r="1.7"/><g class="server"><polygon class="fl" points="-58.2,7.2 0.0,40.8 0.0,24.0 -58.2,-9.6" fill="#1b1b1f"/><polygon class="fr" points="58.2,7.2 0.0,40.8 0.0,24.0 58.2,-9.6" fill="#141417"/><polygon class="ft" points="0.0,-43.2 58.2,-9.6 0.0,24.0 -58.2,-9.6" fill="#26262b"/></g><circle class="led" cx="-49.9" cy="3.4" r="1.7"/><circle class="led" cx="-41.2" cy="8.4" r="1.7"/><circle class="led" cx="-32.4" cy="13.4" r="1.7"/><ellipse class="shadow" cx="0.0" cy="-9.6" rx="22.0" ry="12.7"/><path class="trail" d="M0.0,-25.2 Q72.7,-89.2 145.5,94.8"/><g class="slab"><polygon class="fl" points="41.6,144.0 145.5,204.0 145.5,192.0 41.6,132.0" fill="#1b1b1f"/><polygon class="fr" points="249.4,144.0 145.5,204.0 145.5,192.0 249.4,132.0" fill="#141417"/><polygon class="ft" points="145.5,72.0 249.4,132.0 145.5,192.0 41.6,132.0" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,-0.5000,0.0000,1.0000,151.7,197.5)" font-size="12.219999999999999" text-anchor="start">TILTMETER</text><g class="device"><polygon class="fl" points="83.1,132.0 145.5,168.0 145.5,132.0 83.1,96.0" fill="#dcd7ca"/><polygon class="fr" points="207.8,132.0 145.5,168.0 145.5,132.0 207.8,96.0" fill="#c9c3b4"/><polygon class="ft" points="145.5,60.0 207.8,96.0 145.5,132.0 83.1,96.0" fill="#f2efe7"/></g><polygon class="screen" points="87.7,129.4 140.9,160.1 140.9,134.6 87.7,103.9"/><polyline class="wave calm" points="89.4,117.6 90.4,117.3 91.5,117.6 92.5,118.6 93.5,120.0 94.6,121.5 95.6,122.4 96.6,122.6 97.7,122.3 98.7,122.1 99.8,122.4 100.8,123.4 101.8,124.9 102.9,126.3 103.9,127.2 105.0,127.4 106.0,127.1 107.0,126.9 108.1,127.2 109.1,128.3 110.2,129.8 111.2,131.2 112.2,132.0 113.3,132.1 114.3,131.8 115.4,131.6 116.4,132.0 117.4,133.1 118.5,134.6 119.5,136.0 120.6,136.8 121.6,136.9 122.6,136.6 123.7,136.4 124.7,136.8 125.7,138.0 126.8,139.5 127.8,140.8 128.9,141.6 129.9,141.6 130.9,141.3 132.0,141.2 133.0,141.6 134.1,142.8 135.1,144.3 136.1,145.7 137.2,146.4 138.2,146.4 139.3,146.0"/><polyline class="wave quake" points="89.4,117.6 90.4,117.3 91.5,117.6 92.5,118.6 93.5,120.0 94.6,121.5 95.6,122.4 96.6,122.6 97.7,122.3 98.7,122.1 99.8,122.4 100.8,123.4 101.8,124.9 102.9,126.3 103.9,127.2 105.0,127.4 106.0,127.1 107.0,126.9 108.1,127.2 109.1,128.2 110.2,129.8 111.2,132.0 112.2,134.1 113.3,134.4 114.3,131.0 115.4,125.6 116.4,123.6 117.4,128.2 118.5,135.9 119.5,140.4 120.6,140.1 121.6,137.9 122.6,136.4 123.7,136.1 124.7,136.7 125.7,137.9 126.8,139.5 127.8,140.8 128.9,141.6 129.9,141.6 130.9,141.3 132.0,141.2 133.0,141.6 134.1,142.8 135.1,144.3 136.1,145.7 137.2,146.4 138.2,146.4 139.3,146.0"/><g class="needle"><polyline class="needle-l" points="120.6,91.0 170.4,101.0"/></g><ellipse class="pulse p1" cx="145.5" cy="96.0" rx="37.0" ry="21.4"/><ellipse class="pulse p2" cx="145.5" cy="96.0" rx="37.0" ry="21.4"/><g class="slab"><polygon class="fl" points="-135.1,234.0 -10.4,306.0 -10.4,294.0 -135.1,222.0" fill="#1b1b1f"/><polygon class="fr" points="114.3,234.0 -10.4,306.0 -10.4,294.0 114.3,222.0" fill="#141417"/><polygon class="ft" points="-10.4,150.0 114.3,222.0 -10.4,294.0 -135.1,222.0" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,-127.8,234.8)" font-size="13" text-anchor="start">CUSTOMERS&#x27; CODE</text><g class="tile" data-at="0.17"><polygon class="fl" points="-38.5,178.2 -10.4,194.4 -10.4,184.8 -38.5,168.6" fill="#1b1b1f"/><polygon class="fr" points="17.7,178.2 -10.4,194.4 -10.4,184.8 17.7,168.6" fill="#141417"/><polygon class="ft tt" points="-10.4,152.4 17.7,168.6 -10.4,184.8 -38.5,168.6" fill="#26262b"/><polyline class="glyph" points="-12.5,159.6 -2.1,165.6"/><polyline class="glyph" points="-18.7,163.2 -1.0,173.4"/><polyline class="glyph" points="-24.9,166.8 -7.3,177.0"/></g><g class="tile" data-at="0.49"><polygon class="fl" points="-74.8,199.2 -46.8,215.4 -46.8,205.8 -74.8,189.6" fill="#1b1b1f"/><polygon class="fr" points="-18.7,199.2 -46.8,215.4 -46.8,205.8 -18.7,189.6" fill="#141417"/><polygon class="ft tt" points="-46.8,173.4 -18.7,189.6 -46.8,205.8 -74.8,189.6" fill="#26262b"/><polyline class="glyph" points="-48.8,180.6 -38.5,186.6"/><polyline class="glyph" points="-55.1,184.2 -37.4,194.4"/><polyline class="glyph" points="-61.3,187.8 -43.6,198.0"/></g><g class="tile" data-at="0.17"><polygon class="fl" points="-2.1,199.2 26.0,215.4 26.0,205.8 -2.1,189.6" fill="#1b1b1f"/><polygon class="fr" points="54.0,199.2 26.0,215.4 26.0,205.8 54.0,189.6" fill="#141417"/><polygon class="ft tt" points="26.0,173.4 54.0,189.6 26.0,205.8 -2.1,189.6" fill="#26262b"/><polyline class="glyph" points="23.9,180.6 34.3,186.6"/><polyline class="glyph" points="17.7,184.2 35.3,194.4"/><polyline class="glyph" points="11.4,187.8 29.1,198.0"/></g><g class="tile hit h-a" data-at="0.80"><polygon class="fl" points="-111.2,220.2 -83.1,236.4 -83.1,226.8 -111.2,210.6" fill="#1b1b1f"/><polygon class="fr" points="-55.1,220.2 -83.1,236.4 -83.1,226.8 -55.1,210.6" fill="#141417"/><polygon class="ft tt" points="-83.1,194.4 -55.1,210.6 -83.1,226.8 -111.2,210.6" fill="#26262b"/><polyline class="glyph" points="-85.2,201.6 -74.8,207.6"/><polyline class="glyph" points="-91.5,205.2 -73.8,215.4"/><polyline class="glyph" points="-97.7,208.8 -80.0,219.0"/></g><g class="tile hit h-b" data-at="0.49"><polygon class="fl" points="-38.5,220.2 -10.4,236.4 -10.4,226.8 -38.5,210.6" fill="#1b1b1f"/><polygon class="fr" points="17.7,220.2 -10.4,236.4 -10.4,226.8 17.7,210.6" fill="#141417"/><polygon class="ft tt" points="-10.4,194.4 17.7,210.6 -10.4,226.8 -38.5,210.6" fill="#26262b"/><polyline class="glyph" points="-12.5,201.6 -2.1,207.6"/><polyline class="glyph" points="-18.7,205.2 -1.0,215.4"/><polyline class="glyph" points="-24.9,208.8 -7.3,219.0"/></g><g class="tile hit h-c" data-at="0.17"><polygon class="fl" points="34.3,220.2 62.4,236.4 62.4,226.8 34.3,210.6" fill="#1b1b1f"/><polygon class="fr" points="90.4,220.2 62.4,236.4 62.4,226.8 90.4,210.6" fill="#141417"/><polygon class="ft tt" points="62.4,194.4 90.4,210.6 62.4,226.8 34.3,210.6" fill="#26262b"/><polyline class="glyph" points="60.3,201.6 70.7,207.6"/><polyline class="glyph" points="54.0,205.2 71.7,215.4"/><polyline class="glyph" points="47.8,208.8 65.5,219.0"/></g><g class="tile" data-at="0.80"><polygon class="fl" points="-74.8,241.2 -46.8,257.4 -46.8,247.8 -74.8,231.6" fill="#1b1b1f"/><polygon class="fr" points="-18.7,241.2 -46.8,257.4 -46.8,247.8 -18.7,231.6" fill="#141417"/><polygon class="ft tt" points="-46.8,215.4 -18.7,231.6 -46.8,247.8 -74.8,231.6" fill="#26262b"/><polyline class="glyph" points="-48.8,222.6 -38.5,228.6"/><polyline class="glyph" points="-55.1,226.2 -37.4,236.4"/><polyline class="glyph" points="-61.3,229.8 -43.6,240.0"/></g><g class="tile" data-at="0.49"><polygon class="fl" points="-2.1,241.2 26.0,257.4 26.0,247.8 -2.1,231.6" fill="#1b1b1f"/><polygon class="fr" points="54.0,241.2 26.0,257.4 26.0,247.8 54.0,231.6" fill="#141417"/><polygon class="ft tt" points="26.0,215.4 54.0,231.6 26.0,247.8 -2.1,231.6" fill="#26262b"/><polyline class="glyph" points="23.9,222.6 34.3,228.6"/><polyline class="glyph" points="17.7,226.2 35.3,236.4"/><polyline class="glyph" points="11.4,229.8 29.1,240.0"/></g><g class="tile" data-at="0.80"><polygon class="fl" points="-38.5,262.2 -10.4,278.4 -10.4,268.8 -38.5,252.6" fill="#1b1b1f"/><polygon class="fr" points="17.7,262.2 -10.4,278.4 -10.4,268.8 17.7,252.6" fill="#141417"/><polygon class="ft tt" points="-10.4,236.4 17.7,252.6 -10.4,268.8 -38.5,252.6" fill="#26262b"/><polyline class="glyph" points="-12.5,243.6 -2.1,249.6"/><polyline class="glyph" points="-18.7,247.2 -1.0,257.4"/><polyline class="glyph" points="-24.9,250.8 -7.3,261.0"/></g><g class="beam" data-dx="-116.4" data-dy="67.2"><polygon class="curtain" points="-10.4,154.8 106.0,222.0 106.0,178.8 -10.4,111.6"/><polyline class="curtain-edge" points="-10.4,111.6 106.0,178.8"/><polygon class="curtain-floor" points="-6.2,142.3 110.2,209.5 101.8,214.3 -14.5,147.1"/></g><g class="mv fixer f-a" transform="translate(128.9,146.4)" data-path="128.9,146.4 99.8,178.8 66.5,187.2 -30.6,236.0 -83.1,205.7"><g class="in"><g class="sheet"><polygon class="fl" points="-16.6,-1.2 2.1,9.6 2.1,8.6 -16.6,-2.2" fill="#dcd7ca"/><polygon class="fr" points="16.6,1.2 2.1,9.6 2.1,8.6 16.6,0.2" fill="#c9c3b4"/><polygon class="ft" points="-2.1,-10.6 16.6,0.2 2.1,8.6 -16.6,-2.2" fill="#f2efe7"/></g><polyline class="ink-line" points="-3.1,-7.0 2.5,-3.7"/><polyline class="ink-line" points="-7.1,-4.6 1.1,0.1"/></g></g><g class="mv fixer f-b" transform="translate(128.9,146.4)" data-path="128.9,146.4 99.8,178.8 66.5,187.2 5.8,215.0 -10.4,205.7"><g class="in"><g class="sheet"><polygon class="fl" points="-16.6,-1.2 2.1,9.6 2.1,8.6 -16.6,-2.2" fill="#dcd7ca"/><polygon class="fr" points="16.6,1.2 2.1,9.6 2.1,8.6 16.6,0.2" fill="#c9c3b4"/><polygon class="ft" points="-2.1,-10.6 16.6,0.2 2.1,8.6 -16.6,-2.2" fill="#f2efe7"/></g><polyline class="ink-line" points="-3.1,-7.0 2.5,-3.7"/><polyline class="ink-line" points="-7.1,-4.6 1.1,0.1"/></g></g><g class="mv fixer f-c" transform="translate(128.9,146.4)" data-path="128.9,146.4 99.8,178.8 66.5,187.2 42.2,194.0 62.4,205.7"><g class="in"><g class="sheet"><polygon class="fl" points="-16.6,-1.2 2.1,9.6 2.1,8.6 -16.6,-2.2" fill="#dcd7ca"/><polygon class="fr" points="16.6,1.2 2.1,9.6 2.1,8.6 16.6,0.2" fill="#c9c3b4"/><polygon class="ft" points="-2.1,-10.6 16.6,0.2 2.1,8.6 -16.6,-2.2" fill="#f2efe7"/></g><polyline class="ink-line" points="-3.1,-7.0 2.5,-3.7"/><polyline class="ink-line" points="-7.1,-4.6 1.1,0.1"/></g></g><g class="bb multi prb prb-a"><rect class="plate" x="-136.4" y="151.3" width="106.5" height="30.4" rx="3"/><line class="stem" x1="-83.1" y1="181.7" x2="-83.1" y2="210.5"/><g class="s0"><rect class="status open" x="-124.9" y="162.7" width="8.4" height="8.4"/><text x="-109.8" y="170.9" font-size="13.5"><tspan x="-109.8" dy="0.0">PR opened</tspan></text></g><g class="s1"><rect class="status merged" x="-115.2" y="162.7" width="8.4" height="8.4"/><text x="-100.0" y="170.9" font-size="13.5"><tspan x="-100.0" dy="0.0">Merged</tspan></text></g></g><g class="bb multi prb prb-b"><rect class="plate" x="-63.7" y="114.1" width="106.5" height="30.4" rx="3"/><line class="stem" x1="-10.4" y1="144.5" x2="-10.4" y2="210.5"/><g class="s0"><rect class="status open" x="-52.2" y="125.5" width="8.4" height="8.4"/><text x="-37.1" y="133.7" font-size="13.5"><tspan x="-37.1" dy="0.0">PR opened</tspan></text></g><g class="s1"><rect class="status merged" x="-42.4" y="125.5" width="8.4" height="8.4"/><text x="-27.3" y="133.7" font-size="13.5"><tspan x="-27.3" dy="0.0">Merged</tspan></text></g></g><g class="bb multi prb prb-c"><rect class="plate" x="9.1" y="151.3" width="106.5" height="30.4" rx="3"/><line class="stem" x1="62.4" y1="181.7" x2="62.4" y2="210.5"/><g class="s0"><rect class="status open" x="20.6" y="162.7" width="8.4" height="8.4"/><text x="35.7" y="170.9" font-size="13.5"><tspan x="35.7" dy="0.0">PR opened</tspan></text></g><g class="s1"><rect class="status merged" x="30.3" y="162.7" width="8.4" height="8.4"/><text x="45.5" y="170.9" font-size="13.5"><tspan x="45.5" dy="0.0">Merged</tspan></text></g></g><g class="mv notice" transform="translate(0.0,-25.2)" data-arc="0.0,-25.2 72.7,-89.2 145.5,94.8"><g class="in"><g class="sheet"><polygon class="fl" points="-40.5,-3.0 5.2,23.4 5.2,21.0 -40.5,-5.4" fill="#dcd7ca"/><polygon class="fr" points="40.5,3.0 5.2,23.4 5.2,21.0 40.5,0.6" fill="#c9c3b4"/><polygon class="ft" points="-5.2,-25.8 40.5,0.6 5.2,21.0 -40.5,-5.4" fill="#f2efe7"/></g><polyline class="ink-line" points="-7.3,-17.4 12.5,-6.0"/><polyline class="ink-line" points="-13.9,-13.6 5.8,-2.2"/><polyline class="ink-line" points="-20.6,-9.7 -0.8,1.7"/><ellipse class="seal" cx="4.2" cy="8.4" rx="7.6" ry="4.4"/><text class="it seal-t" transform="matrix(0.8660,0.5000,-0.8660,0.5000,-33.9,-3.2)" font-size="4.6" text-anchor="start">SIGNED</text></g></g></svg><!-- iso:provider-tall:end -->
+          <figcaption><span class="fig-n">Fig. 1</span>A notice reaches Tiltmeter. Three of the nine repositories still call what changed; each gets a pull request, and all three are merged.</figcaption>
+        </figure>
+        <ol class="sequence__steps">
+          <li class="step" data-step="1">
+            <h3><span class="step__n" aria-hidden="true">1</span>You publish one notice</h3>
+            <p>A small JSON file in an <a class="link" href="https://github.com/tiltmeter-dev/tiltmeter/blob/main/docs/notice-spec.md">open format</a>: the endpoint, what changed, what replaces it and the date. You sign it with a key served from your own domain, so nobody else can speak for your API. The <a class="link" href="https://github.com/tiltmeter-dev/tiltmeter-action">GitHub Action</a> can draft it from two versions of your OpenAPI spec.</p>
+            <div class="step__exhibit paper notice-doc">
+              <p class="notice-doc__head"><code>notice.json</code><span>Excerpt: 2 of its 5 changes</span></p>
+<pre>{
+  <span class="k">"id"</span>: <span class="s">"groq-retired-models-2026-08"</span>,
+  <span class="k">"provider"</span>: <span class="s">"api.groq.com"</span>,
+  <span class="k">"published_at"</span>: <span class="s">"2026-06-17T00:00:00Z"</span>,
+  <span class="k">"effective_at"</span>: <span class="s">"2026-08-16T00:00:00Z"</span>,
+  <span class="k">"endpoints"</span>: [{
+    <span class="k">"method"</span>: <span class="s">"POST"</span>,
+    <span class="k">"url"</span>: <span class="s">"https://api.groq.com/openai/v1/chat/completions"</span>,
+    <span class="k">"changes"</span>: [{
+      <span class="k">"path"</span>: <span class="s">"$.model"</span>,
+      <span class="k">"kind"</span>: <span class="s">"value_retired"</span>,
+      <span class="k">"before"</span>: <span class="old">"llama-3.1-8b-instant"</span>,
+      <span class="k">"replaced_by"</span>: <span class="new">"openai/gpt-oss-20b"</span>
+    }, {
+      <span class="k">"path"</span>: <span class="s">"$.model"</span>,
+      <span class="k">"kind"</span>: <span class="s">"value_retired"</span>,
+      <span class="k">"before"</span>: <span class="old">"llama-3.3-70b-versatile"</span>,
+      <span class="k">"replaced_by"</span>: <span class="new">"openai/gpt-oss-120b"</span>
+    }, …]
+  }]
+}</pre>
+              <p class="notice-doc__note">No <code>signature</code>. We drafted this notice from Groq’s deprecations page and Groq never saw it. Signed by Groq, it would verify only against <code>https://api.groq.com/.well-known/api-change-key</code>.</p>
+            </div>
+          </li>
+          <li class="step" data-step="2">
+            <h3><span class="step__n" aria-hidden="true">2</span>Tiltmeter finds every line that still calls it</h3>
+            <p>It reads code as text, so the language doesn’t matter, and it recognizes provider SDKs in eight package ecosystems. Its merged fixes so far are in Python, TypeScript, JavaScript, Java and C.</p>
+            <div class="step__exhibit">
+              <table class="found">
+                <caption><code>harvard-edge/cs249r_book</code>: 13 lines in 9 files, across two apps</caption>
+                <thead><tr><th scope="col">File</th><th scope="col">Line</th></tr></thead>
+                <tbody>
+                  <tr class="dir"><th scope="rowgroup" colspan="2">socratiq/src_shadow/</th></tr>
+                  <tr><th scope="row">configs/<b>env_configs.js</b></th><td>35</td></tr>
+                  <tr><th scope="row">js/components/settings/<b>settings.js</b></th><td>545</td></tr>
+                  <tr><th scope="row">js/<b>index.js</b></th><td>1587, 1988</td></tr>
+                  <tr><th scope="row">js/libs/agents/<b>cloudflareAgent.js</b></th><td>455, 627</td></tr>
+                  <tr><th scope="row">js/libs/agents/<b>custom-api-adapter.js</b></th><td>74</td></tr>
+                  <tr><th scope="row">js/libs/agents/<b>duck-ai-cloudflare.js</b></th><td>14</td></tr>
+                  <tr><th scope="row">js/libs/agents/<b>supaAgent.js</b></th><td>7</td></tr>
+                  <tr><th scope="row">js/libs/agents/<b>test-auto-fill.js</b></th><td>33, 74</td></tr>
+                  <tr class="dir"><th scope="rowgroup" colspan="2">staffml/app/worker/src/</th></tr>
+                  <tr><th scope="row"><b>index.ts</b></th><td>172, 176</td></tr>
+                </tbody>
+              </table>
+              <p class="found__note">Two of the thirteen are code comments and one is a label users see. The pull request changed all of them.</p>
+            </div>
+          </li>
+          <li class="step" data-step="3">
+            <h3><span class="step__n" aria-hidden="true">3</span>Each repository gets one pull request</h3>
+            <p>One reviewable pull request per repository, made in a fresh copy, with your notice quoted and anything the code can’t tell us listed for the reviewer. Public repositories get theirs from Tiltmeter. Private ones are covered when your customers run the free GitHub Action in their own CI.</p>
+            <div class="step__exhibit">
+              <p class="tally"><b>15</b><span>pull requests for Groq’s retirement, one per repository, all opened on 26 October 2026.</span></p>
+            </div>
+          </li>
+          <li class="step" data-step="4">
+            <h3><span class="step__n" aria-hidden="true">4</span>You see who has moved before the date</h3>
+            <p>Each notice gets a ledger: who merged, who made the change their own way, who still has it open. You turn the old version off on the day you announced, knowing exactly who is left.</p>
+            <div class="step__exhibit">
+              <ul class="mini-ledger">
+                <li><span class="mark mark--merged" aria-hidden="true"></span><b>2</b> merged</li>
+                <li><span class="mark mark--adopted" aria-hidden="true"></span><b>1</b> adopted</li>
+                <li><span class="mark mark--open" aria-hidden="true"></span><b>11</b> open</li>
+                <li><span class="mark mark--closed" aria-hidden="true"></span><b>1</b> closed</li>
+              </ul>
+              <div class="units" aria-hidden="true"><i class="mark mark--merged"></i><i class="mark mark--merged"></i><i class="mark mark--adopted"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--open"></i><i class="mark mark--closed"></i></div>
+              <p class="fine">Groq’s 15, as of 30 October. In this test our notices came after Groq’s 16 August shutdown, so these pull requests fixed code that was already failing. A notice you sign arrives before the date. <a class="link" href="/migrations/groq/">Groq’s ledger</a></p>
+            </div>
+          </li>
+        </ol>
       </div>
-      <dl class="pv-stats">
-        <div><dt>pull requests opened in one week</dt><dd data-count="84">84</dd></div>
-        <div><dt>merged as written, and 1 more adopted</dt><dd data-count="13">13</dd></div>
-        <div><dt>providers' public deprecations: Anthropic, Groq, Stripe and seven more</dt><dd data-count="10">10</dd></div>
-        <div><dt>combined GitHub stars of those repositories</dt><dd>1.31M</dd></div>
-      </dl>
-      <div class="pv-merged">
-        <p>Fixes merged by maintainers at</p>
-        <ul>
-          <li><a href="https://github.com/harvard-edge/cs249r_book/pull/2163">Harvard CS249r</a></li>
-          <li><a href="https://github.com/Tencent/AI-Infra-Guard/pull/728">Tencent AI-Infra-Guard</a></li>
-          <li><a href="https://github.com/bytedance/deer-flow/pull/7585">ByteDance deer-flow</a></li>
-          <li><a href="https://github.com/radareorg/r2ai/pull/249">radare2</a></li>
-          <li><a href="https://github.com/serenity-bdd/serenity-core/pull/3756">Serenity BDD</a></li>
-          <li><a href="https://github.com/beenuar/AiSOC/pull/1524">AiSOC</a></li>
-          <li><a href="https://github.com/cdhigh/KindleEar/pull/747">KindleEar</a></li>
-          <li><a href="https://github.com/ruvnet/ruflo/pull/4512">ruflo</a></li>
-        </ul>
-      </div>
-      <p class="pv-note">A public test, not a customer list. We drafted every notice ourselves from the provider's public deprecation page. No provider signed, endorsed or uses Tiltmeter.</p>
     </section>
 
+    <div class="co pv">
     <section id="problem" class="wrap section pv-problem">
       <div class="pv-head">
         <div>
           <p class="eyebrow">The problem</p>
-          <h2 data-reveal>Announcing a change doesn't change anyone's code.</h2>
+          <h2>Announcing a change doesn't change anyone's code.</h2>
         </div>
-        <p class="side" data-reveal>Customers skim the changelog, the emails land in a shared inbox, and the shutdown date arrives anyway. Two public deprecations show what's left behind.</p>
+        <p class="side">Customers skim the changelog, the emails land in a shared inbox, and the shutdown date arrives anyway. Two public deprecations show what's left behind.</p>
       </div>
       <div class="pv-pain">
         <div class="pv-numbers">
-          <article class="pv-num" data-reveal>
+          <article class="pv-num">
             <p class="pv-num-n">314,000</p>
             <p>files on GitHub still call <code>llama-3.3-70b-versatile</code>, ten weeks after Groq shut it down on August 16.</p>
           </article>
-          <article class="pv-num" data-reveal>
+          <article class="pv-num">
             <p class="pv-num-n">78</p>
             <p>repositories still read the subscription period field Stripe moved to the items in 2025. Stripe's own sample is one of them.</p>
           </article>
         </div>
-        <ul class="pv-pains" data-reveal>
+        <ul class="pv-pains">
           <li><b>Changelogs and emails go unread.</b> The developer who wrote the call never sees them.</li>
           <li><b>Tickets spike on the shutdown date.</b> Support finds out when production breaks.</li>
           <li><b>Customers ask for more time.</b> Each extension moves the date you planned around.</li>
@@ -195,100 +332,15 @@
       </div>
     </section>
 
-    <section id="how" class="wrap section pv-how">
-      <div class="pv-head">
-        <div>
-          <p class="eyebrow">How it works</p>
-          <h2 data-reveal>One notice in.<br> A pull request<br> per repository out.</h2>
-        </div>
-        <p class="side" data-reveal>You describe the change once. Tiltmeter finds the code that uses it, fixes it, and tracks every merge until your shutdown date.</p>
-      </div>
-      <figure class="iso iso-main" data-scene="provider" data-reveal>
-        <div class="iso-stage"><!-- iso:provider:start --><svg class="iso-svg" viewBox="-122 -107 556 437" role="img" aria-label="A provider publishes a signed notice. Tiltmeter scans its customers&#x27; repositories, finds the three that call what changed, and opens a pull request in each; all three merge."><g class="floor"><polyline class="grid" points="0.0,-24.0 -166.3,72.0"/><polyline class="grid" points="20.8,-12.0 -145.5,84.0"/><polyline class="grid" points="41.6,0.0 -124.7,96.0"/><polyline class="grid" points="62.4,12.0 -103.9,108.0"/><polyline class="grid" points="83.1,24.0 -83.1,120.0"/><polyline class="grid" points="103.9,36.0 -62.4,132.0"/><polyline class="grid" points="124.7,48.0 -41.6,144.0"/><polyline class="grid" points="145.5,60.0 -20.8,156.0"/><polyline class="grid" points="166.3,72.0 0.0,168.0"/><polyline class="grid" points="187.1,84.0 20.8,180.0"/><polyline class="grid" points="207.8,96.0 41.6,192.0"/><polyline class="grid" points="228.6,108.0 62.4,204.0"/><polyline class="grid" points="249.4,120.0 83.1,216.0"/><polyline class="grid" points="270.2,132.0 103.9,228.0"/><polyline class="grid" points="291.0,144.0 124.7,240.0"/><polyline class="grid" points="311.8,156.0 145.5,252.0"/><polyline class="grid" points="332.6,168.0 166.3,264.0"/><polyline class="grid" points="353.3,180.0 187.1,276.0"/><polyline class="grid" points="374.1,192.0 207.8,288.0"/><polyline class="grid" points="394.9,204.0 228.6,300.0"/><polyline class="grid" points="415.7,216.0 249.4,312.0"/><polyline class="grid" points="436.5,228.0 270.2,324.0"/><polyline class="grid" points="457.3,240.0 291.0,336.0"/><polyline class="grid" points="0.0,-24.0 457.3,240.0"/><polyline class="grid" points="-20.8,-12.0 436.5,252.0"/><polyline class="grid" points="-41.6,0.0 415.7,264.0"/><polyline class="grid" points="-62.4,12.0 394.9,276.0"/><polyline class="grid" points="-83.1,24.0 374.1,288.0"/><polyline class="grid" points="-103.9,36.0 353.3,300.0"/><polyline class="grid" points="-124.7,48.0 332.6,312.0"/><polyline class="grid" points="-145.5,60.0 311.8,324.0"/><polyline class="grid" points="-166.3,72.0 291.0,336.0"/></g><polyline class="path" points="52.0,90.0 93.5,114.0"/><polyline class="path" points="187.1,180.0 228.6,204.0"/><g class="slab"><polygon class="fl" points="-103.9,60.0 0.0,120.0 0.0,108.0 -103.9,48.0" fill="#1b1b1f"/><polygon class="fr" points="103.9,60.0 0.0,120.0 0.0,108.0 103.9,48.0" fill="#141417"/><polygon class="ft" points="0.0,-12.0 103.9,48.0 0.0,108.0 -103.9,48.0" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,-96.6,60.8)" font-size="7.5" text-anchor="start">YOUR API</text><g class="server"><polygon class="fl" points="-58.2,48.0 0.0,81.6 0.0,64.8 -58.2,31.2" fill="#1b1b1f"/><polygon class="fr" points="58.2,48.0 0.0,81.6 0.0,64.8 58.2,31.2" fill="#141417"/><polygon class="ft" points="0.0,-2.4 58.2,31.2 0.0,64.8 -58.2,31.2" fill="#26262b"/></g><circle class="led g0" cx="-49.9" cy="44.2" r="1.7"/><circle class="led g1" cx="-41.2" cy="49.2" r="1.7"/><circle class="led g2" cx="-32.4" cy="54.2" r="1.7"/><g class="server"><polygon class="fl" points="-58.2,27.6 0.0,61.2 0.0,44.4 -58.2,10.8" fill="#1b1b1f"/><polygon class="fr" points="58.2,27.6 0.0,61.2 0.0,44.4 58.2,10.8" fill="#141417"/><polygon class="ft" points="0.0,-22.8 58.2,10.8 0.0,44.4 -58.2,10.8" fill="#26262b"/></g><circle class="led g1" cx="-49.9" cy="23.8" r="1.7"/><circle class="led g2" cx="-41.2" cy="28.8" r="1.7"/><circle class="led g0" cx="-32.4" cy="33.8" r="1.7"/><g class="server"><polygon class="fl" points="-58.2,7.2 0.0,40.8 0.0,24.0 -58.2,-9.6" fill="#1b1b1f"/><polygon class="fr" points="58.2,7.2 0.0,40.8 0.0,24.0 58.2,-9.6" fill="#141417"/><polygon class="ft" points="0.0,-43.2 58.2,-9.6 0.0,24.0 -58.2,-9.6" fill="#26262b"/></g><circle class="led g2" cx="-49.9" cy="3.4" r="1.7"/><circle class="led g0" cx="-41.2" cy="8.4" r="1.7"/><circle class="led g1" cx="-32.4" cy="13.4" r="1.7"/><ellipse class="shadow" cx="0.0" cy="-9.6" rx="22.0" ry="12.7"/><path class="trail" d="M0.0,-25.2 Q72.7,-89.2 145.5,94.8"/><g class="slab"><polygon class="fl" points="41.6,144.0 145.5,204.0 145.5,192.0 41.6,132.0" fill="#1b1b1f"/><polygon class="fr" points="249.4,144.0 145.5,204.0 145.5,192.0 249.4,132.0" fill="#141417"/><polygon class="ft" points="145.5,72.0 249.4,132.0 145.5,192.0 41.6,132.0" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,48.8,144.8)" font-size="7.5" text-anchor="start">TILTMETER</text><g class="device"><polygon class="fl" points="83.1,132.0 145.5,168.0 145.5,132.0 83.1,96.0" fill="#dcd7ca"/><polygon class="fr" points="207.8,132.0 145.5,168.0 145.5,132.0 207.8,96.0" fill="#c9c3b4"/><polygon class="ft" points="145.5,60.0 207.8,96.0 145.5,132.0 83.1,96.0" fill="#f2efe7"/></g><polygon class="screen" points="87.7,129.4 140.9,160.1 140.9,134.6 87.7,103.9"/><polyline class="wave calm" points="89.4,117.6 90.4,117.3 91.5,117.6 92.5,118.6 93.5,120.0 94.6,121.5 95.6,122.4 96.6,122.6 97.7,122.3 98.7,122.1 99.8,122.4 100.8,123.4 101.8,124.9 102.9,126.3 103.9,127.2 105.0,127.4 106.0,127.1 107.0,126.9 108.1,127.2 109.1,128.3 110.2,129.8 111.2,131.2 112.2,132.0 113.3,132.1 114.3,131.8 115.4,131.6 116.4,132.0 117.4,133.1 118.5,134.6 119.5,136.0 120.6,136.8 121.6,136.9 122.6,136.6 123.7,136.4 124.7,136.8 125.7,138.0 126.8,139.5 127.8,140.8 128.9,141.6 129.9,141.6 130.9,141.3 132.0,141.2 133.0,141.6 134.1,142.8 135.1,144.3 136.1,145.7 137.2,146.4 138.2,146.4 139.3,146.0"/><polyline class="wave quake" points="89.4,117.6 90.4,117.3 91.5,117.6 92.5,118.6 93.5,120.0 94.6,121.5 95.6,122.4 96.6,122.6 97.7,122.3 98.7,122.1 99.8,122.4 100.8,123.4 101.8,124.9 102.9,126.3 103.9,127.2 105.0,127.4 106.0,127.1 107.0,126.9 108.1,127.2 109.1,128.2 110.2,129.8 111.2,132.0 112.2,134.1 113.3,134.4 114.3,131.0 115.4,125.6 116.4,123.6 117.4,128.2 118.5,135.9 119.5,140.4 120.6,140.1 121.6,137.9 122.6,136.4 123.7,136.1 124.7,136.7 125.7,137.9 126.8,139.5 127.8,140.8 128.9,141.6 129.9,141.6 130.9,141.3 132.0,141.2 133.0,141.6 134.1,142.8 135.1,144.3 136.1,145.7 137.2,146.4 138.2,146.4 139.3,146.0"/><g class="needle"><polyline class="needle-l" points="120.6,91.0 170.4,101.0"/></g><circle class="led red" cx="189.1" cy="116.9" r="2.2"/><ellipse class="pulse p1" cx="145.5" cy="96.0" rx="37.0" ry="21.4"/><ellipse class="pulse p2" cx="145.5" cy="96.0" rx="37.0" ry="21.4"/><g class="slab"><polygon class="fl" points="166.3,240.0 291.0,312.0 291.0,300.0 166.3,228.0" fill="#1b1b1f"/><polygon class="fr" points="415.7,240.0 291.0,312.0 291.0,300.0 415.7,228.0" fill="#141417"/><polygon class="ft" points="291.0,156.0 415.7,228.0 291.0,300.0 166.3,228.0" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,173.6,240.8)" font-size="7.5" text-anchor="start">YOUR CUSTOMERS&#x27; CODE</text><g class="tile" data-at="0.17"><polygon class="fl" points="262.9,184.2 291.0,200.4 291.0,190.8 262.9,174.6" fill="#1b1b1f"/><polygon class="fr" points="319.0,184.2 291.0,200.4 291.0,190.8 319.0,174.6" fill="#141417"/><polygon class="ft tt" points="291.0,158.4 319.0,174.6 291.0,190.8 262.9,174.6" fill="#26262b"/><polyline class="glyph" points="288.9,165.6 299.3,171.6"/><polyline class="glyph" points="282.7,169.2 300.3,179.4"/><polyline class="glyph" points="276.4,172.8 294.1,183.0"/></g><g class="tile" data-at="0.17"><polygon class="fl" points="226.6,205.2 254.6,221.4 254.6,211.8 226.6,195.6" fill="#1b1b1f"/><polygon class="fr" points="282.7,205.2 254.6,221.4 254.6,211.8 282.7,195.6" fill="#141417"/><polygon class="ft tt" points="254.6,179.4 282.7,195.6 254.6,211.8 226.6,195.6" fill="#26262b"/><polyline class="glyph" points="252.5,186.6 262.9,192.6"/><polyline class="glyph" points="246.3,190.2 264.0,200.4"/><polyline class="glyph" points="240.1,193.8 257.7,204.0"/></g><g class="tile" data-at="0.49"><polygon class="fl" points="299.3,205.2 327.4,221.4 327.4,211.8 299.3,195.6" fill="#1b1b1f"/><polygon class="fr" points="355.4,205.2 327.4,221.4 327.4,211.8 355.4,195.6" fill="#141417"/><polygon class="ft tt" points="327.4,179.4 355.4,195.6 327.4,211.8 299.3,195.6" fill="#26262b"/><polyline class="glyph" points="325.3,186.6 335.7,192.6"/><polyline class="glyph" points="319.0,190.2 336.7,200.4"/><polyline class="glyph" points="312.8,193.8 330.5,204.0"/></g><g class="tile hit h-a" data-at="0.17"><polygon class="fl" points="190.2,226.2 218.2,242.4 218.2,232.8 190.2,216.6" fill="#1b1b1f"/><polygon class="fr" points="246.3,226.2 218.2,242.4 218.2,232.8 246.3,216.6" fill="#141417"/><polygon class="ft tt" points="218.2,200.4 246.3,216.6 218.2,232.8 190.2,216.6" fill="#26262b"/><polyline class="glyph" points="216.2,207.6 226.6,213.6"/><polyline class="glyph" points="209.9,211.2 227.6,221.4"/><polyline class="glyph" points="203.7,214.8 221.4,225.0"/></g><g class="tile hit h-b" data-at="0.49"><polygon class="fl" points="262.9,226.2 291.0,242.4 291.0,232.8 262.9,216.6" fill="#1b1b1f"/><polygon class="fr" points="319.0,226.2 291.0,242.4 291.0,232.8 319.0,216.6" fill="#141417"/><polygon class="ft tt" points="291.0,200.4 319.0,216.6 291.0,232.8 262.9,216.6" fill="#26262b"/><polyline class="glyph" points="288.9,207.6 299.3,213.6"/><polyline class="glyph" points="282.7,211.2 300.3,221.4"/><polyline class="glyph" points="276.4,214.8 294.1,225.0"/></g><g class="tile hit h-c" data-at="0.80"><polygon class="fl" points="335.7,226.2 363.7,242.4 363.7,232.8 335.7,216.6" fill="#1b1b1f"/><polygon class="fr" points="391.8,226.2 363.7,242.4 363.7,232.8 391.8,216.6" fill="#141417"/><polygon class="ft tt" points="363.7,200.4 391.8,216.6 363.7,232.8 335.7,216.6" fill="#26262b"/><polyline class="glyph" points="361.7,207.6 372.0,213.6"/><polyline class="glyph" points="355.4,211.2 373.1,221.4"/><polyline class="glyph" points="349.2,214.8 366.8,225.0"/></g><g class="tile" data-at="0.49"><polygon class="fl" points="226.6,247.2 254.6,263.4 254.6,253.8 226.6,237.6" fill="#1b1b1f"/><polygon class="fr" points="282.7,247.2 254.6,263.4 254.6,253.8 282.7,237.6" fill="#141417"/><polygon class="ft tt" points="254.6,221.4 282.7,237.6 254.6,253.8 226.6,237.6" fill="#26262b"/><polyline class="glyph" points="252.5,228.6 262.9,234.6"/><polyline class="glyph" points="246.3,232.2 264.0,242.4"/><polyline class="glyph" points="240.1,235.8 257.7,246.0"/></g><g class="tile" data-at="0.80"><polygon class="fl" points="299.3,247.2 327.4,263.4 327.4,253.8 299.3,237.6" fill="#1b1b1f"/><polygon class="fr" points="355.4,247.2 327.4,263.4 327.4,253.8 355.4,237.6" fill="#141417"/><polygon class="ft tt" points="327.4,221.4 355.4,237.6 327.4,253.8 299.3,237.6" fill="#26262b"/><polyline class="glyph" points="325.3,228.6 335.7,234.6"/><polyline class="glyph" points="319.0,232.2 336.7,242.4"/><polyline class="glyph" points="312.8,235.8 330.5,246.0"/></g><g class="tile" data-at="0.80"><polygon class="fl" points="262.9,268.2 291.0,284.4 291.0,274.8 262.9,258.6" fill="#1b1b1f"/><polygon class="fr" points="319.0,268.2 291.0,284.4 291.0,274.8 319.0,258.6" fill="#141417"/><polygon class="ft tt" points="291.0,242.4 319.0,258.6 291.0,274.8 262.9,258.6" fill="#26262b"/><polyline class="glyph" points="288.9,249.6 299.3,255.6"/><polyline class="glyph" points="282.7,253.2 300.3,263.4"/><polyline class="glyph" points="276.4,256.8 294.1,267.0"/></g><g class="beam" data-dx="116.4" data-dy="67.2"><polygon class="curtain" points="291.0,160.8 174.6,228.0 174.6,184.8 291.0,117.6"/><polyline class="curtain-edge" points="291.0,117.6 174.6,184.8"/><polygon class="curtain-floor" points="286.8,148.3 295.1,153.1 178.7,220.3 170.4,215.5"/></g><g class="mv fixer f-a" transform="translate(166.3,144.0)" data-path="166.3,144.0 191.2,174.0 228.6,184.8 252.9,191.6 218.2,211.7"><g class="in"><g><polygon class="fl" points="-8.7,5.0 0.0,10.1 0.0,-0.0 -8.7,-5.0" fill="#2c5fb4"/><polygon class="fr" points="8.7,5.0 0.0,10.1 0.0,-0.0 8.7,-5.0" fill="#234e96"/><polygon class="ft" points="0.0,-10.1 8.7,-5.0 0.0,-0.0 -8.7,-5.0" fill="#3a76d8"/></g></g></g><g class="mv fixer f-b" transform="translate(166.3,144.0)" data-path="166.3,144.0 191.2,174.0 228.6,184.8 289.3,212.6 291.0,211.7"><g class="in"><g><polygon class="fl" points="-8.7,5.0 0.0,10.1 0.0,-0.0 -8.7,-5.0" fill="#2c5fb4"/><polygon class="fr" points="8.7,5.0 0.0,10.1 0.0,-0.0 8.7,-5.0" fill="#234e96"/><polygon class="ft" points="0.0,-10.1 8.7,-5.0 0.0,-0.0 -8.7,-5.0" fill="#3a76d8"/></g></g></g><g class="mv fixer f-c" transform="translate(166.3,144.0)" data-path="166.3,144.0 191.2,174.0 228.6,184.8 325.7,233.6 363.7,211.7"><g class="in"><g><polygon class="fl" points="-8.7,5.0 0.0,10.1 0.0,-0.0 -8.7,-5.0" fill="#2c5fb4"/><polygon class="fr" points="8.7,5.0 0.0,10.1 0.0,-0.0 8.7,-5.0" fill="#234e96"/><polygon class="ft" points="0.0,-10.1 8.7,-5.0 0.0,-0.0 -8.7,-5.0" fill="#3a76d8"/></g></g></g><g class="bb multi prb prb-a"><rect x="181.5" y="163.8" width="73.4" height="23.9" rx="8"/><line class="stem" x1="218.2" y1="187.7" x2="218.2" y2="216.5"/><text class="s0" x="218.2" y="178.7" font-size="8.5" text-anchor="middle"><tspan x="218.2" dy="0.0">PR opened</tspan></text><text class="s1" x="218.2" y="178.7" font-size="8.5" text-anchor="middle"><tspan x="218.2" dy="0.0">Merged</tspan></text></g><g class="bb multi prb prb-b"><rect x="254.3" y="144.6" width="73.4" height="23.9" rx="8"/><line class="stem" x1="291.0" y1="168.5" x2="291.0" y2="216.5"/><text class="s0" x="291.0" y="159.5" font-size="8.5" text-anchor="middle"><tspan x="291.0" dy="0.0">PR opened</tspan></text><text class="s1" x="291.0" y="159.5" font-size="8.5" text-anchor="middle"><tspan x="291.0" dy="0.0">Merged</tspan></text></g><g class="bb multi prb prb-c"><rect x="327.0" y="163.8" width="73.4" height="23.9" rx="8"/><line class="stem" x1="363.7" y1="187.7" x2="363.7" y2="216.5"/><text class="s0" x="363.7" y="178.7" font-size="8.5" text-anchor="middle"><tspan x="363.7" dy="0.0">PR opened</tspan></text><text class="s1" x="363.7" y="178.7" font-size="8.5" text-anchor="middle"><tspan x="363.7" dy="0.0">Merged</tspan></text></g><g class="mv notice" transform="translate(0.0,-25.2)" data-arc="0.0,-25.2 72.7,-89.2 145.5,94.8"><g class="in"><g class="sheet"><polygon class="fl" points="-40.5,-3.0 5.2,23.4 5.2,21.0 -40.5,-5.4" fill="#dcd7ca"/><polygon class="fr" points="40.5,3.0 5.2,23.4 5.2,21.0 40.5,0.6" fill="#c9c3b4"/><polygon class="ft" points="-5.2,-25.8 40.5,0.6 5.2,21.0 -40.5,-5.4" fill="#f2efe7"/></g><polyline class="ink-line" points="-7.3,-17.4 12.5,-6.0"/><polyline class="ink-line" points="-13.9,-13.6 5.8,-2.2"/><polyline class="ink-line" points="-20.6,-9.7 -0.8,1.7"/><ellipse class="seal" cx="4.2" cy="8.4" rx="7.6" ry="4.4"/><text class="it seal-t" transform="matrix(0.8660,0.5000,-0.8660,0.5000,-33.9,-3.2)" font-size="4.6" text-anchor="start">SIGNED</text></g></g></svg><!-- iso:provider:end --></div>
-        <ol class="iso-steps" aria-label="What happens">
-          <li data-n="1"><b>Notice published</b><span>signed on your domain</span></li>
-          <li data-n="2"><b>Code found</b><span>every repository that calls it</span></li>
-          <li data-n="3"><b>Pull requests opened</b><span>one per repository</span></li>
-          <li data-n="4"><b>Merged</b><span>before the shutdown date</span></li>
-        </ol>
-      </figure>
-      <div class="flow">
-        <article data-reveal>
-          <h3 class="flow-n"><span>1</span>Publish one signed notice</h3>
-<pre class="code"><span class="mu">// notice.json</span>
-{
-  <span class="k">"id"</span>: "groq-retired-models-2026-08",
-  <span class="k">"effective_at"</span>: "2026-08-16",
-  <span class="k">"endpoints"</span>: [{
-    <span class="k">"url"</span>: "…/openai/v1/chat/completions",
-    <span class="k">"changes"</span>: [{
-      <span class="k">"path"</span>: "$.model",
-      <span class="k">"kind"</span>: "value_retired",
-      <span class="k">"before"</span>: "llama-3.3-70b-versatile",
-      <span class="k">"replaced_by"</span>: "openai/gpt-oss-120b"
-    }]
-  }]
-}</pre>
-          <p class="flow-text">A small JSON file in an <a class="u" href="https://github.com/tiltmeter-dev/tiltmeter/blob/main/docs/notice-spec.md">open format</a>, signed with your key on your own domain. The <a class="u" href="https://github.com/tiltmeter-dev/tiltmeter-action">GitHub Action</a> drafts it in CI from the diff between two versions of your OpenAPI spec.</p>
-        </article>
-        <article data-reveal>
-          <h3 class="flow-n"><span>2</span>Each repository gets a pull request</h3>
-<pre class="code dark" data-typed><span class="ps">$</span> tiltmeter fix \
-    --notice groq-retired-models-2026-08
-<span class="ok">✓</span> still calls it: configs/env_configs.js:35
-<span class="ok">✓</span> fixed in a fresh worktree
-<span class="ok">✓</span> pull request opened
-  <span class="mu">harvard-edge/cs249r_book#2163</span></pre>
-          <p class="flow-text">Tiltmeter finds the code that still calls what changed, adapts it and opens one reviewable pull request per repository, before the date. Public repositories get theirs from Tiltmeter; private ones are covered when your customers run the GitHub Action.</p>
-        </article>
-        <article data-reveal>
-          <h3 class="flow-n"><span>3</span>You see who's left</h3>
-          <div class="mini-table" data-tracker role="table" aria-label="Pull requests for Groq's retired models">
-            <div class="mt th" role="row"><span role="columnheader">Repository</span><span role="columnheader">Status</span></div>
-            <div class="mt" role="row"><span role="cell">harvard-edge/cs249r_book</span><span role="cell"><i class="badge merged" data-flip="merged">Merged</i></span></div>
-            <div class="mt" role="row"><span role="cell">Nutlope/aicommits</span><span role="cell"><i class="badge adopted" data-flip="adopted">Adopted</i></span></div>
-            <div class="mt" role="row"><span role="cell">cdhigh/KindleEar</span><span role="cell"><i class="badge merged" data-flip="merged">Merged</i></span></div>
-            <div class="mt" role="row"><span role="cell">LibreChat-AI/LibreChat</span><span role="cell"><i class="badge open">Open</i></span></div>
-            <div class="mt" role="row"><span role="cell">eosphoros-ai/DB-GPT</span><span role="cell"><i class="badge open">Open</i></span></div>
-          </div>
-          <p class="flow-text">A <a class="u" href="/migrations/groq/">live tracker</a> shows who merged, who made the change their own way and who still calls the old version, while there is still time before the date.</p>
-        </article>
-      </div>
-      <div class="langs" data-reveal>
-        <div class="runs-text">
-          <p class="way-k">Any language</p>
-          <h3>Whatever language your customers write.</h3>
-          <p>Tiltmeter finds the call in the code as text, so the language doesn't matter, and it recognizes provider SDKs in eight package ecosystems.</p>
-        </div>
-        <div>
-          <ul class="langs-list" aria-label="Languages">
-            <li class="merged"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98l-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95l.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25l-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z"/></svg><b>Python</b><span class="vh">, merged upstream</span></li>
-            <li class="merged"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75c.623 0 1.125-.502 1.125-1.125V1.125C24 .502 23.498 0 22.875 0zm17.363 9.75c.612 0 1.154.037 1.627.111a6.38 6.38 0 0 1 1.306.34v2.458a3.95 3.95 0 0 0-.643-.361 5.093 5.093 0 0 0-.717-.26 5.453 5.453 0 0 0-1.426-.2c-.3 0-.573.028-.819.086a2.1 2.1 0 0 0-.623.242c-.17.104-.3.229-.393.374a.888.888 0 0 0-.14.49c0 .196.053.373.156.529.104.156.252.304.443.444s.423.276.696.41c.273.135.582.274.926.416.47.197.892.407 1.266.628.374.222.695.473.963.753.268.279.472.598.614.957.142.359.214.776.214 1.253 0 .657-.125 1.21-.373 1.656a3.033 3.033 0 0 1-1.012 1.085 4.38 4.38 0 0 1-1.487.596c-.566.12-1.163.18-1.79.18a9.916 9.916 0 0 1-1.84-.164 5.544 5.544 0 0 1-1.512-.493v-2.63a5.033 5.033 0 0 0 3.237 1.2c.333 0 .624-.03.872-.09.249-.06.456-.144.623-.25.166-.108.29-.234.373-.38a1.023 1.023 0 0 0-.074-1.089 2.12 2.12 0 0 0-.537-.5 5.597 5.597 0 0 0-.807-.444 27.72 27.72 0 0 0-1.007-.436c-.918-.383-1.602-.852-2.053-1.405-.45-.553-.676-1.222-.676-2.005 0-.614.123-1.141.369-1.582.246-.441.58-.804 1.004-1.089a4.494 4.494 0 0 1 1.47-.629 7.536 7.536 0 0 1 1.77-.201zm-15.113.188h9.563v2.166H9.506v9.646H6.789v-9.646H3.375z"/></svg><b>TypeScript</b><span class="vh">, merged upstream</span></li>
-            <li class="merged"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z"/></svg><b>JavaScript</b><span class="vh">, merged upstream</span></li>
-            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.811 10.231c-.047 0-.058-.023-.035-.059l.246-.315c.023-.035.081-.058.128-.058h4.172c.046 0 .058.035.035.07l-.199.303c-.023.036-.082.07-.117.07zM.047 11.306c-.047 0-.059-.023-.035-.058l.245-.316c.023-.035.082-.058.129-.058h5.328c.047 0 .07.035.058.07l-.093.28c-.012.047-.058.07-.105.07zm2.828 1.075c-.047 0-.059-.035-.035-.07l.163-.292c.023-.035.07-.07.117-.07h2.337c.047 0 .07.035.07.082l-.023.28c0 .047-.047.082-.082.082zm12.129-2.36c-.736.187-1.239.327-1.963.514-.176.046-.187.058-.34-.117-.174-.199-.303-.327-.548-.444-.737-.362-1.45-.257-2.115.175-.795.514-1.204 1.274-1.192 2.22.011.935.654 1.706 1.577 1.835.795.105 1.46-.175 1.987-.77.105-.13.198-.27.315-.434H10.47c-.245 0-.304-.152-.222-.35.152-.362.432-.97.596-1.274a.315.315 0 01.292-.187h4.253c-.023.316-.023.631-.07.947a4.983 4.983 0 01-.958 2.29c-.841 1.11-1.94 1.8-3.33 1.986-1.145.152-2.209-.07-3.143-.77-.865-.655-1.356-1.52-1.484-2.595-.152-1.274.222-2.419.993-3.424.83-1.086 1.928-1.776 3.272-2.02 1.098-.2 2.15-.07 3.096.571.62.41 1.063.97 1.356 1.648.07.105.023.164-.117.2m3.868 6.461c-1.064-.024-2.034-.328-2.852-1.029a3.665 3.665 0 01-1.262-2.255c-.21-1.32.152-2.489.947-3.529.853-1.122 1.881-1.706 3.272-1.95 1.192-.21 2.314-.095 3.33.595.923.63 1.496 1.484 1.648 2.605.198 1.578-.257 2.863-1.344 3.962-.771.783-1.718 1.273-2.805 1.495-.315.06-.63.07-.934.106zm2.78-4.72c-.011-.153-.011-.27-.034-.387-.21-1.157-1.274-1.81-2.384-1.554-1.087.245-1.788.935-2.045 2.033-.21.912.234 1.835 1.075 2.21.643.28 1.285.244 1.905-.07.923-.48 1.425-1.228 1.484-2.233z"/></svg><b>Go</b></li>
-            <li class="merged"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.915 0 11.7.215C9.515 2.4 7.47 6.39 6.046 10.483c-1.064 1.024-3.633 2.81-3.711 3.551-.093.87 1.746 2.611 1.55 3.235-.198.625-1.304 1.408-1.014 1.939.1.188.823.011 1.277-.491a13.389 13.389 0 0 0-.017 2.14c.076.906.27 1.668.643 2.232.372.563.956.911 1.667.911.397 0 .727-.114 1.024-.264.298-.149.571-.33.91-.5.68-.34 1.634-.666 3.53-.604 1.903.062 2.872.39 3.559.704.687.314 1.15.664 1.925.664.767 0 1.395-.336 1.807-.9.412-.563.631-1.33.72-2.24.06-.623.055-1.32 0-2.066.454.45 1.117.604 1.213.424.29-.53-.816-1.314-1.013-1.937-.198-.624 1.642-2.366 1.549-3.236-.08-.748-2.707-2.568-3.748-3.586C16.428 6.374 14.308 2.394 12.13.215zm.175 6.038a2.95 2.95 0 0 1 2.943 2.942 2.95 2.95 0 0 1-2.943 2.943A2.95 2.95 0 0 1 9.148 8.98a2.95 2.95 0 0 1 2.942-2.942zM8.685 7.983a3.515 3.515 0 0 0-.145.997c0 1.951 1.6 3.55 3.55 3.55 1.95 0 3.55-1.598 3.55-3.55 0-.329-.046-.648-.132-.951.334.095.64.208.915.336a42.699 42.699 0 0 1 2.042 5.829c.678 2.545 1.01 4.92.846 6.607-.082.844-.29 1.51-.606 1.94-.315.431-.713.651-1.315.651-.593 0-.932-.27-1.673-.61-.741-.338-1.825-.694-3.792-.758-1.974-.064-3.073.293-3.821.669-.375.188-.659.373-.911.5s-.466.2-.752.2c-.53 0-.876-.209-1.16-.64-.285-.43-.474-1.101-.545-1.948-.141-1.693.176-4.069.823-6.614a43.155 43.155 0 0 1 1.934-5.783c.348-.167.749-.31 1.192-.425zm-3.382 4.362a.216.216 0 0 1 .13.031c-.166.56-.323 1.116-.463 1.665a33.849 33.849 0 0 0-.547 2.555 3.9 3.9 0 0 0-.2-.39c-.58-1.012-.914-1.642-1.16-2.08.315-.24 1.679-1.755 2.24-1.781zm13.394.01c.562.027 1.926 1.543 2.24 1.783-.246.438-.58 1.068-1.16 2.08a4.428 4.428 0 0 0-.163.309 32.354 32.354 0 0 0-.562-2.49 40.579 40.579 0 0 0-.482-1.652.216.216 0 0 1 .127-.03z"/></svg><b>Java</b><span class="vh">, merged upstream</span></li>
-            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 24H0V0h24L12 12Z"/></svg><b>Kotlin</b></li>
-            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.8346 11.7033l-1.0073-.6236a13.7268 13.7268 0 00-.0283-.2936l.8656-.8069a.3483.3483 0 00-.1154-.578l-1.1066-.414a8.4958 8.4958 0 00-.087-.2856l.6904-.9587a.3462.3462 0 00-.2257-.5446l-1.1663-.1894a9.3574 9.3574 0 00-.1407-.2622l.49-1.0761a.3437.3437 0 00-.0274-.3361.3486.3486 0 00-.3006-.154l-1.1845.0416a6.7444 6.7444 0 00-.1873-.2268l.2723-1.153a.3472.3472 0 00-.417-.4172l-1.1532.2724a14.0183 14.0183 0 00-.2278-.1873l.0415-1.1845a.3442.3442 0 00-.49-.328l-1.076.491c-.0872-.0476-.1742-.0952-.2623-.1407l-.1903-1.1673A.3483.3483 0 0016.256.955l-.9597.6905a8.4867 8.4867 0 00-.2855-.086l-.414-1.1066a.3483.3483 0 00-.5781-.1154l-.8069.8666a9.2936 9.2936 0 00-.2936-.0284L12.2946.1683a.3462.3462 0 00-.5892 0l-.6236 1.0073a13.7383 13.7383 0 00-.2936.0284L9.9803.3374a.3462.3462 0 00-.578.1154l-.4141 1.1065c-.0962.0274-.1903.0567-.2855.086L7.744.955a.3483.3483 0 00-.5447.2258L7.009 2.348a9.3574 9.3574 0 00-.2622.1407l-1.0762-.491a.3462.3462 0 00-.49.328l.0416 1.1845a7.9826 7.9826 0 00-.2278.1873L3.8413 3.425a.3472.3472 0 00-.4171.4171l.2713 1.1531c-.0628.075-.1255.1509-.1863.2268l-1.1845-.0415a.3462.3462 0 00-.328.49l.491 1.0761a9.167 9.167 0 00-.1407.2622l-1.1662.1894a.3483.3483 0 00-.2258.5446l.6904.9587a13.303 13.303 0 00-.087.2855l-1.1065.414a.3483.3483 0 00-.1155.5781l.8656.807a9.2936 9.2936 0 00-.0283.2935l-1.0073.6236a.3442.3442 0 000 .5892l1.0073.6236c.008.0982.0182.1964.0283.2936l-.8656.8079a.3462.3462 0 00.1155.578l1.1065.4141c.0273.0962.0567.1914.087.2855l-.6904.9587a.3452.3452 0 00.2268.5447l1.1662.1893c.0456.088.0922.1751.1408.2622l-.491 1.0762a.3462.3462 0 00.328.49l1.1834-.0415c.0618.0769.1235.1528.1873.2277l-.2713 1.1541a.3462.3462 0 00.4171.4161l1.153-.2713c.075.0638.151.1255.2279.1863l-.0415 1.1845a.3442.3442 0 00.49.327l1.0761-.49c.087.0486.1741.0951.2622.1407l.1903 1.1662a.3483.3483 0 00.5447.2268l.9587-.6904a9.299 9.299 0 00.2855.087l.414 1.1066a.3452.3452 0 00.5781.1154l.8079-.8656c.0972.0111.1954.0203.2936.0294l.6236 1.0073a.3472.3472 0 00.5892 0l.6236-1.0073c.0982-.0091.1964-.0183.2936-.0294l.8069.8656a.3483.3483 0 00.578-.1154l.4141-1.1066a8.4626 8.4626 0 00.2855-.087l.9587.6904a.3452.3452 0 00.5447-.2268l.1903-1.1662c.088-.0456.1751-.0931.2622-.1407l1.0762.49a.3472.3472 0 00.49-.327l-.0415-1.1845a6.7267 6.7267 0 00.2267-.1863l1.1531.2713a.3472.3472 0 00.4171-.416l-.2713-1.1542c.0628-.0749.1255-.1508.1863-.2278l1.1845.0415a.3442.3442 0 00.328-.49l-.49-1.076c.0475-.0872.0951-.1742.1407-.2623l1.1662-.1893a.3483.3483 0 00.2258-.5447l-.6904-.9587.087-.2855 1.1066-.414a.3462.3462 0 00.1154-.5781l-.8656-.8079c.0101-.0972.0202-.1954.0283-.2936l1.0073-.6236a.3442.3442 0 000-.5892zm-6.7413 8.3551a.7138.7138 0 01.2986-1.396.714.714 0 11-.2997 1.396zm-.3422-2.3142a.649.649 0 00-.7715.5l-.3573 1.6685c-1.1035.501-2.3285.7795-3.6193.7795a8.7368 8.7368 0 01-3.6951-.814l-.3574-1.6684a.648.648 0 00-.7714-.499l-1.473.3158a8.7216 8.7216 0 01-.7613-.898h7.1676c.081 0 .1356-.0141.1356-.088v-2.536c0-.074-.0536-.0881-.1356-.0881h-2.0966v-1.6077h2.2677c.2065 0 1.1065.0587 1.394 1.2088.0901.3533.2875 1.5044.4232 1.8729.1346.413.6833 1.2381 1.2685 1.2381h3.5716a.7492.7492 0 00.1296-.0131 8.7874 8.7874 0 01-.8119.9526zM6.8369 20.024a.714.714 0 11-.2997-1.396.714.714 0 01.2997 1.396zM4.1177 8.9972a.7137.7137 0 11-1.304.5791.7137.7137 0 011.304-.579zm-.8352 1.9813l1.5347-.6824a.65.65 0 00.33-.8585l-.3158-.7147h1.2432v5.6025H3.5669a8.7753 8.7753 0 01-.2834-3.348zm6.7343-.5437V8.7836h2.9601c.153 0 1.0792.1772 1.0792.8697 0 .575-.7107.7815-1.2948.7815zm10.7574 1.4862c0 .2187-.008.4363-.0243.651h-.9c-.09 0-.1265.0586-.1265.1477v.413c0 .973-.5487 1.1846-1.0296 1.2382-.4576.0517-.9648-.1913-1.0275-.4717-.2704-1.5186-.7198-1.8436-1.4305-2.4034.8817-.5599 1.799-1.386 1.799-2.4915 0-1.1936-.819-1.9458-1.3769-2.3153-.7825-.5163-1.6491-.6195-1.883-.6195H5.4682a8.7651 8.7651 0 014.907-2.7699l1.0974 1.151a.648.648 0 00.9182.0213l1.227-1.1743a8.7753 8.7753 0 016.0044 4.2762l-.8403 1.8982a.652.652 0 00.33.8585l1.6178.7188c.0283.2875.0425.577.0425.8717zm-9.3006-9.5993a.7128.7128 0 11.984 1.0316.7137.7137 0 01-.984-1.0316zm8.3389 6.71a.7107.7107 0 01.9395-.3625.7137.7137 0 11-.9405.3635z"/></svg><b>Rust</b></li>
-            <li class="merged"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5921 9.1962s-.354-3.298-3.627-3.39c-3.2741-.09-4.9552 2.474-4.9552 6.14 0 3.6651 1.858 6.5972 5.0451 6.5972 3.184 0 3.5381-3.665 3.5381-3.665l6.1041.365s.36 3.31-2.196 5.836c-2.552 2.5241-5.6901 2.9371-7.8762 2.9201-2.19-.017-5.2261.034-8.1602-2.97-2.938-3.0101-3.436-5.9302-3.436-8.8002 0-2.8701.556-6.6702 4.047-9.5502C7.444.72 9.849 0 12.254 0c10.0422 0 10.7172 9.2602 10.7172 9.2602z"/></svg><b>C</b><span class="vh">, merged upstream</span></li>
-            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 8.77h-2.468v7.565h-1.425V8.77h-2.462V7.53H24zm-6.852 7.565h-4.821V7.53h4.63v1.24h-3.205v2.494h2.953v1.234h-2.953v2.604h3.396zm-6.708 0H8.882L4.78 9.863a2.896 2.896 0 0 1-.258-.51h-.036c.032.189.048.592.048 1.21v5.772H3.157V7.53h1.659l3.965 6.32c.167.261.275.442.323.54h.024c-.04-.233-.06-.629-.06-1.185V7.529h1.372zm-8.703-.693a.868.829 0 0 1-.869.829.868.829 0 0 1-.868-.83.868.829 0 0 1 .868-.828.868.829 0 0 1 .869.829Z"/></svg><b>C#</b></li>
-            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.156.083c3.033.525 3.893 2.598 3.829 4.77L24 4.822 22.635 22.71 4.89 23.926h.016C3.433 23.864.15 23.729 0 19.139l1.645-3 2.819 6.586.503 1.172 2.805-9.144-.03.007.016-.03 9.255 2.956-1.396-5.431-.99-3.9 8.82-.569-.615-.51L16.5 2.114 20.159.073l-.003.01zM0 19.089zM5.13 5.073c3.561-3.533 8.157-5.621 9.922-3.84 1.762 1.777-.105 6.105-3.673 9.636-3.563 3.532-8.103 5.734-9.864 3.957-1.766-1.777.045-6.217 3.612-9.75l.003-.003z"/></svg><b>Ruby</b></li>
-            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.01 10.207h-.944l-.515 2.648h.838c.556 0 .97-.105 1.242-.314.272-.21.455-.559.55-1.049.092-.47.05-.802-.124-.995-.175-.193-.523-.29-1.047-.29zM12 5.688C5.373 5.688 0 8.514 0 12s5.373 6.313 12 6.313S24 15.486 24 12c0-3.486-5.373-6.312-12-6.312zm-3.26 7.451c-.261.25-.575.438-.917.551-.336.108-.765.164-1.285.164H5.357l-.327 1.681H3.652l1.23-6.326h2.65c.797 0 1.378.209 1.744.628.366.418.476 1.002.33 1.752a2.836 2.836 0 0 1-.305.847c-.143.255-.33.49-.561.703zm4.024.715l.543-2.799c.063-.318.039-.536-.068-.651-.107-.116-.336-.174-.687-.174H11.46l-.704 3.625H9.388l1.23-6.327h1.367l-.327 1.682h1.218c.767 0 1.295.134 1.586.401s.378.7.263 1.299l-.572 2.944h-1.389zm7.597-2.265a2.782 2.782 0 0 1-.305.847c-.143.255-.33.49-.561.703a2.44 2.44 0 0 1-.917.551c-.336.108-.765.164-1.286.164h-1.18l-.327 1.682h-1.378l1.23-6.326h2.649c.797 0 1.378.209 1.744.628.366.417.477 1.001.331 1.751zM17.766 10.207h-.943l-.516 2.648h.838c.557 0 .971-.105 1.242-.314.272-.21.455-.559.551-1.049.092-.47.049-.802-.125-.995s-.524-.29-1.047-.29z"/></svg><b>PHP</b></li>
-            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.508 0c-.287 0-.573 0-.86.002-.241.002-.483.003-.724.01-.132.003-.263.009-.395.015A9.154 9.154 0 0 0 4.348.15 5.492 5.492 0 0 0 2.85.645 5.04 5.04 0 0 0 .645 2.848c-.245.48-.4.972-.495 1.5-.093.52-.122 1.05-.136 1.576a35.2 35.2 0 0 0-.012.724C0 6.935 0 7.221 0 7.508v8.984c0 .287 0 .575.002.862.002.24.005.481.012.722.014.526.043 1.057.136 1.576.095.528.25 1.02.495 1.5a5.03 5.03 0 0 0 2.205 2.203c.48.244.97.4 1.498.495.52.093 1.05.124 1.576.138.241.007.483.009.724.01.287.002.573.002.86.002h8.984c.287 0 .573 0 .86-.002.241-.001.483-.003.724-.01a10.523 10.523 0 0 0 1.578-.138 5.322 5.322 0 0 0 1.498-.495 5.035 5.035 0 0 0 2.203-2.203c.245-.48.4-.972.495-1.5.093-.52.124-1.05.138-1.576.007-.241.009-.481.01-.722.002-.287.002-.575.002-.862V7.508c0-.287 0-.573-.002-.86a33.662 33.662 0 0 0-.01-.724 10.5 10.5 0 0 0-.138-1.576 5.328 5.328 0 0 0-.495-1.5A5.039 5.039 0 0 0 21.152.645 5.32 5.32 0 0 0 19.654.15a10.493 10.493 0 0 0-1.578-.138 34.98 34.98 0 0 0-.722-.01C17.067 0 16.779 0 16.492 0H7.508zm6.035 3.41c4.114 2.47 6.545 7.162 5.549 11.131-.024.093-.05.181-.076.272l.002.001c2.062 2.538 1.5 5.258 1.236 4.745-1.072-2.086-3.066-1.568-4.088-1.043a6.803 6.803 0 0 1-.281.158l-.02.012-.002.002c-2.115 1.123-4.957 1.205-7.812-.022a12.568 12.568 0 0 1-5.64-4.838c.649.48 1.35.902 2.097 1.252 3.019 1.414 6.051 1.311 8.197-.002C9.651 12.73 7.101 9.67 5.146 7.191a10.628 10.628 0 0 1-1.005-1.384c2.34 2.142 6.038 4.83 7.365 5.576C8.69 8.408 6.208 4.743 6.324 4.86c4.436 4.47 8.528 6.996 8.528 6.996.154.085.27.154.36.213.085-.215.16-.437.224-.668.708-2.588-.09-5.548-1.893-7.992z"/></svg><b>Swift</b></li>
-          </ul>
-          <p class="langs-key"><i></i>Tiltmeter pull requests already merged</p>
-        </div>
-      </div>
-    </section>
-
     <section id="dashboard" class="wrap section pv-dash">
       <div class="pv-head">
         <div>
           <p class="eyebrow">What you see</p>
-          <h2 data-reveal>Who still uses the old version, and who breaks first.</h2>
+          <h2>Who still uses the old version, and who breaks first.</h2>
         </div>
-        <p class="side" data-reveal>One page per notice: every repository that used the change, the state of its pull request, and a burn-down to your shutdown date. Design partners get it first, and shape what it becomes.</p>
+        <p class="side">One page per notice: every repository that used the change, the state of its pull request, and a burn-down to your shutdown date. Design partners get it first, and shape what it becomes.</p>
       </div>
-      <figure class="pv-shot" data-reveal>
+      <figure class="pv-shot">
         <div class="pv-shot-frame">
           <div class="pv-shot-bar">
             <span class="pv-shot-dots" aria-hidden="true"><i></i><i></i><i></i></span>
@@ -301,9 +353,9 @@
         <figcaption>The provider dashboard is a prototype. Every customer, repository and number in it is sample data for a made-up provider, Nimbus AI.</figcaption>
       </figure>
       <ul class="pv-features">
-        <li data-reveal><b>Who still uses it</b><span>Every repository that called the change, by customer, with the files and lines that use it.</span></li>
-        <li data-reveal><b>Who breaks first</b><span>Repositories past or close to the date come first, with the state of their pull request.</span></li>
-        <li data-reveal><b>Whether you'll make the date</b><span>A burn-down at the current pace, projected to your shutdown date.</span></li>
+        <li><b>Who still uses it</b><span>Every repository that called the change, by customer, with the files and lines that use it.</span></li>
+        <li><b>Who breaks first</b><span>Repositories past or close to the date come first, with the state of their pull request.</span></li>
+        <li><b>Whether you'll make the date</b><span>A burn-down at the current pace, projected to your shutdown date.</span></li>
       </ul>
     </section>
 
@@ -311,22 +363,22 @@
       <div class="pv-head">
         <div>
           <p class="eyebrow">Outcomes</p>
-          <h2 data-reveal>A deprecation that ends on the day you planned.</h2>
+          <h2>A deprecation that ends on the day you planned.</h2>
         </div>
-        <p class="side" data-reveal>The work moves from your support team and your customers' backlogs into pull requests, reviewed and merged before anything breaks.</p>
+        <p class="side">The work moves from your support team and your customers' backlogs into pull requests, reviewed and merged before anything breaks.</p>
       </div>
       <div class="pv-cards">
-        <article class="pv-card" data-reveal>
+        <article class="pv-card">
           <span class="pv-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7.5A1.5 1.5 0 0 1 5.5 6h13A1.5 1.5 0 0 1 20 7.5V10a2 2 0 0 0 0 4v2.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 16.5V14a2 2 0 0 0 0-4Z"/><path d="M9 12h6"/></svg></span>
           <h3>Fewer tickets at the shutdown date</h3>
           <p>The fix is merged in your customers' code before the date, so the breakage that fills your support queue doesn't happen.</p>
         </article>
-        <article class="pv-card" data-reveal>
+        <article class="pv-card">
           <span class="pv-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5v8"/><path d="M6.6 7a7.5 7.5 0 1 0 10.8 0"/></svg></span>
           <h3>Old versions off on schedule</h3>
           <p>When every affected repository has a pull request and you can see who is left, you can turn the old version off on the date you announced instead of extending it.</p>
         </article>
-        <article class="pv-card" data-reveal>
+        <article class="pv-card">
           <span class="pv-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5a5.5 5.5 0 0 1 11 0"/><path d="m15.5 11.5 2 2 4-4"/></svg></span>
           <h3>No customer left behind</h3>
           <p>Every repository Tiltmeter finds gets its own pull request, including the customers who never open your emails.</p>
@@ -334,39 +386,39 @@
       </div>
     </section>
 
-    <section id="trust" class="wrap section pv-trust">
+    <section id="security" class="wrap section pv-trust">
       <div class="pv-head">
         <div>
           <p class="eyebrow">Trust and security</p>
-          <h2 data-reveal>Only you speak for your API. Only maintainers merge.</h2>
+          <h2>Only you speak for your API. Only maintainers merge.</h2>
         </div>
-        <p class="side" data-reveal>A pull request in someone else's code has to earn its review. Each one carries your signature, comes from an isolated sandbox, and waits for a person.</p>
+        <p class="side">A pull request in someone else's code has to earn its review. Each one carries your signature, comes from an isolated sandbox, and waits for a person.</p>
       </div>
       <div class="pv-trust-grid">
         <ul class="pv-trust-list">
-          <li data-reveal>
+          <li>
             <span class="pv-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="15.5" r="4"/><path d="m11 12.5 8.5-8.5"/><path d="m16.5 7 2.5 2.5"/><path d="m14.5 9 2 2"/></svg></span>
             <div><h3>Signed on your own domain</h3><p>Each notice is signed with your key and verifies only against the public key at <code>/.well-known/api-change-key</code> on your domain. Every endpoint in it must be on your domain too.</p></div>
           </li>
-          <li data-reveal>
+          <li>
             <span class="pv-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5 5 6.2v5.3c0 4.2 2.9 7.5 7 9 4.1-1.5 7-4.8 7-9V6.2Z"/><path d="m9 12 2 2 4-4"/></svg></span>
             <div><h3>An isolated copy, with no network or shell</h3><p>The agent edits a fresh copy of each repository with file tools only, never anyone's own checkout. Your notice's text reaches it as data, never as instructions.</p></div>
           </li>
-          <li data-reveal>
+          <li>
             <span class="pv-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.4"/><circle cx="6" cy="18" r="2.4"/><circle cx="18" cy="18" r="2.4"/><path d="M6 8.4v7.2"/><path d="M18 15.6V11a3 3 0 0 0-3-3h-4"/><path d="m13 5.8-2.2 2.2 2.2 2.2"/></svg></span>
             <div><h3>Nothing lands without review</h3><p>Every fix is an ordinary pull request that the maintainer reviews, merges or closes. What the agent can't know, like a new number format, is listed for the reviewer with your note quoted.</p></div>
           </li>
         </ul>
-        <figure class="iso pv-trust-scene" data-scene="fix" data-reveal>
-          <div class="iso-stage"><!-- iso:fix:start --><svg class="iso-svg" viewBox="-146 -76 434 299" role="img" aria-label="An agent edits the affected file in a sandboxed worktree, skips a file nothing imports, runs the tests, and the pull request travels out and is merged."><g class="floor"><polyline class="grid" points="-57.2,-55.0 -190.5,22.0"/><polyline class="grid" points="-38.1,-44.0 -171.5,33.0"/><polyline class="grid" points="-19.1,-33.0 -152.4,44.0"/><polyline class="grid" points="0.0,-22.0 -133.4,55.0"/><polyline class="grid" points="19.1,-11.0 -114.3,66.0"/><polyline class="grid" points="38.1,0.0 -95.3,77.0"/><polyline class="grid" points="57.2,11.0 -76.2,88.0"/><polyline class="grid" points="76.2,22.0 -57.2,99.0"/><polyline class="grid" points="95.3,33.0 -38.1,110.0"/><polyline class="grid" points="114.3,44.0 -19.1,121.0"/><polyline class="grid" points="133.4,55.0 0.0,132.0"/><polyline class="grid" points="152.4,66.0 19.1,143.0"/><polyline class="grid" points="171.5,77.0 38.1,154.0"/><polyline class="grid" points="190.5,88.0 57.2,165.0"/><polyline class="grid" points="209.6,99.0 76.2,176.0"/><polyline class="grid" points="228.6,110.0 95.3,187.0"/><polyline class="grid" points="247.7,121.0 114.3,198.0"/><polyline class="grid" points="266.7,132.0 133.4,209.0"/><polyline class="grid" points="285.8,143.0 152.4,220.0"/><polyline class="grid" points="304.8,154.0 171.5,231.0"/><polyline class="grid" points="-57.2,-55.0 304.8,154.0"/><polyline class="grid" points="-76.2,-44.0 285.8,165.0"/><polyline class="grid" points="-95.3,-33.0 266.7,176.0"/><polyline class="grid" points="-114.3,-22.0 247.7,187.0"/><polyline class="grid" points="-133.4,-11.0 228.6,198.0"/><polyline class="grid" points="-152.4,0.0 209.6,209.0"/><polyline class="grid" points="-171.5,11.0 190.5,220.0"/><polyline class="grid" points="-190.5,22.0 171.5,231.0"/></g><g class="slab"><polygon class="fl" points="-127.7,3.3 -85.7,27.5 -85.7,18.7 -127.7,-5.5" fill="#1b1b1f"/><polygon class="fr" points="-43.8,3.3 -85.7,27.5 -85.7,18.7 -43.8,-5.5" fill="#141417"/><polygon class="ft" points="-85.7,-29.7 -43.8,-5.5 -85.7,18.7 -127.7,-5.5" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,-121.0,4.1)" font-size="7.5" text-anchor="start">AGENT</text><g class="slab"><polygon class="fl" points="-87.6,50.6 19.1,112.2 19.1,101.2 -87.6,39.6" fill="#1b1b1f"/><polygon class="fr" points="106.7,61.6 19.1,112.2 19.1,101.2 106.7,50.6" fill="#141417"/><polygon class="ft" points="0.0,-11.0 106.7,50.6 19.1,101.2 -87.6,39.6" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,-81.0,51.4)" font-size="7.5" text-anchor="start">FRESH WORKTREE</text><g class="file ok1"><polygon class="fl" points="-30.5,22.0 0.0,39.6 0.0,35.9 -30.5,18.3" fill="#1b1b1f"/><polygon class="fr" points="28.6,23.1 0.0,39.6 0.0,35.9 28.6,19.4" fill="#141417"/><polygon class="ft tt" points="-1.9,1.8 28.6,19.4 0.0,35.9 -30.5,18.3" fill="#26262b"/><polyline class="glyph" points="-3.8,8.4 7.6,15.0"/><polyline class="glyph" points="-9.9,11.9 9.1,22.9"/><polyline class="glyph" points="-16.0,15.4 3.0,26.4"/></g><g class="file dead"><polygon class="fl" points="5.7,42.9 36.2,60.5 36.2,56.8 5.7,39.2" fill="#1b1b1f"/><polygon class="fr" points="64.8,44.0 36.2,60.5 36.2,56.8 64.8,40.3" fill="#141417"/><polygon class="ft tt" points="34.3,22.7 64.8,40.3 36.2,56.8 5.7,39.2" fill="#26262b"/><polyline class="glyph" points="32.4,29.3 43.8,35.9"/><polyline class="glyph" points="26.3,32.8 45.3,43.8"/><polyline class="glyph" points="20.2,36.3 39.2,47.3"/></g><g class="file broken"><polygon class="fl" points="-64.8,41.8 -34.3,59.4 -34.3,55.7 -64.8,38.1" fill="#1b1b1f"/><polygon class="fr" points="-5.7,42.9 -34.3,59.4 -34.3,55.7 -5.7,39.2" fill="#141417"/><polygon class="ft tt" points="-36.2,21.6 -5.7,39.2 -34.3,55.7 -64.8,38.1" fill="#26262b"/><polyline class="glyph" points="-38.1,28.2 -26.7,34.8"/><polyline class="glyph" points="-44.2,31.7 -25.1,42.7"/><polyline class="glyph" points="-50.3,35.2 -31.2,46.2"/></g><g class="file ok2"><polygon class="fl" points="-28.6,62.7 1.9,80.3 1.9,76.6 -28.6,59.0" fill="#1b1b1f"/><polygon class="fr" points="30.5,63.8 1.9,80.3 1.9,76.6 30.5,60.1" fill="#141417"/><polygon class="ft tt" points="0.0,42.5 30.5,60.1 1.9,76.6 -28.6,59.0" fill="#26262b"/><polyline class="glyph" points="-1.9,49.1 9.5,55.7"/><polyline class="glyph" points="-8.0,52.6 11.1,63.6"/><polyline class="glyph" points="-14.1,56.1 5.0,67.1"/></g><g class="mv agent-cube" transform="translate(-85.7,-12.1)" data-arc="-85.7,-12.1 -60.5,-58.1 -35.2,32.0"><g class="in"><g><polygon class="fl" points="-11.4,6.6 0.0,13.2 0.0,-0.0 -11.4,-6.6" fill="#dcd7ca"/><polygon class="fr" points="11.4,6.6 0.0,13.2 0.0,-0.0 11.4,-6.6" fill="#c9c3b4"/><polygon class="ft" points="0.0,-13.2 11.4,-6.6 0.0,-0.0 -11.4,-6.6" fill="#f2efe7"/></g></g></g><g class="glass"><polygon class="fl" points="-76.2,39.6 19.1,94.6 19.1,67.1 -76.2,12.1" fill="rgba(44,102,201,0.07)"/><polygon class="fr" points="95.3,50.6 19.1,94.6 19.1,67.1 95.3,23.1" fill="rgba(44,102,201,0.1)"/><polygon class="ft" points="0.0,-31.9 95.3,23.1 19.1,67.1 -76.2,12.1" fill="rgba(44,102,201,0.04)"/></g><g class="bb dead-bb"><rect x="4.9" y="-46.9" width="60.7" height="34.4" rx="8"/><line class="stem" x1="35.2" y1="-12.5" x2="35.2" y2="39.7"/><text class="s0" x="35.2" y="-32.5" font-size="8" text-anchor="middle"><tspan x="35.2" dy="0.0">unused</tspan><tspan x="35.2" dy="11.2">skipped</tspan></text></g><g class="bb edit-bb"><rect x="-61.4" y="-19.9" width="52.4" height="23.9" rx="8"/><line class="stem" x1="-35.2" y1="4.0" x2="-35.2" y2="38.6"/><text class="s0" x="-35.2" y="-5.0" font-size="8.5" text-anchor="middle"><tspan x="-35.2" dy="0.0">+1 −1</tspan></text></g><g class="slab"><polygon class="fl" points="38.1,116.6 62.9,130.9 62.9,122.1 38.1,107.8" fill="#1b1b1f"/><polygon class="fr" points="139.1,86.9 62.9,130.9 62.9,122.1 139.1,78.1" fill="#141417"/><polygon class="ft" points="114.3,63.8 139.1,78.1 62.9,122.1 38.1,107.8" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,-0.5000,0.0000,1.0000,68.6,125.0)" font-size="7" text-anchor="start">TESTS</text><g class="test t0"><polygon class="fl" points="104.8,77.0 115.3,83.0 115.3,70.9 104.8,64.9" fill="#1b1b1f"/><polygon class="fr" points="125.7,77.0 115.3,83.0 115.3,70.9 125.7,64.9" fill="#141417"/><polygon class="ft tt" points="115.3,58.8 125.7,64.9 115.3,70.9 104.8,64.9" fill="#26262b"/></g><g class="test t1"><polygon class="fl" points="91.1,84.9 101.6,91.0 101.6,78.9 91.1,72.8" fill="#1b1b1f"/><polygon class="fr" points="112.0,84.9 101.6,91.0 101.6,78.9 112.0,72.8" fill="#141417"/><polygon class="ft tt" points="101.6,66.8 112.0,72.8 101.6,78.9 91.1,72.8" fill="#26262b"/></g><g class="test t2"><polygon class="fl" points="77.4,92.8 87.8,98.9 87.8,86.8 77.4,80.7" fill="#1b1b1f"/><polygon class="fr" points="98.3,92.8 87.8,98.9 87.8,86.8 98.3,80.7" fill="#141417"/><polygon class="ft tt" points="87.8,74.7 98.3,80.7 87.8,86.8 77.4,80.7" fill="#26262b"/></g><g class="test t3"><polygon class="fl" points="63.6,100.8 74.1,106.8 74.1,94.7 63.6,88.7" fill="#1b1b1f"/><polygon class="fr" points="84.6,100.8 74.1,106.8 74.1,94.7 84.6,88.7" fill="#141417"/><polygon class="ft tt" points="74.1,82.6 84.6,88.7 74.1,94.7 63.6,88.7" fill="#26262b"/></g><g class="test t4"><polygon class="fl" points="49.9,108.7 60.4,114.7 60.4,102.6 49.9,96.6" fill="#1b1b1f"/><polygon class="fr" points="70.9,108.7 60.4,114.7 60.4,102.6 70.9,96.6" fill="#141417"/><polygon class="ft tt" points="60.4,90.5 70.9,96.6 60.4,102.6 49.9,96.6" fill="#26262b"/></g><g class="slab"><polygon class="fl" points="102.9,156.2 186.7,204.6 186.7,193.6 102.9,145.2" fill="#1b1b1f"/><polygon class="fr" points="270.5,156.2 186.7,204.6 186.7,193.6 270.5,145.2" fill="#141417"/><polygon class="ft" points="186.7,96.8 270.5,145.2 186.7,193.6 102.9,145.2" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,109.6,157.0)" font-size="7.5" text-anchor="start">PULL REQUEST</text><g class="pr-desk"><polygon class="fl" points="125.7,145.2 186.7,180.4 186.7,174.9 125.7,139.7" fill="#1b1b1f"/><polygon class="fr" points="247.7,145.2 186.7,180.4 186.7,174.9 247.7,139.7" fill="#141417"/><polygon class="ft" points="186.7,104.5 247.7,139.7 186.7,174.9 125.7,139.7" fill="#26262b"/></g><g class="mv pr-card" transform="translate(186.7,132.0)" data-arc="9.5,-7.7 98.1,-47.7 186.7,132.0"><g class="in"><g class="bb multi card"><rect x="-60.4" y="-41.8" width="120.9" height="35.8" rx="8"/><text class="s0" x="0.0" y="-26.9" font-size="8.5" text-anchor="middle"><tspan x="0.0" dy="0.0">fix: retired model</tspan><tspan x="0.0" dy="11.9">PR · opened</tspan></text><text class="s1" x="0.0" y="-26.9" font-size="8.5" text-anchor="middle"><tspan x="0.0" dy="0.0">fix: retired model</tspan><tspan x="0.0" dy="11.9">PR · merged</tspan></text></g></g></g></svg><!-- iso:fix:end --></div>
+        <figure class="iso pv-trust-scene" data-scene="fix">
+          <!-- iso:fix:start --><svg class="iso-svg" viewBox="-146 -76 434 299" role="img" aria-label="An agent edits the affected file in a sandboxed worktree, skips a file nothing imports, runs the tests, and the pull request travels out and is merged."><g class="floor"><polyline class="grid" points="-57.2,-55.0 -190.5,22.0"/><polyline class="grid" points="-38.1,-44.0 -171.5,33.0"/><polyline class="grid" points="-19.1,-33.0 -152.4,44.0"/><polyline class="grid" points="0.0,-22.0 -133.4,55.0"/><polyline class="grid" points="19.1,-11.0 -114.3,66.0"/><polyline class="grid" points="38.1,0.0 -95.3,77.0"/><polyline class="grid" points="57.2,11.0 -76.2,88.0"/><polyline class="grid" points="76.2,22.0 -57.2,99.0"/><polyline class="grid" points="95.3,33.0 -38.1,110.0"/><polyline class="grid" points="114.3,44.0 -19.1,121.0"/><polyline class="grid" points="133.4,55.0 0.0,132.0"/><polyline class="grid" points="152.4,66.0 19.1,143.0"/><polyline class="grid" points="171.5,77.0 38.1,154.0"/><polyline class="grid" points="190.5,88.0 57.2,165.0"/><polyline class="grid" points="209.6,99.0 76.2,176.0"/><polyline class="grid" points="228.6,110.0 95.3,187.0"/><polyline class="grid" points="247.7,121.0 114.3,198.0"/><polyline class="grid" points="266.7,132.0 133.4,209.0"/><polyline class="grid" points="285.8,143.0 152.4,220.0"/><polyline class="grid" points="304.8,154.0 171.5,231.0"/><polyline class="grid" points="-57.2,-55.0 304.8,154.0"/><polyline class="grid" points="-76.2,-44.0 285.8,165.0"/><polyline class="grid" points="-95.3,-33.0 266.7,176.0"/><polyline class="grid" points="-114.3,-22.0 247.7,187.0"/><polyline class="grid" points="-133.4,-11.0 228.6,198.0"/><polyline class="grid" points="-152.4,0.0 209.6,209.0"/><polyline class="grid" points="-171.5,11.0 190.5,220.0"/><polyline class="grid" points="-190.5,22.0 171.5,231.0"/></g><g class="slab"><polygon class="fl" points="-127.7,3.3 -85.7,27.5 -85.7,18.7 -127.7,-5.5" fill="#1b1b1f"/><polygon class="fr" points="-43.8,3.3 -85.7,27.5 -85.7,18.7 -43.8,-5.5" fill="#141417"/><polygon class="ft" points="-85.7,-29.7 -43.8,-5.5 -85.7,18.7 -127.7,-5.5" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,-121.0,4.1)" font-size="7.5" text-anchor="start">AGENT</text><g class="slab"><polygon class="fl" points="-87.6,50.6 19.1,112.2 19.1,101.2 -87.6,39.6" fill="#1b1b1f"/><polygon class="fr" points="106.7,61.6 19.1,112.2 19.1,101.2 106.7,50.6" fill="#141417"/><polygon class="ft" points="0.0,-11.0 106.7,50.6 19.1,101.2 -87.6,39.6" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,-81.0,51.4)" font-size="7.5" text-anchor="start">FRESH WORKTREE</text><g class="file ok1"><polygon class="fl" points="-30.5,22.0 0.0,39.6 0.0,35.9 -30.5,18.3" fill="#1b1b1f"/><polygon class="fr" points="28.6,23.1 0.0,39.6 0.0,35.9 28.6,19.4" fill="#141417"/><polygon class="ft tt" points="-1.9,1.8 28.6,19.4 0.0,35.9 -30.5,18.3" fill="#26262b"/><polyline class="glyph" points="-3.8,8.4 7.6,15.0"/><polyline class="glyph" points="-9.9,11.9 9.1,22.9"/><polyline class="glyph" points="-16.0,15.4 3.0,26.4"/></g><g class="file dead"><polygon class="fl" points="5.7,42.9 36.2,60.5 36.2,56.8 5.7,39.2" fill="#1b1b1f"/><polygon class="fr" points="64.8,44.0 36.2,60.5 36.2,56.8 64.8,40.3" fill="#141417"/><polygon class="ft tt" points="34.3,22.7 64.8,40.3 36.2,56.8 5.7,39.2" fill="#26262b"/><polyline class="glyph" points="32.4,29.3 43.8,35.9"/><polyline class="glyph" points="26.3,32.8 45.3,43.8"/><polyline class="glyph" points="20.2,36.3 39.2,47.3"/></g><g class="file broken"><polygon class="fl" points="-64.8,41.8 -34.3,59.4 -34.3,55.7 -64.8,38.1" fill="#1b1b1f"/><polygon class="fr" points="-5.7,42.9 -34.3,59.4 -34.3,55.7 -5.7,39.2" fill="#141417"/><polygon class="ft tt" points="-36.2,21.6 -5.7,39.2 -34.3,55.7 -64.8,38.1" fill="#26262b"/><polyline class="glyph" points="-38.1,28.2 -26.7,34.8"/><polyline class="glyph" points="-44.2,31.7 -25.1,42.7"/><polyline class="glyph" points="-50.3,35.2 -31.2,46.2"/></g><g class="file ok2"><polygon class="fl" points="-28.6,62.7 1.9,80.3 1.9,76.6 -28.6,59.0" fill="#1b1b1f"/><polygon class="fr" points="30.5,63.8 1.9,80.3 1.9,76.6 30.5,60.1" fill="#141417"/><polygon class="ft tt" points="0.0,42.5 30.5,60.1 1.9,76.6 -28.6,59.0" fill="#26262b"/><polyline class="glyph" points="-1.9,49.1 9.5,55.7"/><polyline class="glyph" points="-8.0,52.6 11.1,63.6"/><polyline class="glyph" points="-14.1,56.1 5.0,67.1"/></g><g class="mv agent-cube" transform="translate(-85.7,-12.1)" data-arc="-85.7,-12.1 -60.5,-58.1 -35.2,32.0"><g class="in"><g><polygon class="fl" points="-11.4,6.6 0.0,13.2 0.0,-0.0 -11.4,-6.6" fill="#dcd7ca"/><polygon class="fr" points="11.4,6.6 0.0,13.2 0.0,-0.0 11.4,-6.6" fill="#c9c3b4"/><polygon class="ft" points="0.0,-13.2 11.4,-6.6 0.0,-0.0 -11.4,-6.6" fill="#f2efe7"/></g></g></g><g class="sandbox"><polyline class="edge" points="0.0,-31.9 95.3,23.1 19.1,67.1 -76.2,12.1 0.0,-31.9"/><polyline class="edge" points="-76.2,39.6 19.1,94.6 95.3,50.6"/><polyline class="edge" points="-76.2,39.6 -76.2,12.1"/><polyline class="edge" points="19.1,94.6 19.1,67.1"/><polyline class="edge" points="95.3,50.6 95.3,23.1"/></g><g class="bb dead-bb"><rect class="plate" x="12.2" y="-43.1" width="46.1" height="30.6" rx="3"/><line class="stem" x1="35.2" y1="-12.5" x2="35.2" y2="39.7"/><g class="s0"><text x="19.4" y="-30.8" font-size="8.5"><tspan x="19.4" dy="0.0">unused</tspan><tspan x="19.4" dy="11.5">skipped</tspan></text></g></g><g class="bb edit-bb"><rect class="plate" x="-52.0" y="-15.1" width="33.4" height="19.1" rx="3"/><line class="stem" x1="-35.2" y1="4.0" x2="-35.2" y2="38.6"/><g class="s0"><text x="-44.7" y="-2.8" font-size="8.5"><tspan x="-44.7" dy="0.0">+1 −1</tspan></text></g></g><g class="slab"><polygon class="fl" points="38.1,116.6 62.9,130.9 62.9,122.1 38.1,107.8" fill="#1b1b1f"/><polygon class="fr" points="139.1,86.9 62.9,130.9 62.9,122.1 139.1,78.1" fill="#141417"/><polygon class="ft" points="114.3,63.8 139.1,78.1 62.9,122.1 38.1,107.8" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,-0.5000,0.0000,1.0000,68.6,125.0)" font-size="7.05" text-anchor="start">TESTS</text><g class="test t0"><polygon class="fl" points="104.8,77.0 115.3,83.0 115.3,70.9 104.8,64.9" fill="#1b1b1f"/><polygon class="fr" points="125.7,77.0 115.3,83.0 115.3,70.9 125.7,64.9" fill="#141417"/><polygon class="ft tt" points="115.3,58.8 125.7,64.9 115.3,70.9 104.8,64.9" fill="#26262b"/></g><g class="test t1"><polygon class="fl" points="91.1,84.9 101.6,91.0 101.6,78.9 91.1,72.8" fill="#1b1b1f"/><polygon class="fr" points="112.0,84.9 101.6,91.0 101.6,78.9 112.0,72.8" fill="#141417"/><polygon class="ft tt" points="101.6,66.8 112.0,72.8 101.6,78.9 91.1,72.8" fill="#26262b"/></g><g class="test t2"><polygon class="fl" points="77.4,92.8 87.8,98.9 87.8,86.8 77.4,80.7" fill="#1b1b1f"/><polygon class="fr" points="98.3,92.8 87.8,98.9 87.8,86.8 98.3,80.7" fill="#141417"/><polygon class="ft tt" points="87.8,74.7 98.3,80.7 87.8,86.8 77.4,80.7" fill="#26262b"/></g><g class="test t3"><polygon class="fl" points="63.6,100.8 74.1,106.8 74.1,94.7 63.6,88.7" fill="#1b1b1f"/><polygon class="fr" points="84.6,100.8 74.1,106.8 74.1,94.7 84.6,88.7" fill="#141417"/><polygon class="ft tt" points="74.1,82.6 84.6,88.7 74.1,94.7 63.6,88.7" fill="#26262b"/></g><g class="test t4"><polygon class="fl" points="49.9,108.7 60.4,114.7 60.4,102.6 49.9,96.6" fill="#1b1b1f"/><polygon class="fr" points="70.9,108.7 60.4,114.7 60.4,102.6 70.9,96.6" fill="#141417"/><polygon class="ft tt" points="60.4,90.5 70.9,96.6 60.4,102.6 49.9,96.6" fill="#26262b"/></g><g class="slab"><polygon class="fl" points="102.9,156.2 186.7,204.6 186.7,193.6 102.9,145.2" fill="#1b1b1f"/><polygon class="fr" points="270.5,156.2 186.7,204.6 186.7,193.6 270.5,145.2" fill="#141417"/><polygon class="ft" points="186.7,96.8 270.5,145.2 186.7,193.6 102.9,145.2" fill="#26262b"/></g><text class="it lab" transform="matrix(0.8660,0.5000,0.0000,1.0000,109.6,157.0)" font-size="7.5" text-anchor="start">PULL REQUEST</text><g class="pr-desk"><polygon class="fl" points="125.7,145.2 186.7,180.4 186.7,174.9 125.7,139.7" fill="#1b1b1f"/><polygon class="fr" points="247.7,145.2 186.7,180.4 186.7,174.9 247.7,139.7" fill="#141417"/><polygon class="ft" points="186.7,104.5 247.7,139.7 186.7,174.9 125.7,139.7" fill="#26262b"/></g><g class="mv pr-card" transform="translate(186.7,132.0)" data-arc="9.5,-7.7 98.1,-47.7 186.7,132.0"><g class="in"><g class="bb multi card"><rect class="plate" x="-47.3" y="-36.6" width="94.7" height="30.6" rx="3"/><g class="s0"><text x="-40.1" y="-24.3" font-size="8.5"><tspan x="-40.1" dy="0.0">fix: retired model</tspan><tspan x="-40.1" dy="11.5">Pull request opened</tspan></text></g><g class="s1"><text x="-34.3" y="-24.3" font-size="8.5"><tspan x="-34.3" dy="0.0">fix: retired model</tspan><tspan x="-34.3" dy="11.5">Merged</tspan></text></g></g></g></g></svg><!-- iso:fix:end -->
         </figure>
       </div>
       <div class="pv-quotes">
-        <blockquote data-reveal>
+        <blockquote>
           <p>“Independently checked Anthropic's model overview, retirement table and Sonnet 5.5 migration guide. […] This conclusion does not rely on the unsigned Tiltmeter notice.”</p>
           <footer><a href="https://github.com/shareAI-lab/learn-claude-code/pull/602#pullrequestreview-5662105865">@CrazyBoyM, maintainer of learn-claude-code</a>. A notice signed by the provider is what saves maintainers that check.</footer>
         </blockquote>
-        <blockquote data-reveal>
+        <blockquote>
           <p>“Thanks — Cloud-only switch, token paging and the early-end guard look right. Merging.”</p>
           <footer><a href="https://github.com/deeplethe/utopia/pull/1453#pullrequestreview-5696328354">@WaylandYang, maintainer of utopia</a>, approving its fix for Jira Cloud's removed search. Jira Server and Data Center keep the old endpoint, so the fix switches only on Cloud.</footer>
         </blockquote>
@@ -377,11 +429,11 @@
       <div class="pv-head">
         <div>
           <p class="eyebrow">Compared</p>
-          <h2 data-reveal>Changelogs announce. Pull requests migrate.</h2>
+          <h2>Changelogs announce. Pull requests migrate.</h2>
         </div>
-        <p class="side" data-reveal>Keep your changelog, your emails and your deprecation headers. Tiltmeter turns what they announce into a change in each customer's code.</p>
+        <p class="side">Keep your changelog, your emails and your deprecation headers. Tiltmeter turns what they announce into a change in each customer's code.</p>
       </div>
-      <div class="pv-cmp-wrap" data-reveal>
+      <div class="pv-cmp-wrap">
         <table class="pv-cmp">
           <caption class="vh">Tiltmeter compared with changelogs, deprecation emails and deprecation headers</caption>
           <thead>
@@ -438,26 +490,26 @@
       <div class="pv-head">
         <div>
           <p class="eyebrow">Pricing</p>
-          <h2 data-reveal>Pricing that starts with a free migration.</h2>
+          <h2>Pricing that starts with a free migration.</h2>
         </div>
-        <p class="side" data-reveal>API providers and teams pay. Developers use Tiltmeter free, and every install is code a provider's notice can reach.</p>
+        <p class="side">API providers and teams pay. Developers use Tiltmeter free, and every install is code a provider's notice can reach.</p>
       </div>
       <div class="pv-prices">
-        <article class="pv-price featured" data-reveal>
+        <article class="pv-price featured">
           <p class="pv-price-tag">Design partners</p>
           <h3 class="price-who">API providers</h3>
           <p class="price-what">Priced by the size of your customer base. Your first migration is free as a design partner.</p>
           <p class="price-body">We run your next deprecation with you, end to end: the signed notice, the pull requests in your users' public repositories under your name, and a tracker of every merge. Next on the roadmap: private repositories through a GitHub App your customers install, and a dashboard of who still calls the old version.</p>
           <a class="btn lg" href="mailto:hello@tiltmeter.dev?subject=Tiltmeter%20design%20partner">Run your next deprecation with us</a>
         </article>
-        <article class="pv-price" data-reveal>
+        <article class="pv-price">
           <p class="pv-price-tag">Early access</p>
           <h3 class="price-who">Teams</h3>
           <p class="price-what">Per repository. Early access.</p>
           <p class="price-body">For companies that depend on many third-party APIs. We're building it with the first teams: a GitHub App across your organization that covers private repositories with no CI to set up, a view of every API your services call and what changed, alerts the day a provider announces a change, and fixes included, run on our model keys.</p>
           <a class="btn lg ghost" href="mailto:hello@tiltmeter.dev?subject=Tiltmeter%20Teams%20early%20access">Join early access</a>
         </article>
-        <article class="pv-price" data-reveal>
+        <article class="pv-price">
           <p class="pv-price-tag">Open source</p>
           <h3 class="price-who">Developers</h3>
           <p class="price-what">Free and open source, MIT.</p>
@@ -472,7 +524,7 @@
       <div class="pv-faq-grid">
         <div class="pv-faq-head">
           <p class="eyebrow">FAQ</p>
-          <h2 data-reveal>Questions providers ask.</h2>
+          <h2>Questions providers ask.</h2>
           <p class="side">Something else? Write to <a class="u" href="mailto:hello@tiltmeter.dev">hello@tiltmeter.dev</a>.</p>
         </div>
         <div class="pv-faq-list">
@@ -524,50 +576,60 @@
         </div>
       </div>
     </section>
+    </div>
   </main>
 
-  <footer class="co-foot">
-    <div class="wrap co-foot-in">
-      <div class="co-foot-brand">
-        <a class="brand" href="/" aria-label="Tiltmeter home">
-          <svg viewBox="0 0 1024 1024" aria-hidden="true"><rect width="1024" height="1024" rx="224" fill="#f2efe7"/><path d="M487 230V651Q487 776 612 776H674" fill="none" stroke="#141416" stroke-width="100" stroke-linecap="round" stroke-linejoin="round"/><path d="M323 425H682" stroke="#e2552d" stroke-width="100" stroke-linecap="round" transform="rotate(-13 487 425)"/></svg>
-          tiltmeter
-        </a>
-        <p>API changes, shipped as pull requests.</p>
-        <a class="co-foot-mail" href="mailto:hello@tiltmeter.dev">hello@tiltmeter.dev</a>
+  <!-- shell:foot:start -->
+  <footer class="site-foot">
+    <div class="page">
+      <div class="site-foot__in">
+        <div class="site-foot__about">
+          <a class="site-brand" href="/" aria-label="Tiltmeter, home"><svg viewBox="0 0 1024 1024" aria-hidden="true"><rect width="1024" height="1024" rx="224" fill="#f2efe7"/><path d="M487 230V651Q487 776 612 776H674" fill="none" stroke="#141416" stroke-width="100" stroke-linecap="round" stroke-linejoin="round"/><path d="M323 425H682" stroke="#e2552d" stroke-width="100" stroke-linecap="round" transform="rotate(-13 487 425)"/></svg><span aria-hidden="true">tiltmeter</span></a>
+          <p>API changes, shipped as pull requests in the code that still uses them.</p>
+          <a class="link" href="mailto:hello@tiltmeter.dev">hello@tiltmeter.dev</a>
+        </div>
+        <nav class="site-foot__cols" aria-label="Footer">
+          <div>
+            <h2>Product</h2>
+            <ul>
+              <li><a href="/#how">How it works</a></li>
+              <li><a href="/migrations/">Evidence</a></li>
+              <li><a href="/#security">Security</a></li>
+              <li><a href="/#pricing">Pricing</a></li>
+              <li><a href="https://github.com/tiltmeter-dev/tiltmeter/blob/main/docs/notice-spec.md">Notice format</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2>Developers</h2>
+            <ul>
+              <li><a href="/developers/">Tiltmeter for developers</a></li>
+              <li><a href="https://github.com/tiltmeter-dev/tiltmeter/blob/main/docs/getting-started.md">Docs</a></li>
+              <li><a href="https://github.com/tiltmeter-dev/tiltmeter-action">GitHub Action</a></li>
+              <li><a href="https://pypi.org/project/tiltmeter/">PyPI</a></li>
+              <li><a href="/llms.txt">llms.txt</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2>Open source</h2>
+            <ul>
+              <li><a href="https://github.com/tiltmeter-dev/tiltmeter">GitHub</a></li>
+              <li><a href="https://github.com/tiltmeter-dev/tiltmeter/blob/main/CHANGELOG.md">Changelog</a></li>
+              <li><a href="https://github.com/tiltmeter-dev/tiltmeter/blob/main/SECURITY.md">Security policy</a></li>
+              <li><a href="/migrations/status.json">Tracker data (JSON)</a></li>
+            </ul>
+          </div>
+        </nav>
       </div>
-      <nav class="co-foot-cols" aria-label="Footer">
-        <div>
-          <p>Product</p>
-          <a href="/providers/">For API providers</a>
-          <a href="/migrations/">Migration tracker</a>
-          <a href="https://github.com/tiltmeter-dev/tiltmeter/blob/main/docs/notice-spec.md">Notice format</a>
-          <a href="#pricing">Pricing</a>
-        </div>
-        <div>
-          <p>Developers</p>
-          <a href="/developers/">Overview</a>
-          <a href="https://github.com/tiltmeter-dev/tiltmeter/blob/main/docs/getting-started.md">Docs</a>
-          <a href="https://github.com/tiltmeter-dev/tiltmeter-action">GitHub Action</a>
-          <a href="https://pypi.org/project/tiltmeter/">PyPI</a>
-          <a href="/llms.txt">llms.txt</a>
-        </div>
-        <div>
-          <p>Open source</p>
-          <a href="https://github.com/tiltmeter-dev/tiltmeter">GitHub</a>
-          <a href="https://github.com/tiltmeter-dev/tiltmeter/blob/main/CHANGELOG.md">Changelog</a>
-          <a href="https://github.com/tiltmeter-dev/tiltmeter/blob/main/SECURITY.md">Security</a>
-        </div>
-      </nav>
-    </div>
-    <div class="wrap co-foot-base">
-      <span>© 2026 Tiltmeter</span>
-      <span>Open-source core, MIT</span>
-      <span class="foot-tm">Claude and Codex are trademarks of Anthropic and OpenAI. Tiltmeter is not affiliated with either.</span>
+      <div class="site-foot__base">
+        <p>© 2026 Tiltmeter</p>
+        <p>Open-source core, MIT</p>
+        <p>Claude and Codex are trademarks of Anthropic and OpenAI. Tiltmeter is not affiliated with either.</p>
+      </div>
     </div>
   </footer>
+  <!-- shell:foot:end -->
 
-  <script src="script.js" defer></script>
-  <script src="home.js" defer></script>
+  <script src="/script.js" defer></script>
+  <script src="/home.js" defer></script>
 </body>
 </html>

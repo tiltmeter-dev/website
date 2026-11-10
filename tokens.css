@@ -1,0 +1,172 @@
+/* Tiltmeter design tokens.
+ *
+ * Source of truth: the isometric drawing in scripts/iso_scene.py. Every colour below is a face
+ * of an object in that drawing, every stroke is a line weight it already uses. When the
+ * drawing and this file disagree, fix this file.
+ *
+ * Three rules the tokens encode:
+ *   1. Ink is machinery, paper is the artifact. Near-black surfaces carry the page; cream
+ *      surfaces are reserved for things a person reads as a document: the signed notice,
+ *      the pull request, the diff, the ledger of results.
+ *   2. Vermilion marks the change and nothing else: the signature that announces it, the
+ *      lines it touches, the date it takes effect. A few marks per viewport, never a fill
+ *      for decoration.
+ *   3. Depth comes from the three faces of a box (top, left, right), never from shadows,
+ *      blur or glow.
+ *
+ * Contrast is measured, not guessed (WCAG 2.x relative luminance). Ratios are noted
+ * against the darkest and lightest surface each colour is allowed on.
+ */
+
+:root {
+  color-scheme: dark;
+
+  /* ── Ink: the dark solids (PAPER palette in iso_scene.py) ─────────────────────────── */
+  --ink-0: #0f0f11;            /* page, the floor the drawing stands on */
+  --ink-face-r: #141417;       /* right face  → sunken panels, table bodies */
+  --ink-face-l: #1b1b1f;       /* left face   → raised panels, hover rows */
+  --ink-face-t: #26262b;       /* top face    → highest surface, selected rows */
+
+  /* ── Paper: the cream solids (LIGHT palette; the notice sheet and the device) ─────── */
+  --paper: #f2efe7;            /* top face: document surface, and primary text on ink */
+  --paper-2: #e6e1d5;          /* a sheet under a sheet: code blocks and headers on paper */
+  --paper-edge-l: #dcd7ca;     /* left face: the sheet's visible thickness, rules on paper */
+  --paper-edge-r: #c9c3b4;     /* right face: the deeper edge */
+
+  /* ── Text on ink ──────────────────────────────────────────────────────────────────── */
+  --fg-1: var(--paper);        /* 16.7:1 on ink-0 · 13.1:1 on face-t */
+  --fg-2: #c9c3b4;             /* the paper's shadow face. 10.9:1 · 8.6:1. Body copy. */
+  --fg-3: #a19b8e;             /* meta, captions, timestamps. 6.9:1 · 5.5:1 */
+
+  /* ── Text on paper ────────────────────────────────────────────────────────────────── */
+  --on-paper-1: #141416;       /* the logo's ink stroke. 16.0:1 on paper · 14.1:1 on paper-2 */
+  --on-paper-2: #4a463f;       /* 8.2:1 · 7.2:1 */
+  --on-paper-3: #635e54;       /* 5.6:1 · 4.9:1 */
+
+  /* ── Vermilion: the needle, the seal (RED palette) ───────────────────────────────── */
+  --vermilion: #e2552d;        /* top face. Fills, marks, focus ring. As text only on ink-0..face-l (≥4.55:1) */
+  --vermilion-text: #f0714b;   /* vermilion set as text on ink. 6.5:1 · 5.1:1 on face-t */
+  --vermilion-on-paper: #a9381a; /* right face. Vermilion text on paper. 5.6:1 · 4.9:1 */
+  --on-vermilion: #141416;     /* text on a vermilion fill. 4.9:1. (Cream on vermilion is 3.3:1: never.) */
+
+  /* ── Status: shape first, colour second. Never colour alone. ───────────────────────
+     merged  ■ filled square    settled
+     adopted ◧ half square      settled
+     open    □ hollow square    neutral (fg-2): nothing has happened yet, so it gets no hue
+     closed  ⊠ crossed square   fg-3, the label struck through
+     The settled green is the drawing's phosphor trace (#6fd9a0) with the glow taken out.   */
+  --signal: #6fd9a0;           /* the waveform on the device's screen. Drawing only. */
+  --settled: #8ec4a0;          /* merged on ink. 9.6:1 · 7.6:1 */
+  --settled-on-paper: #2f6a49; /* merged on paper. 5.6:1 · 4.9:1 */
+  --pending: var(--fg-2);
+  --pending-on-paper: var(--on-paper-2);
+  --withdrawn: var(--fg-3);
+  --withdrawn-on-paper: var(--on-paper-3);
+
+  /* ── Diffs (GitHub semantics, our palette) ───────────────────────────────────────── */
+  --diff-del-bg: #f0ddd1;      /* vermilion 12% over paper; ink 14.0:1, vermilion-on-paper 4.9:1 */
+  --diff-add-bg: #dbdfd4;      /* settled 12% over paper;  ink 13.6:1, settled-on-paper 4.7:1 */
+  --diff-del-bg-ink: #311d1a;
+  --diff-add-bg-ink: #232927;
+
+  /* ── Lines: the drawing's own stroke opacities ───────────────────────────────────── */
+  --rule: rgba(242, 239, 231, 0.14);         /* hairline between rows */
+  --rule-strong: rgba(242, 239, 231, 0.28);  /* a section's top rule, a table head */
+  --rule-on-paper: rgba(20, 20, 22, 0.16);
+  --rule-strong-on-paper: rgba(20, 20, 22, 0.42);
+  --iso-edge: rgba(242, 239, 231, 0.24);     /* polygon outlines in the drawing */
+  --iso-grid: rgba(242, 239, 231, 0.055);    /* the isometric floor */
+  --iso-path: rgba(242, 239, 231, 0.40);     /* dashed connectors */
+
+  /* ── Stroke weights (px, at the drawing's unit of 24) ───────────────────────────── */
+  --stroke-hair: 1px;          /* outlines, rules, grid */
+  --stroke-line: 1.4px;        /* connectors, ink lines on the sheet, the waveform */
+  --stroke-needle: 4.5px;      /* the needle. One per drawing. */
+  --dash-path: 4 5;            /* a route something travels */
+  --dash-trail: 2 5;           /* a route being travelled right now */
+  --dash-stem: 2 3;            /* a label's leader line */
+
+  /* ── Geometry ────────────────────────────────────────────────────────────────────── */
+  --iso-angle: 30deg;          /* true isometric; the generator owns the maths */
+  --tilt: -13deg;              /* the logo's needle. The only rotated thing on the page. */
+  --radius-0: 0;               /* paper, tables, rules, panels: sheets have corners */
+  --radius-1: 2px;             /* inline code, small controls */
+  --radius-2: 5px;             /* buttons. Nothing is a pill. */
+
+  /* ── Type ────────────────────────────────────────────────────────────────────────── */
+  /* Schibsted Grotesk: drawn for Schibsted's newsrooms (VG, Aftenposten) to set facts at
+     speed. Sturdy, warm, slightly narrow, with tabular figures and a slashed zero. It reads
+     like a well-edited report, which is the job, and nobody else in this category uses it.
+     IBM Plex Mono: slab serifs keep 0/O and 1/l/I apart in diffs and repository names, and
+     it comes from engineering documentation. Code, paths, commands and repo names only. */
+  --font-sans: "Schibsted Grotesk", "Schibsted Grotesk Fallback", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", "IBM Plex Mono Fallback", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Modular scale, ratio 1.25 from a 17px body. The top three steps are fluid. */
+  --step--2: 0.6875rem;        /* 11px  drawing labels only */
+  --step--1: 0.8125rem;        /* 13px  captions, meta, table heads */
+  --step-0: 1.0625rem;         /* 17px  body */
+  --step-1: 1.3125rem;         /* 21px  lede, h4 */
+  --step-2: 1.625rem;          /* 26px  h3 */
+  --step-3: clamp(1.75rem, 1.35rem + 1.3vw, 2.125rem);   /* 28 → 34  section sub-heads */
+  --step-4: clamp(2.125rem, 1.4rem + 2.6vw, 3.25rem);    /* 34 → 52  h2 */
+  --step-5: clamp(2.5rem, 1.2rem + 3.6vw, 4rem);         /* 40 → 64  h1 */
+  --step-num: clamp(2.75rem, 1.8rem + 3.4vw, 4.25rem);   /* 44 → 68  figures in the ledger */
+
+  --weight-text: 400;
+  --weight-strong: 500;
+  --weight-head: 600;
+
+  --leading-display: 1.04;
+  --leading-head: 1.15;
+  --leading-text: 1.55;
+  --leading-code: 1.7;
+
+  --tracking-display: -0.022em;
+  --tracking-head: -0.012em;
+  --tracking-text: 0;
+  --tracking-stencil: 0.08em;  /* labels painted on objects inside the drawing. Nowhere else. */
+
+  --numerals: "tnum" 1, "zero" 1;  /* stats, dates, PR numbers, line numbers */
+
+  --measure: 64ch;
+  --measure-narrow: 44ch;
+
+  /* ── Space: a 4px base, doubling past 16 ─────────────────────────────────────────── */
+  --space-1: 0.25rem;          /*   4 */
+  --space-2: 0.5rem;           /*   8 */
+  --space-3: 0.75rem;          /*  12 */
+  --space-4: 1rem;             /*  16 */
+  --space-5: 1.5rem;           /*  24 */
+  --space-6: 2rem;             /*  32 */
+  --space-7: 3rem;             /*  48 */
+  --space-8: 4rem;             /*  64 */
+  --space-9: 6rem;             /*  96 */
+  --space-10: 8rem;            /* 128 */
+  --space-section: clamp(var(--space-9), 6rem + 4vw, 10rem);
+
+  /* ── Grid ────────────────────────────────────────────────────────────────────────── */
+  --grid-columns: 12;
+  --grid-max: 1240px;
+  --grid-gutter: clamp(1rem, 0.6rem + 1.2vw, 1.5rem);
+  --page-margin: clamp(1rem, 4vw, 3rem);   /* 16px on a phone */
+
+  /* ── Motion: explains, never decorates ──────────────────────────────────────────── */
+  --dur-1: 150ms;              /* colour, underline, hover */
+  --dur-2: 220ms;              /* state change: a tab, a row, a disclosure */
+  --dur-3: 420ms;              /* a step in the drawing */
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* ── Focus ───────────────────────────────────────────────────────────────────────── */
+  --focus-ring: 2px solid var(--vermilion);
+  --focus-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-1: 0ms;
+    --dur-2: 0ms;
+    --dur-3: 0ms;
+  }
+}
