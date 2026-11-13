@@ -153,7 +153,8 @@
    "https://github.com/tmc/langchaingo/pull/1564"
   ],
   "adopted": {
-   "https://github.com/open-metadata/OpenMetadata/pull/36296": "https://github.com/open-metadata/OpenMetadata/pull/37039"
+   "https://github.com/open-metadata/OpenMetadata/pull/36296": "https://github.com/open-metadata/OpenMetadata/pull/37039",
+   "https://github.com/future-agi/future-agi/pull/3625": "https://github.com/future-agi/future-agi/pull/3842"
   }
  },
  "hubspot": {
