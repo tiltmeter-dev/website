@@ -24,7 +24,10 @@
    "https://github.com/Nutlope/aicommits/pull/379": "https://github.com/Nutlope/aicommits/commit/98e9c4e4ea025053d4ede2ed4ee08aed9b7e0419",
    "https://github.com/elie222/inbox-zero/pull/4356": "https://github.com/elie222/inbox-zero/pull/4406",
    "https://github.com/pbek/QOwnNotes/pull/3813": "https://github.com/pbek/QOwnNotes/commit/03e9ed23e3976d67a5728fd8ea8ba65ebed92499"
-  }
+  },
+  "gone": [
+   "https://github.com/dongsheng123132/u-claw/pull/82"
+  ]
  },
  "anthropic": {
   "provider": "Anthropic",
